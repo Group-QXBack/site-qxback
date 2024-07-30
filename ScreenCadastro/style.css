@@ -94,6 +94,7 @@ body {
     padding: 1rem 0;
 }
 
+
 .input-group .input-box label{
     font-size: 15px;
 }
@@ -107,7 +108,7 @@ body {
 
 .input-box input {
     margin: 0.6rem 0;
-    padding: 0.8rem 1.2rem;
+    padding: 0.9rem 2rem;
     border: none;
     border-radius: 10px;
     box-shadow: 1px 1px 6px #0000001c;
@@ -144,9 +145,8 @@ body {
     display: flex;
     align-items: center;
 }
-
-.gender-input input {
-    margin-right: 0.35rem;
+.gender-inputs .gender-title h6{
+    font-size: 15px;
 }
 
 .gender-input label {
