@@ -14,6 +14,9 @@ body {
     background-color: #000000;
     height: 100vh;
 }
+.verde{
+color: #42FF00;
+}
 
 .flex{
     display: flex;
@@ -24,7 +27,7 @@ body {
 /* Barra de navegação */
 header {
     width: 100%;
-    padding: 40px 4%;
+    padding: 10px 4%;
     top: 0;
     left: 0;
 }
@@ -36,7 +39,7 @@ header .logo {
 }
 
 header .logo a img {
-    max-height: 50px;
+    max-height: 58px;
 }
 
 header .menu {
@@ -220,8 +223,9 @@ section.conta {
 }
 
 .conta .texto-conta p span {
-    color: #42FF00;
+    font-weight: bold;
 }
+
 
 /* CARDS */ 
 
@@ -335,7 +339,7 @@ section.clock {
 }
 
 .clock .texto-clock p span {
-    color: #42FF00;
+        font-weight: bold;
 }
 
 
