@@ -1,3 +1,9 @@
+<?php
+
+    if(isse($_POST 'submit'))
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <title>Formulário</title>
+    <title>Cadastro</title>
 </head>
 
 <body>
@@ -15,7 +21,7 @@
             <img src="../imagens/ImagemCadastro.png" alt="">
         </div>
         <div class="form">
-            <form action="#">
+            <form action="formulario.php" method="POST">
                 <div class="form-header">
                     <div class="title">
                         <h1>Cadastre-se</h1>
@@ -82,7 +88,7 @@
                 </div>
 
                 <div class="continue-button">
-                    <button><a href="#">Continuar</a> </button>
+                    <button><a href="../ScreenUser/index.html">Continuar</a> </button>
                 </div>
             </form>
         </div>
