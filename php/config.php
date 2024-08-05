@@ -5,12 +5,12 @@
     $dbPassword = '3p01nT2024#';
     $dbName = 'formulario_cadastro';
 
-    $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+    $conexao = new mysqli($dbHost,$dbUsename,$dbPassword,$dbName);
 
-    /*if ($conexao->connect_errno) {
-        echo "Erro";
-    } else {
+    if ($conexao->connect_errno){
+        echo "ERRO";
+    }
+    else{
         echo "Conexão efetuada com sucesso!";
     }
-    */
 ?>
