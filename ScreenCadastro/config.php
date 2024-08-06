@@ -2,7 +2,7 @@
 
     $dbHost = 'localhost';
     $dbUsername = 'root';
-    $dbPassword = '3p01nT2024#';
+    $dbPassword = '';
     $dbName = 'formulario_cadastro';
 
     $conexao = new mysqli($dbHost,$dbUsername,$dbPassword,$dbName);
