@@ -53,6 +53,9 @@
                         <input id="nome" type="text" name="nome" placeholder="Digite seu nome" required>
                     </div>
 
+
+                        //Formatar o CPF 123.123.123-12
+
                     <div class="input-box">
                         <label for="cpf">CPF</label>
                         <input id="cpf" type="text" name="cpf" placeholder="123.456.789-10" required>
@@ -83,15 +86,15 @@
                         <h6>Gênero</h6>
                     </div>
 
-                    <div class="ggenero-group">
+                    <div class="genero-group">
                         <div class="genero-input">
-                            <input id="female" type="radio" name="genero">
-                            <label for="female">Feminino</label>
+                            <input id="feminino" type="radio" name="genero">
+                            <label for="feminino">Feminino</label>
                         </div>
 
                         <div class="genero-input">
-                            <input id="male" type="radio" name="genero">
-                            <label for="male">Masculino</label>
+                            <input id="masculino" type="radio" name="genero">
+                            <label for="masculino">Masculino</label>
                         </div>
 
                         <div class="genero-input">
@@ -101,8 +104,9 @@
                     </div>
                 </div>
 
+                    <div class="continue-button">
                     <button type="submit" name="submit">Continuar</button>
-                
+                    </div>
             </form>
         </div>
     </div>
