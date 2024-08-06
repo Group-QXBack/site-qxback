@@ -52,7 +52,7 @@ body {
 }
 
 .form-header {
-    margin-bottom: 3rem;
+    margin-bottom: 0.6rem;
     display: flex;
     justify-content: space-between;
 }
@@ -106,7 +106,7 @@ body {
 .input-box {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.1rem;
+    margin-bottom: 1rem;
 }
 
 .input-box input {
@@ -161,7 +161,7 @@ body {
 
 .continue-button button {
     width: 100%;
-    margin-top: 2.5rem;
+    margin-top: 0.6rem;
     border: none;
     background-color: #fff;
     padding: 0.62rem;
