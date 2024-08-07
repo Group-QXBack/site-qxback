@@ -1,4 +1,14 @@
-//Oiii
+<?php
+session_start(); // Inicia a sessão
+if (!isset($_SESSION['usuario'])) {
+    // Redireciona para a página de login se não estiver logado
+    header("Location: ../ScreenLogin/index.html");
+    exit();
+}
+
+// Obtém os dados do usuário da sessão
+$usuario = $_SESSION['usuario'];
+?>
 
 <!doctype html>
 <html>
@@ -15,7 +25,7 @@
      <header id="header">
       <div class="flex">
           <div class="logo">
-              <a href="index.html"><img src="../imagens/logobranca1.png" alt="QxBack Logo"></a>
+              <a href="index.php"><img src="../imagens/logobranca1.png" alt="QxBack Logo"></a>
           </div>
           <nav class="menu">
               <a href="../ScreenLogin/index.html">
@@ -25,148 +35,150 @@
       </div>
     </header>
   
+    <!-- Exibindo os dados do usuário -->
+    <section class="user-info">
+        <h1>Bem-vindo, <?php echo htmlspecialchars($usuario['nome']); ?>!</h1>
+        <p>Email: <?php echo htmlspecialchars($usuario['email']); ?></p>
+        <p>CPF: <?php echo htmlspecialchars($usuario['cpf']); ?></p>
+        <p>Data de Nascimento: <?php echo htmlspecialchars($usuario['data_nasc']); ?></p>
+        <p>Gênero: <?php echo htmlspecialchars($usuario['genero']); ?></p>
+    </section>
 
-        <!-- Home -->
-            <section class="home">
-                <div class="home-content">
-                    <div class="flex">
-                     <div class="texto efeito-txt-home">
-                      <h1>Indicou, Fechou,<br><span> Ganhou! </span></h1>
-                        <p class="animate-on-scroll"><span>Trabalhe </span><span>Onde e Quando Quiser!</span></p>
-                        <p class="animate-on-scroll"><span>Ganhe mais de R$14.000 </span> mensais indicando.</p>  
-                        <p class="animate-on-scroll"><span>Receba 50% da primeira *mensalidade do cliente.</span></p>  
-                        <p class="animate-on-scroll"><span> Ganhe R$10,00 </span>na primeira indicação que virar proposta!</p>
+    <!-- Home -->
+    <section class="home">
+        <div class="home-content">
+            <div class="flex">
+                <div class="texto efeito-txt-home">
+                    <h1>Indicou, Fechou,<br><span> Ganhou! </span></h1>
+                    <p class="animate-on-scroll"><span>Trabalhe </span><span>Onde e Quando Quiser!</span></p>
+                    <p class="animate-on-scroll"><span>Ganhe mais de R$14.000 </span> mensais indicando.</p>  
+                    <p class="animate-on-scroll"><span>Receba 50% da primeira *mensalidade do cliente.</span></p>  
+                    <p class="animate-on-scroll"><span> Ganhe R$10,00 </span>na primeira indicação que virar proposta!</p>
 
-              <div class="btn-cadastra efeito-bttn-home">
-                  <a href="../ScreenCadastro/index.php">
-                      <button>Cadastre-se</button>
-                  </a>
-              </div>
-          </div>
-
-          <div class="img-home">
-              <img src="../imagens/homem.png" alt="homem com dinheiro na mão">
-          </div>
-                  </div>
+                    <div class="btn-cadastra efeito-bttn-home">
+                        <a href="../ScreenCadastro/index.php">
+                            <button>Cadastre-se</button>
+                        </a>
+                    </div>
                 </div>
-            </section>
 
-
-        <!-- Instruction -->
-        <section class="instruction" id="instruction">
-            <div class="instruction-content">
-              <div class="flex">
-                <div class="texto-instruction efeito-txt-instruction">
-                  <h1>Para indicar, é <span>simples!</h1>
-                  <p>1. Realize seu cadastro.</p>
-                  <p>2. Acesse a área de indicação.</p>  
-                  <p>3. Preencha as informações da pessoa que deseja indicar.</p>  
-                  <p><span> 4. Indique sem moderação</span> e <span> receba seu Q<span class="verde">X</span>BA<span class="verde">CK!</span></span></p>
+                <div class="img-home">
+                    <img src="../imagens/homem.png" alt="homem com dinheiro na mão">
                 </div>
-              </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Conta -->
-        <section class="conta">
-            <div class="conta-content">
-              <div class="flex">
+    <!-- Instruction -->
+    <section class="instruction" id="instruction">
+        <div class="instruction-content">
+            <div class="flex">
+                <div class="texto-instruction efeito-txt-instruction">
+                    <h1>Para indicar, é <span>simples!</h1>
+                    <p>1. Realize seu cadastro.</p>
+                    <p>2. Acesse a área de indicação.</p>  
+                    <p>3. Preencha as informações da pessoa que deseja indicar.</p>  
+                    <p><span> 4. Indique sem moderação</span> e <span> receba seu Q<span class="verde">X</span>BA<span class="verde">CK!</span></span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conta -->
+    <section class="conta">
+        <div class="conta-content">
+            <div class="flex">
                 <div class="img-conta">
-                  <img src="../imagens/porquinho.png" alt="homem com dinheiro na mão">
-                    </div> <!--imagem-->
+                    <img src="../imagens/porquinho.png" alt="homem com dinheiro na mão">
+                </div> <!--imagem-->
                 <div class="texto-content efeito-txt-content">
-                  <div class="texto-conta">
-                    <h1><span class="verde">Receba direto na sua conta!</span></h1>
-                    <p>Você acompanha os seus resultados e o quanto vai ganhar no mês!!</p>
-                    <p>Assim que sua primeira indicação for convertida, em proposta e/ou em cliente, você poderá solicitar o depósito em conta corrente no <span class="verde">BRASIL</span> a qualquer momento após seu Q<span class="verde">X</span>BA<span class="verde">CK</span> estar disponível.</p>
-                  </div><!--texto-conta-->
-                  </div><!--texto-content-->
-                </div><!--flex-->
-              </div><!--conta-content-->
-            </div><!--conta-->
-        </section>
+                    <div class="texto-conta">
+                        <h1><span class="verde">Receba direto na sua conta!</span></h1>
+                        <p>Você acompanha os seus resultados e o quanto vai ganhar no mês!!</p>
+                        <p>Assim que sua primeira indicação for convertida, em proposta e/ou em cliente, você poderá solicitar o depósito em conta corrente no <span class="verde">BRASIL</span> a qualquer momento após seu Q<span class="verde">X</span>BA<span class="verde">CK</span> estar disponível.</p>
+                    </div><!--texto-conta-->
+                </div><!--texto-content-->
+            </div><!--flex-->
+        </div><!--conta-content-->
+    </section>
 
-        <!--Cards-->
+    <!--Cards-->
 
-        <section class="container">
-          <div class="texto-card">
+    <section class="container">
+        <div class="texto-card">
             <h1 class=".efeito-txt-card1"> [Vantagens de Recompensas]</h1>
             <h2 class=".efeito-txt-card2"> QXBACK</h2>
             <div class="flex">
-              <div class="card-container">
-                <div class="card efeito-card1">
-                  <img src="../imagens/celular na mao.png" alt="Ícone 1">
-                  <p>Você pode fazer todo o processo online pelo site usando o celular, tablet ou computador.</p>
-                </div><!--card 1-->
-                
-                <div class="card efeito-card2">
-                  <img src="../imagens/porquinho dinheiro.png" alt="Ícone 2">
-                  <p>Quanto mais indicações, maior a sua recompensa! Podendo ser superior a 10 salários mínimos.</p>
-                </div><!--card 2-->
+                <div class="card-container">
+                    <div class="card efeito-card1">
+                        <img src="../imagens/celular na mao.png" alt="Ícone 1">
+                        <p>Você pode fazer todo o processo online pelo site usando o celular, tablet ou computador.</p>
+                    </div><!--card 1-->
+                    
+                    <div class="card efeito-card2">
+                        <img src="../imagens/porquinho dinheiro.png" alt="Ícone 2">
+                        <p>Quanto mais indicações, maior a sua recompensa! Podendo ser superior a 10 salários mínimos.</p>
+                    </div><!--card 2-->
 
-                <div class="card efeito-card3">
-                  <img src="../imagens/mao.png" alt="Ícone 3">
-                  <p>Retire seu Q<span class="verde">X</span>BA<span class="verde">CK</span> quando quiser. Sem valor mínimo de retirada.</p>
-                </div><!--card 3-->
+                    <div class="card efeito-card3">
+                        <img src="../imagens/mao.png" alt="Ícone 3">
+                        <p>Retire seu Q<span class="verde">X</span>BA<span class="verde">CK</span> quando quiser. Sem valor mínimo de retirada.</p>
+                    </div><!--card 3-->
 
-              </div><!--card-container-->
+                </div><!--card-container-->
             </div><!--flex-->
-          </div> <!--texto-card-->
-        </section>
+        </div> <!--texto-card-->
+    </section>
 
-        <!--Clock-->
+    <!--Clock-->
 
-        <section class="clock">
-          <div class="clock-content">
+    <section class="clock">
+        <div class="clock-content">
             <div class="flex">
-              <div class="img-clock">
-                <img src="../imagens/relogio.png" alt="relogio">
-                  </div> <!--imagem-->
-              <div class="texto-content efeito-txt-content">
-                <div class="texto-clock">
-                  <p>Com o <span>Q<span class="verde">X</span>BA<span class="verde">CK</span></span>, você tem a oportunidade de transformar seu tempo livre em renda extra.</p>
-                  <p>Tá esperando o que? É fácil e rápido. <span>#TomaQ<span class="verde">X</span>BA<span class="verde">CK</span></p>
-                </div><!--texto-conta-->
+                <div class="img-clock">
+                    <img src="../imagens/relogio.png" alt="relogio">
+                </div> <!--imagem-->
+                <div class="texto-content efeito-txt-content">
+                    <div class="texto-clock">
+                        <p>Com o <span>Q<span class="verde">X</span>BA<span class="verde">CK</span></span>, você tem a oportunidade de transformar seu tempo livre em renda extra.</p>
+                        <p>Tá esperando o que? É fácil e rápido. <span>#TomaQ<span class="verde">X</span>BA<span class="verde">CK</span></p>
+                    </div><!--texto-conta-->
                 </div><!--texto-content-->
-              </div><!--flex-->
-            </div><!--conta-content-->
-          </div><!--conta-->
-      </section>
+            </div><!--flex-->
+        </div><!--conta-content-->
+    </section>
 
-      
-        <!-- Parte final -->
-        <section class="final">
-          <div class="final-content">
+    <!-- Parte final -->
+    <section class="final">
+        <div class="final-content">
             <div class="flex">
-              <div class="texto-final animate-on-scroll">
-                <h1>Renda extra indicando!</h1>
-                <p class="animate-on-scroll"><span>Em busca de renda extra? Indique e aumente seus ganhos!</span></p>
-                <p class="animate-on-scroll"><span> Aproveite nossas recompensas por indicações e comece a impulsionar sua renda.</span></p>
-              </div><!--texto-->
+                <div class="texto-final animate-on-scroll">
+                    <h1>Renda extra indicando!</h1>
+                    <p class="animate-on-scroll"><span>Em busca de renda extra? Indique e aumente seus ganhos!</span></p>
+                    <p class="animate-on-scroll"><span> Aproveite nossas recompensas por indicações e comece a impulsionar sua renda.</span></p>
+                </div><!--texto-->
 
-              <div class="btn-cadastra">
-                <a href="#">
-                    <button>Cadastre-se</button>
-                </a>
-
-              </div><!--flex-->
+                <div class="btn-cadastra">
+                    <a href="#">
+                        <button>Cadastre-se</button>
+                    </a>
+                </div><!--flex-->
             </div><!--final-content-->
-          </div><!--Final-->
-        </section>
+        </div><!--Final-->
+    </section>
 
-        <footer>
-          <div class="footerContainer">
-              <div class="socialIcons">
-                  <a href=""><i class="fa-brands fa-facebook"></i></a>
-                  <a href=""><i class="fa-brands fa-instagram"></i></a>
-              </div>
-              
-          </div>
-          <div class="footerBottom">
-              <p>Copyright &copy;2024; Designed by <span class="designer">3Point</span></p>
-          </div>
-      </footer>
-    
-      <script src="reveal.js"></script>
+    <footer>
+        <div class="footerContainer">
+            <div class="socialIcons">
+                <a href=""><i class="fa-brands fa-facebook"></i></a>
+                <a href=""><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footerBottom">
+            <p>Copyright &copy;2024; Designed by <span class="designer">3Point</span></p>
+        </div>
+    </footer>
+
+    <script src="reveal.js"></script>
   </body>
 </html>
