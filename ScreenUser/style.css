@@ -88,6 +88,21 @@ header .perfil i {
     display: grid;
     grid-area: section;
 }
+.image {
+    text-align: center; /* Centraliza o conteúdo no contêiner */
+    margin: 20px auto; /* Espaçamento em torno da imagem */
+}
+
+.foto-perfil {
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; /* Torna a imagem circular */
+    object-fit: cover; /* Ajusta a imagem para cobrir o círculo sem distorção */
+    border: 2px solid #ddd; /* Opcional: borda ao redor da imagem */
+    display: inline-block; /* Garante que a imagem não sobreponha outros elementos */
+    vertical-align: middle; /* Alinha verticalmente com o texto ao lado */
+}
+
 
 .container section>a {
     width: 100%;
@@ -155,6 +170,7 @@ header .perfil i {
 .dados-perfil {
     display: flex;
     justify-content: space-between;
+    margin: 10px 0;
 }
 
 .dados-perfil>.dados {
@@ -221,7 +237,62 @@ header .perfil i {
 
 }
 
-/* submenu */
+.btn-salvar input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* Estilo para o botão Atualizar Senha */
+.btn-atualizar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-atualizar button {
+    border: none;
+    background-color: #44ff00; 
+    color: #000000; 
+    padding: 0.6rem 3rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+.btn-atualizar button:hover {
+    background-color: #3ad302; 
+    transform: scale(1.05); 
+}
+
+.btn-atualizar button:focus {
+    outline: none; 
+}
+
+.btn-salvar input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+
+.feedback {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.feedback.sucesso {
+    color: #28a745; 
+}
+
+.feedback.erro {
+    color: #dc3545; 
+}
+
 .submenu {
     display: flex;
     width: 100%;
@@ -476,6 +547,12 @@ header .perfil i {
     .container>article>strong {
         font-size: 13px;
     }
+    .dados-perfil input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
     .container>article>.dados-perfil {
         flex-wrap: wrap-reverse;
@@ -545,4 +622,5 @@ header .perfil i {
     .copyright p {
         font-size: 9px;
     }
+    
 }
