@@ -14,18 +14,32 @@
         <div class="right-login">
             <div class="card-login">
                 <h1>Login</h1>
-                <div class="textfield">
-                    <label for="email">E-mail</label>
-                    <input type="text" name="email" placeholder="E-mail">
-                </div>
-                <div class="textfield">
-                    <label for="senha">Senha</label>
-                    <input type="password" name="senha" placeholder="Senha">
-                </div>
-                <a href="../ScreenUser/index.html" class="btn-login">Entrar</a>
+                <form action="login.php" method="post">
+                    <div class="textfield">
+                        <label for="email">E-mail</label>
+                        <input type="text" name="email" placeholder="E-mail">
+                    </div>
+                    <div class="textfield">
+                        <label for="senha">Senha</label>
+                        <input type="password" name="senha" placeholder="Senha">
+                    </div>
+                    <button type="submit" class="btn-login">Entrar</button>
+                </form>
+                <p>Não tem uma conta? <a href="../ScreenCadastro/index.php">Cadastre-se aqui</a></p>
+                <p id="error-message" style="color: red;"></p>
             </div>
         </div>
     </div>
-    
+
+    <script>
+        function errologin(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const errorMessage = errologin('error');
+        if (errorMessage) {
+            document.getElementById('error-message').textContent = errorMessage;
+        }
+    </script>
 </body>
 </html>
