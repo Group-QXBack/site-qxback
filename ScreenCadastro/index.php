@@ -26,18 +26,21 @@ if (isset($_POST['submit'])) {
     }
 
     if ($senhaValida && $senhasCoincidem) {
-        $query = "INSERT INTO usuarios(nome, cpf, email, data_nasc, senha, genero) VALUES ('$nome', '$cpf', '$email', '$data_nasc', '$senha', '$genero')";
+        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+        $query = "INSERT INTO usuarios(nome, cpf, email, data_nasc, senha, genero) VALUES ('$nome', '$cpf', '$email', '$data_nasc', '$senhaHash', '$genero')";
         $result = mysqli_query($conexao, $query);
 
         if ($result) {
             $mensagemSucesso = "Cadastro realizado com sucesso!";
-            header('Location: ../ScreenLogin/index.html?error=NCadastro feito com sucesso.');
+            header('Location: ../ScreenLogin/index.html?error=Cadastro feito com sucesso.');
         } else {
             $erroGenerico = "Erro ao cadastrar - " . mysqli_error($conexao);
         }
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
