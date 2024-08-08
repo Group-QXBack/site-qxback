@@ -114,20 +114,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <h2>Atualizar Senha</h2>
                 <main class="dados-perfil">
                     <form method="post" action="">
+                    <p>
+                            <strong>CPF:</strong>
+                            <input type="text" class="input-text" style="width: 97px;" value="<?php echo isset($usuario['cpf']) ? htmlspecialchars($usuario['cpf']) : ''; ?>" readonly>
+                        </p>
+                        <br>
+                        <p> 
+                            <strong>Email:</strong>
+                            <input type="text" class="input-text" style="width: 235px;" value="<?php echo isset($usuario['email']) ? htmlspecialchars($usuario['email']) : ''; ?>" readonly>
+                        </p>
+                        <br>
                         <p>
                             <strong>Senha Atual:</strong>
                             <input type="password" name="senha_atual" required>
                         </p>
+                        <br>
                         <p>
                             <strong>Nova Senha:</strong>
                             <input type="password" name="nova_senha" required>
                         </p>
+                        <br>
                         <p>
                             <strong>Confirmar Nova Senha:</strong>
                             <input type="password" name="confirmar_senha" required>
                         </p>
+                        <br>
                         <div class="btn-atualizar">
-                        <button type="submit" class="btn-atualizar">Atualizar Senha</button>
+                        <button type="submit" style="text-align: center;" class="btn-atualizar">Atualizar Senha</button>
                         </div>
                         <?php if (isset($msg)) { ?>
                         <p class="feedback <?php echo $msg === "Senha atualizada com sucesso!" ? 'sucesso' : 'erro'; ?>">
@@ -136,6 +149,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?php } ?>
 
                     </form>
+                    <div class="image">
+                            <i class="fa-solid fa-circle-user" style="color:#304d30;"></i>
+                            <a href="alterar_foto.php">Alterar foto do perfil</a>
+                        </div>
                 </main>
             </article>
         </div>
