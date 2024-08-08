@@ -39,9 +39,7 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-?>
-
-
+?>  
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -126,7 +124,7 @@ if (isset($_POST['submit'])) {
 
                     <div class="input-box">
                         <label for="data_nasc">Data de Nascimento</label>
-                        <input id="data_nasc" type="date" name="data_nasc" placeholder="XX/XX/XXXX" required>
+                        <input id="data_nasc" style="width: 225px;" type="date" name="data_nasc" placeholder="XX/XX/XXXX" required>
                     </div>
 
                     <div class="input-box">
