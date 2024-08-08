@@ -132,6 +132,19 @@ body {
     font-weight: 600;
     color: #000000c0;
 }
+.feedback {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.feedback.sucesso {
+    color: #28a745; 
+}
+
+.feedback.erro {
+    color: #dc3545; 
+}
 
 .input-box input::placeholder {
     color: #000000be;
