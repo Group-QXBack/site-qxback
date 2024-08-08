@@ -291,9 +291,6 @@ section.container .flex {
     color: #42FF00;
     font-size: 35px;
 }
-
-/* Relogio */
-
 section.clock .flex {
     align-items: center;
     justify-content: flex-end; 
