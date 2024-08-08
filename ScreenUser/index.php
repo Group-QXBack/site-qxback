@@ -1,14 +1,10 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
-
 $usuario = $_SESSION['usuario'];
-
-
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +81,7 @@ $usuario = $_SESSION['usuario'];
                     <div class="dados">
                         <p>
                             <strong>CPF:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['cpf']) ? htmlspecialchars($usuario['cpf']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" style="width: 97px;" value="<?php echo isset($usuario['cpf']) ? htmlspecialchars($usuario['cpf']) : ''; ?>" readonly>
                         </p>
                         <p>
                             <strong>Data de Nascimento:</strong>
@@ -93,7 +89,7 @@ $usuario = $_SESSION['usuario'];
                         </p>
                         <p>
                             <strong>Email:</strong>
-                            <input type="text" class="input-text" style="width: 180px;" value="<?php echo isset($usuario['email']) ? htmlspecialchars($usuario['email']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" style="width: 235px;" value="<?php echo isset($usuario['email']) ? htmlspecialchars($usuario['email']) : ''; ?>" readonly>
                         </p>
                         <p>
                             <strong>Telefone:</strong>
@@ -119,7 +115,7 @@ $usuario = $_SESSION['usuario'];
 
                 </main>
                 <div class="btn-salvar">
-                    <a href="#">Salvar</a>
+                 <a href="editar_perfil.php">Editar Perfil</a>
                 </div>
             </article>
         </div>
