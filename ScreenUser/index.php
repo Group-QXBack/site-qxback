@@ -93,19 +93,19 @@ $usuario = $_SESSION['usuario'];
                         </p>
                         <p>
                             <strong>Telefone:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['telefone']) ? htmlspecialchars($usuario['telefone']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" value="<?php echo isset($usuario['telefone']) ? htmlspecialchars($usuario['telefone']) : ''; ?>" >
                         </p>
                         <p>
                             <strong>CEP:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['cep']) ? htmlspecialchars($usuario['cep']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" value="<?php echo isset($usuario['cep']) ? htmlspecialchars($usuario['cep']) : ''; ?>" >
                         </p>
                         <p>
                             <strong>Endereço:</strong>
-                            <input type="text" class="input-text" style="width: 180px;" value="<?php echo isset($usuario['endereco']) ? htmlspecialchars($usuario['endereco']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" style="width: 180px;" value="<?php echo isset($usuario['endereco']) ? htmlspecialchars($usuario['endereco']) : ''; ?>" >
                         </p>
                         <p>
                             <strong>Complemento:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['complemento']) ? htmlspecialchars($usuario['complemento']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" value="<?php echo isset($usuario['complemento']) ? htmlspecialchars($usuario['complemento']) : ''; ?>" >
                         </p>
                     </div>
                     <div class="image">
@@ -115,7 +115,7 @@ $usuario = $_SESSION['usuario'];
 
                 </main>
                 <div class="btn-salvar">
-                 <a href="editar_perfil.php">Editar Perfil</a>
+                    <a href="editar_perfil.php">Editar Perfil</a>
                 </div>
             </article>
         </div>
