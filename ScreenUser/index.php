@@ -24,7 +24,6 @@ $usuario = $_SESSION['usuario'];
 <body>
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
-
     </header>
     <div class="submenu">
         <ul>
@@ -63,15 +62,14 @@ $usuario = $_SESSION['usuario'];
                     <i class="fi fi-ss-book"></i>
                     <p>Minhas Indicações</p>
                 </a>
-                <a href="#">
+                <a href="indicar.php">
                     <i class="fi fi-sr-square-plus"></i>
                     <p>Indicar</p>
                 </a>
                 <a href="logout.php" id="btn-sair">
-                <i class="fi fi-br-exit"></i>
-                <p>Sair</p>
+                    <i class="fi fi-br-exit"></i>
+                    <p>Sair</p>
                 </a>
-
             </section>
             <div class="linha-vertical"></div>
             <article>
@@ -97,7 +95,7 @@ $usuario = $_SESSION['usuario'];
                         </p>
                         <p>
                             <strong>CEP:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['cep']) ? htmlspecialchars($usuario['cep']) : ''; ?>" >
+                            <input type="text" class="input-text" style="width: 65px;" value="<?php echo isset($usuario['cep']) ? htmlspecialchars($usuario['cep']) : ''; ?>" >
                         </p>
                         <p>
                             <strong>Endereço:</strong>
@@ -109,13 +107,13 @@ $usuario = $_SESSION['usuario'];
                         </p>
                     </div>
                     <div class="image">
-                    <i class="fa-solid fa-circle-user" style="color: #304d30;"></i>
-    <a href="alterar_foto.php">Alterar foto do perfil</a>
-</div>
-
+                        <i class="fa-solid fa-circle-user" style="color: #304d30;"></i>
+                        <a href="alterar_foto.php">Alterar foto do perfil</a>
+                    </div>
                 </main>
                 <div class="btn-salvar">
-                    <a href="editar_perfil.php">Editar Perfil</a>
+                    <!-- Botão para finalizar o cadastro -->
+                    <a href="completar_cadastro.php" class="btn-finalizar-cadastro">Finalizar Cadastro</a>
                 </div>
             </article>
         </div>
