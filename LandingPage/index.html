@@ -1,14 +1,4 @@
-<?php
-session_start(); // Inicia a sessão
-if (!isset($_SESSION['usuario'])) {
-    // Redireciona para a página de login se não estiver logado
-    header("Location: ../ScreenLogin/index.html");
-    exit();
-}
 
-// Obtém os dados do usuário da sessão
-$usuario = $_SESSION['usuario'];
-?>
 
 <!doctype html>
 <html>
@@ -34,17 +24,6 @@ $usuario = $_SESSION['usuario'];
           </nav>
       </div>
     </header>
-  
-    <!-- Exibindo os dados do usuário -->
-    <section class="user-info">
-        <h1>Bem-vindo, <?php echo htmlspecialchars($usuario['nome']); ?>!</h1>
-        <p>Email: <?php echo htmlspecialchars($usuario['email']); ?></p>
-        <p>CPF: <?php echo htmlspecialchars($usuario['cpf']); ?></p>
-        <p>Data de Nascimento: <?php echo htmlspecialchars($usuario['data_nasc']); ?></p>
-        <p>Gênero: <?php echo htmlspecialchars($usuario['genero']); ?></p>
-    </section>
-
-    <!-- Home -->
     <section class="home">
         <div class="home-content">
             <div class="flex">
@@ -157,12 +136,12 @@ $usuario = $_SESSION['usuario'];
                 </div><!--texto-->
 
                 <div class="btn-cadastra">
-                    <a href="#">
+                    <a href="../ScreenCadastro/index.php">
                         <button>Cadastre-se</button>
                     </a>
-                </div><!--flex-->
-            </div><!--final-content-->
-        </div><!--Final-->
+                </div>
+            </div>
+        </div>
     </section>
 
     <footer>
