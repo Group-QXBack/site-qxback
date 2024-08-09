@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <i class="fi fi-ss-book"></i>
                     <p>Minhas Indicações</p>
                 </a>
-                <a href="#">
+                <a href="indicar.php">
                     <i class="fi fi-sr-square-plus"></i>
                     <p>Indicar</p>
                 </a>
