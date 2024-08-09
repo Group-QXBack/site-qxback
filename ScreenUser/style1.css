@@ -1,0 +1,237 @@
+:root {
+    --cinza: #E7E4D7;
+    --preto: #000000;
+    --meiobranco: #ececec;
+    --verde: #42FF00;
+    --branconeve: rgb(255, 255, 255);
+    --azul-escuro: #002b36;
+    --cinza-claro: #4d4d4d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    background-color: var(--preto);
+    font-family: "Red Hat Display", sans-serif;
+    color: var(--branconeve);
+}
+
+header {
+    width: 100%;
+    height: 80px;
+    background-color: var(--azul-escuro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header .logo {
+    height: 50px;
+}
+
+.submenu {
+    background-color: var(--cinza-claro);
+    padding: 10px 0;
+}
+
+.submenu ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 20px;
+}
+
+.submenu ul li {
+    position: relative;
+}
+
+.submenu ul li p {
+    color: var(--branconeve);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.submenu ul li a {
+    color: var(--branconeve);
+    text-decoration: none;
+}
+
+.submenu ul li:hover > p {
+    color: var(--verde);
+}
+
+.submenu ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--cinza-claro);
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.submenu ul li:hover ul {
+    display: block;
+}
+
+.submenu ul ul li a {
+    display: block;
+    padding: 10px;
+    color: var(--preto);
+    border-radius: 4px;
+}
+
+.submenu ul ul li a:hover {
+    background-color: var(--verde);
+    color: var(--branconeve);
+}
+
+.corpo_principal {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    gap: 30px;
+}
+
+.corpo_principal > article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.corpo_principal article h1 {
+    font-size: 2rem;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.menu-lateral {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.menu-lateral a {
+    background-color: var(--cinza);
+    color: var(--preto);
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+.menu-lateral a:hover {
+    background-color: var(--verde);
+    color: var(--branconeve);
+}
+
+.form-container {
+    flex: 2;
+}
+
+.form-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.form-indicacao {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-indicacao p {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-indicacao input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--meiobranco);
+    color: var(--preto);
+}
+
+.btn-salvar button {
+    background-color: var(--verde);
+    border: none;
+    color: var(--branconeve);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-salvar button:hover {
+    background-color: var(--cinza);
+    color: var(--preto);
+}
+
+footer {
+    background-color: var(--azul-escuro);
+    color: var(--branconeve);
+    padding: 20px;
+    text-align: center;
+}
+
+footer .voltar-ao-topo {
+    margin-bottom: 20px;
+}
+
+footer .voltar-ao-topo i {
+    color: var(--verde);
+    margin-right: 5px;
+}
+
+footer .container-texto {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+footer .container-texto div h3 {
+    color: var(--verde);
+}
+
+footer .container-texto div p a {
+    color: var(--branconeve);
+    text-decoration: none;
+}
+
+footer .container-texto div p a:hover {
+    text-decoration: underline;
+}
+
+footer .segundo-rodape {
+    background-color: var(--azul-escuro);
+    padding: 10px;
+}
+
+footer .segundo-rodape .icons a {
+    color: var(--branconeve);
+    margin: 0 10px;
+}
+
+footer .segundo-rodape p {
+    margin-top: 10px;
+}
