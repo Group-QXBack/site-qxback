@@ -1,10 +1,34 @@
 <?php
 session_start();
+
+// Verifica se há mensagem de sucesso ou erro na sessão
+$message = $_SESSION['message'] ?? null;
+unset($_SESSION['message']); // Remove a mensagem da sessão após exibí-la
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
+
+// Suponha que você já tenha uma conexão com o banco de dados
+include '../ScreenCadastro/config.php';
+
+// Atualiza os dados do usuário com base no ID armazenado na sessão
 $usuario = $_SESSION['usuario'];
+$userId = $usuario['id'];
+
+$sql = "SELECT * FROM usuarios WHERE id = ?";
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $usuario = $result->fetch_assoc();
+    $_SESSION['usuario'] = $usuario; // Atualiza a sessão com os dados mais recentes
+} else {
+    $message = ['type' => 'error', 'text' => 'Usuário não encontrado.'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +73,11 @@ $usuario = $_SESSION['usuario'];
             <hr>
         </article>
         <div class="container">
+            <?php if ($message): ?>
+                <div class="<?php echo $message['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
+                    <?php echo htmlspecialchars($message['text']); ?>
+                </div>
+            <?php endif; ?>
             <section>
                 <a href="#" id="btn-minhaConta" style="border-radius: 14px;">
                     <i class="fi fi-sr-user"></i>
@@ -73,37 +102,37 @@ $usuario = $_SESSION['usuario'];
             </section>
             <div class="linha-vertical"></div>
             <article>
-                <h2><strong>Usuário | <?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
+                <h2><strong>Usuário | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
                 <div class="linha-horizontal"></div>
                 <main class="dados-perfil">
                     <div class="dados">
                         <p>
                             <strong>CPF:</strong>
-                            <input type="text" class="input-text" style="width: 97px;" value="<?php echo isset($usuario['cpf']) ? htmlspecialchars($usuario['cpf']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" style="width: 97px;" value="<?php echo htmlspecialchars($usuario['cpf'] ?? ''); ?>" readonly>
                         </p>
                         <p>
                             <strong>Data de Nascimento:</strong>
-                            <input type="date" class="input-date" value="<?php echo isset($usuario['data_nasc']) ? htmlspecialchars($usuario['data_nasc']) : ''; ?>" readonly>
+                            <input type="date" class="input-date" value="<?php echo htmlspecialchars($usuario['data_nasc'] ?? ''); ?>" readonly>
                         </p>
                         <p>
                             <strong>Email:</strong>
-                            <input type="text" class="input-text" style="width: 235px;" value="<?php echo isset($usuario['email']) ? htmlspecialchars($usuario['email']) : ''; ?>" readonly>
+                            <input type="text" class="input-text" style="width: 235px;" value="<?php echo htmlspecialchars($usuario['email'] ?? ''); ?>" readonly>
                         </p>
                         <p>
                             <strong>Telefone:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['telefone']) ? htmlspecialchars($usuario['telefone']) : ''; ?>" >
+                            <input type="text" class="input-text" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" readonly>
                         </p>
                         <p>
                             <strong>CEP:</strong>
-                            <input type="text" class="input-text" style="width: 65px;" value="<?php echo isset($usuario['cep']) ? htmlspecialchars($usuario['cep']) : ''; ?>" >
+                            <input type="text" class="input-text" style="width: 65px;" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>" readonly>
                         </p>
                         <p>
                             <strong>Endereço:</strong>
-                            <input type="text" class="input-text" style="width: 180px;" value="<?php echo isset($usuario['endereco']) ? htmlspecialchars($usuario['endereco']) : ''; ?>" >
+                            <input type="text" class="input-text" style="width: 180px;" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" readonly>
                         </p>
                         <p>
                             <strong>Complemento:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['complemento']) ? htmlspecialchars($usuario['complemento']) : ''; ?>" >
+                            <input type="text" class="input-text" value="<?php echo htmlspecialchars($usuario['complemento'] ?? ''); ?>" readonly>
                         </p>
                     </div>
                     <div class="image">
@@ -112,7 +141,6 @@ $usuario = $_SESSION['usuario'];
                     </div>
                 </main>
                 <div class="btn-salvar">
-                    <!-- Botão para finalizar o cadastro -->
                     <a href="completar_cadastro.php" class="btn-finalizar-cadastro">Finalizar Cadastro</a>
                 </div>
             </article>
