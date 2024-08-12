@@ -6,6 +6,5 @@
     $dbName = 'formulario_cadastro';
 
     $conexao = new mysqli($dbHost,$dbUsername,$dbPassword,$dbName);
-
-
+    
 ?>
