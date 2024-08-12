@@ -12,22 +12,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telefone = $_POST['telefone'] ?? '';
     $cep = $_POST['cep'] ?? '';
     $endereco = $_POST['endereco'] ?? '';
+    $numero = $_POST['numero'] ?? ''; // Adiciona o número
     $complemento = $_POST['complemento'] ?? '';
+    $bairro = $_POST['bairro'] ?? '';
+    $cidade = $_POST['cidade'] ?? '';
+    $estado = $_POST['estado'] ?? '';
 
-    $stmt = $conexao->prepare("UPDATE usuarios SET telefone=?, cep=?, endereco=?, complemento=? WHERE cpf=?");
-    $stmt->bind_param('sssss', $telefone, $cep, $endereco, $complemento, $usuario['cpf']);
+    $stmt = $conexao->prepare("UPDATE usuarios SET telefone=?, cep=?, endereco=?, numero=?, complemento=?, bairro=?, cidade=?, estado=? WHERE cpf=?");
+    $stmt->bind_param('sssssssss', $telefone, $cep, $endereco, $numero, $complemento, $bairro, $cidade, $estado, $usuario['cpf']);
 
     if ($stmt->execute()) {
-        $_SESSION['usuario']['telefone'] = $telefone;
-        $_SESSION['usuario']['cep'] = $cep;
-        $_SESSION['usuario']['endereco'] = $endereco;
-        $_SESSION['usuario']['complemento'] = $complemento;
+        $usuario['telefone'] = $telefone;
+        $usuario['cep'] = $cep;
+        $usuario['endereco'] = $endereco;
+        $usuario['numero'] = $numero; // Atualiza o número
+        $usuario['complemento'] = $complemento;
+        $usuario['bairro'] = $bairro;
+        $usuario['cidade'] = $cidade;
+        $usuario['estado'] = $estado;
 
-        header("Location: perfil_completo.php");
-        exit();
+        $_SESSION['message'] = ['type' => 'success', 'text' => 'Dados atualizados com sucesso!'];
     } else {
-        $error_message = "Ocorreu um erro ao atualizar seus dados. Tente novamente.";
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Ocorreu um erro ao atualizar seus dados. Tente novamente.'];
     }
+
+    header("Location: ../ScreenUser/index.php");
+    exit();
 }
 ?>
 
@@ -76,23 +86,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form action="completar_cadastro.php" method="post" class="form-completar">
                 <div class="form-group">
                     <label for="telefone">Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" class="input-text" value="<?php echo isset($usuario['telefone']) ? htmlspecialchars($usuario['telefone']) : ''; ?>" required>
+                    <input type="text" id="telefone" name="telefone" class="input-text" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="cep">CEP:</label>
-                    <input type="text" id="cep" name="cep" class="input-text" value="<?php echo isset($usuario['cep']) ? htmlspecialchars($usuario['cep']) : ''; ?>" required>
+                    <input type="text" id="cep" name="cep" class="input-text" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <input type="text" id="estado" name="estado" class="input-text" value="<?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade" class="input-text" value="<?php echo htmlspecialchars($usuario['cidade'] ?? ''); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" id="bairro" name="bairro" class="input-text" value="<?php echo htmlspecialchars($usuario['bairro'] ?? ''); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="endereco">Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo isset($usuario['endereco']) ? htmlspecialchars($usuario['endereco']) : ''; ?>" required>
+                    <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="numero">Número:</label>
+                    <input type="text" id="numero" name="numero" class="input-text" value="<?php echo htmlspecialchars($usuario['numero'] ?? ''); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="complemento">Complemento:</label>
-                    <input type="text" id="complemento" name="complemento" class="input-text" value="<?php echo isset($usuario['complemento']) ? htmlspecialchars($usuario['complemento']) : ''; ?>">
+                    <input type="text" id="complemento" name="complemento" class="input-text" value="<?php echo htmlspecialchars($usuario['complemento'] ?? ''); ?>">
                 </div>
-                <?php if (isset($error_message)): ?>
-                    <div class="error-message">
-                        <?php echo htmlspecialchars($error_message); ?>
+                <?php if (isset($_SESSION['message'])): ?>
+                    <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
+                        <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
                     </div>
                 <?php endif; ?>
                 <div class="btn-salvar">
@@ -143,5 +169,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </footer>
     <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cepInput = document.getElementById('cep');
+            cepInput.addEventListener('blur', function() {
+                const cep = this.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                document.getElementById('endereco').value = data.logradouro;
+                                document.getElementById('bairro').value = data.bairro;
+                                document.getElementById('cidade').value = data.localidade;
+                                document.getElementById('estado').value = data.uf;
+                            } else {
+                                alert('CEP não encontrado.');
+                            }
+                        })
+                        .catch(() => alert('Erro ao buscar CEP.'));
+                }
+            });
+        });
+    </script>
 </body>
 </html>
