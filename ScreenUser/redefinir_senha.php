@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <i class="fi fi-sr-lock"></i>
                     <p>Redefinir Senha</p>
                 </a>
-                <a href="#">
+                <a href="minhas_indicacoes.php">
                     <i class="fi fi-ss-book"></i>
                     <p>Minhas Indicações</p>
                 </a>

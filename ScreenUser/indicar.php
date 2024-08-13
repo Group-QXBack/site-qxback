@@ -58,7 +58,7 @@ $usuario = $_SESSION['usuario'];
                     <i class="fi fi-sr-lock"></i>
                     <p>Redefinir Senha</p>
                 </a>
-                <a href="#">
+                <a href="minhas_indicacoes.php">
                     <i class="fi fi-ss-book"></i>
                     <p>Minhas Indicações</p>
                 </a>
@@ -72,26 +72,74 @@ $usuario = $_SESSION['usuario'];
                 </a>
             </section>
             <article class="form-container">
+                <h2><strong>Usuário | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
+                <div class="linha-horizontal"></div>
                 <h2><strong>Indicação de Empresa</strong></h2>
                 <main class="form-indicacao">
                 <form action="processar_indicacao.php" method="POST">
-                <p>
-                <strong>Nome :</strong>
-                <input type="text" class="input-text" name="nome_empresa" required>
-                </p>
-                <p>
-            <strong>CPF :</strong>
-            <input type="text" class="input-text" name="cpf" required>
-        </p>
-        <p>
+    <p>
+        <strong>Nome da Empresa:</strong>
+        <input type="text" class="input-text" name="nome_empresa" id="nome_empresa" required>
+    </p>
+    <p>
+        <strong>CNPJ:</strong>
+        <input type="text" class="input-text" name="cnpj" id="cnpj" placeholder="Digite o CNPJ" required>
+        <button type="button" onclick="buscarDadosEmpresa()">Buscar</button>
+    </p>
+    <p>
         <strong>Telefone:</strong>
-        <input type="text" class="input-text" name="telefone_empresa" required>
-        </p>
-        <p>
+        <input type="text" class="input-text" name="telefone_empresa" id="telefone_empresa">
+    </p>
+    <p>
+        <strong>Celular:</strong>
+        <input type="text" class="input-text" name="celular_empresa" id="celular_empresa" required>
+    </p>
+    <p>
         <strong>Email:</strong>
-        <input type="email" class="input-text" name="email_empresa" required>
-        </p>
-        <div class="btn-salvar">
+        <input type="email" class="input-text" name="email_empresa" id="email_empresa" required>
+    </p>
+    <p>
+        <strong>Nome do Contato:</strong>
+        <input type="text" class="input-text" name="nome_contato" id="nome_contato" required>
+    </p>
+    <p>
+        <strong>Cargo do Contato:</strong>
+        <input type="text" class="input-text" name="cargo_contato" id="cargo_contato">
+    </p>
+    <p>
+        <strong>CPF do Contato:</strong>
+        <input type="text" class="input-text" name="cpf" required>
+    </p>
+    <p>
+        <strong>Celular do Contato:</strong>
+        <input type="text" class="input-text" name="celular_contato" id="celular_contato" required>
+    </p>
+    <p>
+        <strong>Email do Contato:</strong>
+        <input type="email" class="input-text" name="email_contato" id="email_contato" required>
+    </p>
+    <div id="areas-container">
+        <div class="area-group">
+            <label for="areas">Áreas: </label>
+            <select name="areas[]" class="areas-select" required>
+                <option value="">Selecione uma Área</option>
+                <?php
+                include_once('../ScreenCadastro/config.php');
+                $query_areas = "SELECT * FROM areas";
+                $resultado_areas = mysqli_query($conexao, $query_areas);
+                if (mysqli_num_rows($resultado_areas) > 0) {
+                    while ($row = mysqli_fetch_assoc($resultado_areas)) {
+                        echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+                    }
+                } else {
+                    echo '<option value="" disabled>Nenhuma Área cadastrada</option>';
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    <button type="button" onclick="addArea()">Adicionar Mais Áreas</button>
+    <div class="btn-salvar">
         <button type="submit">Enviar Indicação</button>
     </div>
 </form>
@@ -133,6 +181,81 @@ $usuario = $_SESSION['usuario'];
             <p>&copy; 2024 | 3Point</p>
         </div>
     </footer>
-    <script src="js/main.js"></script>
+    <script>
+    function buscarDadosEmpresa() {
+        var cnpj = document.getElementById('cnpj').value;
+        cnpj = cnpj.replace(/[^\d]/g, '');
+
+        if (cnpj.length === 14) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'buscar_dados_empresa.php?cnpj=' + cnpj, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    try {
+                        var dados = JSON.parse(xhr.responseText);
+                        console.log('Dados recebidos:', dados);
+                        if (dados.error) {
+                            alert(dados.error);
+                        } else {
+                            document.getElementById('nome_empresa').value = dados.nome_empresa || '';
+                            document.getElementById('telefone_empresa').value = dados.telefone_empresa || '';
+                            document.getElementById('email_empresa').value = dados.email_empresa || '';
+                        }
+                    } catch (e) {
+                        alert('Erro ao processar resposta JSON.');
+                        console.error('Erro ao processar resposta JSON:', e);
+                        console.log('Resposta recebida:', xhr.responseText);
+                    }
+                } else {
+                    alert('Erro ao buscar dados da empresa.');
+                    console.error('Erro HTTP:', xhr.status);
+                    console.log('Resposta recebida:', xhr.responseText);
+                }
+            };
+            xhr.onerror = function() {
+                alert('Erro na requisição.');
+            };
+            xhr.send();
+        } else {
+            alert('CNPJ inválido');
+        }
+    }
+
+    function addArea() {
+        var container = document.getElementById('areas-container');
+        var areaGroup = document.createElement('div');
+        areaGroup.className = 'area-group';
+        areaGroup.innerHTML = `
+            <select name="areas[]" class="areas-select" required>
+                <option value="">Selecione uma Área</option>
+                <?php
+                include_once('../ScreenCadastro/config.php');
+                $query_areas = "SELECT * FROM areas";
+                $resultado_areas = mysqli_query($conexao, $query_areas);
+                if (mysqli_num_rows($resultado_areas) > 0) {
+                    while ($row = mysqli_fetch_assoc($resultado_areas)) {
+                        echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+                    }
+                } else {
+                    echo '<option value="" disabled>Nenhum Área cadastrado</option>';
+                }
+                ?>
+            </select>
+        `;
+        container.appendChild(areaGroup);
+        updateAreasSelecionadas();
+    }
+
+    function updateAreasSelecionadas() {
+        var areasSelecionadas = [];
+        var selects = document.querySelectorAll('.areas-select');
+        selects.forEach(function(select) {
+            if (select.value) {
+                areasSelecionadas.push(select.value);
+            }
+        });
+        document.getElementById('areasSelecionadas').value = areasSelecionadas.join(',');
+    }
+    </script>
 </body>
 </html>

@@ -54,6 +54,19 @@ header .perfil i {
     padding: 60px;
     gap: 50px;
 }
+.select-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.select-area select {
+    height: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
 .corpo_principal>article {
     display: flex;
