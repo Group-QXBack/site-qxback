@@ -1,60 +1,48 @@
-* {
+/* Geral */
+body {
+    font-family: 'Red Hat Display', sans-serif;
+    background-color: #fefffe;
+    color: #333;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Red Hat Display', sans-serif;
-}
-
-body {
-    background-color: #121212;
-    color: #FFFFFF;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 header {
-    width: 100%;
-    background-color: #1f1f1f;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #000;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
 }
 
-.logo-container {
-    width: 200px;
-}
-
-.logo {
-    max-width: 100%;
+header img.logo {
+    width: 150px;
 }
 
 .submenu {
-    background-color: #212121;
-    width: 100%;
-    padding: 10px;
+    background-color: #333;
+    color: #fff;
 }
 
 .submenu ul {
     list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+    padding: 0;
+    margin: 0;
 }
 
 .submenu ul li {
     position: relative;
+}
+
+.submenu ul li p {
+    padding: 10px;
     cursor: pointer;
+    margin: 0;
 }
 
 .submenu ul li ul {
     display: none;
+    background-color: #444;
     position: absolute;
-    background-color: #333333;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
     z-index: 1000;
 }
 
@@ -62,137 +50,172 @@ header {
     display: block;
 }
 
-.submenu ul li ul li {
-    margin: 5px 0;
-}
-
 .submenu ul li ul li a {
-    color: #FFFFFF;
+    display: block;
+    padding: 10px;
+    color: #fff;
     text-decoration: none;
 }
 
-.main-content {
-    padding: 30px;
-    width: 100%;
-    max-width: 600px;
+.submenu ul li ul li a:hover {
+    background-color: #555;
 }
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #00ff00;
-    text-align: center;
-}
-
-.form-container {
-    background-color: #1f1f1f;
+.corpo_principal {
+    display: flex;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px #00ff00;
+    gap: 20px; /* Adiciona espaçamento entre o menu lateral e o conteúdo */
 }
 
-.form-completar .form-group {
-    margin-bottom: 15px;
+.menu-lateral {
+    width: 250px;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
-.input-text {
-    width: 100%;
+.menu-lateral a {
+    display: block;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
     border-radius: 5px;
-    margin-top: 5px;
-    background-color: #333333;
-    color: #FFFFFF;
-}
-
-.input-text:focus {
-    border-color: #00ff00;
-    outline: none;
-}
-
-.btn-finalizar-cadastro {
-    background-color: #00ff00;
-    color: #000;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100%;
-    text-transform: uppercase;
-    font-weight: bold;
+    margin-bottom: 10px;
     transition: background-color 0.3s ease;
 }
 
-.btn-finalizar-cadastro:hover {
-    background-color: #00e500;
+.menu-lateral a:hover {
+    background-color: #f4f4f4;
 }
 
-.voltar-ao-topo {
-    text-align: center;
+.form-container {
+    flex: 1;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.voltar-ao-topo hr {
-    border: 0;
-    height: 1px;
-    background-color: #00ff00;
+h1, h2 {
+    color: #000;
+}
+
+.linha-horizontal {
+    border-top: 2px solid #007f00;
     margin: 10px 0;
 }
 
-.voltar-ao-topo i {
-    font-size: 20px;
-    color: #00ff00;
-}
-
-.voltar-ao-topo a {
-    color: #00ff00;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.footer-links {
+.form-indicacao form {
     display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    background-color: #1f1f1f;
-    width: 100%;
-    border-top: 2px solid #00ff00;
+    flex-direction: column;
 }
 
-.footer-section h3 {
-    color: #00ff00;
+.form-indicacao p {
+    margin: 10px 0;
+}
+
+.input-text, .input-cpf {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="submit"], button {
+    background-color: #007f00;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #005d00;
+}
+
+.area-group {
     margin-bottom: 10px;
 }
 
-.footer-section a {
-    color: #FFFFFF;
-    text-decoration: none;
-    display: block;
-    margin-bottom: 5px;
+select.input-text {
+    height: auto;
+    padding: 10px;
 }
 
-.footer-bottom {
+.btn-salvar {
+    text-align: right;
+}
+
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
     text-align: center;
-    padding: 20px;
-    background-color: #121212;
-    border-top: 1px solid #00ff00;
-    width: 100%;
 }
 
-.social-icons {
+footer .voltar-ao-topo {
     margin-bottom: 10px;
 }
 
-.social-icons a {
-    margin: 0 10px;
-    color: #00ff00;
-    font-size: 20px;
-    transition: color 0.3s ease;
+footer .voltar-ao-topo a {
+    color: #007f00;
+    text-decoration: none;
 }
 
-.social-icons a:hover {
-    color: #00e500;
+footer .container-texto {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+footer .primeiro-txt, footer .segundo-txt {
+    flex: 1;
+    margin: 0 10px;
+}
+
+footer .primeiro-txt h3, footer .segundo-txt h3 {
+    margin: 0;
+}
+
+footer .primeiro-txt p a, footer .segundo-txt p a {
+    color: #007f00;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+footer .primeiro-txt p a:hover, footer .segundo-txt p a:hover {
+    text-decoration: underline;
+}
+
+footer .segundo-rodape {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+footer .copyright {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer .icons a {
+    color: #fff;
+    margin-right: 10px;
+}
+
+footer .icons a:hover {
+    color: #007f00;
+}
+
+footer p {
+    margin: 0;
 }
