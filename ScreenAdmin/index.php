@@ -1,4 +1,4 @@
-    <?php
+<?php
     session_start();
 
     $message = $_SESSION['message'] ?? null;
@@ -45,24 +45,6 @@
         <header>
             <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
         </header>
-        <div class="submenu">
-            <ul>
-                <li>
-                    <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul>
-                        <li><a href="#">Indicações Iniciadas</a></li>
-                        <li><a href="#">Indicações em Andamento</a></li>
-                        <li><a href="#">Indicações Concluídas</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul id="btn-suporte">
-                        <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
         <div class="corpo_principal">
             <article>
                 <h1>Meus Dados</h1>
@@ -83,22 +65,22 @@
                         <i class="fi fi-sr-lock"></i>
                         <p>Redefinir Senha</p>
                     </a>
-                    <a href="minhas_indicacoes.php">
+                    <a href="indicacoes.php">
                         <i class="fi fi-ss-book"></i>
-                        <p>Minhas Indicações</p>
+                        <p>Indicações</p>
                     </a>
-                    <a href="indicar.php">
+                    <a href="cadastros.php">
                         <i class="fi fi-sr-square-plus"></i>
-                        <p>Indicar</p>
+                        <p>Cadastros</p>
                     </a>
-                    <a href="logout.php" id="btn-sair">
+                    <a href="../ScreenUser/logout.php" id="btn-sair">
                         <i class="fi fi-br-exit"></i>
                         <p>Sair</p>
                     </a>
                 </section>
                 <div class="linha-vertical"></div>
                 <article>
-                    <h2><strong>Usuário | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
+                    <h2><strong>Administrador | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
                     <div class="linha-horizontal"></div>
                     <main class="dados-perfil">
                         <div class="dados">

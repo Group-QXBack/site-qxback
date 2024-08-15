@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     if ($senhaValida && $senhasCoincidem) {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO usuarios(nome, cpf, email, data_nasc, senha, genero) VALUES ('$nome', '$cpf', '$email', '$data_nasc', '$senhaHash', '$genero')";
+        $query = "INSERT INTO usuarios(nome, cpf, email, data_nasc, senha, genero, tipo_conta) VALUES ('$nome', '$cpf', '$email', '$data_nasc', '$senhaHash', '$genero', 'user')";
         $result = mysqli_query($conexao, $query);
 
         if ($result) {
@@ -39,7 +39,8 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-?>  
+?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -115,7 +116,7 @@ if (isset($_POST['submit'])) {
                     <div class="input-box">
                         <label for="cpf">CPF</label>
                         <input type="text" name="cpf" minlength="14" maxlength="14" id="cpf" class="inputUser" oninput="formatarCPF(this)" required>
-                    </div>
+                    </div>  
 
                     <div class="input-box">
                         <label for="email">E-mail</label>

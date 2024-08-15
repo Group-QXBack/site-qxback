@@ -1,8 +1,7 @@
 <?php
 session_start();
-include_once('../ScreenCadastro/config.php'); // Inclua sua configuração de banco de dados
+include_once('../ScreenCadastro/config.php'); 
 
-// Verifique se o usuário está autenticado
 if (!isset($_SESSION['usuario'])) {
     header('Location: login.html');
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['usuario'])) {
 
 $usuario_id = $_SESSION['usuario']['id'];
 
-// Consultar as indicações do usuário
 $query = "
     SELECT i.nome_empresa, i.cnpj, i.telefone_empresa, i.celular_empresa, i.email_empresa, 
            i.data_indicacao, i.status, i.valor_pendente, 

@@ -128,6 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         </div>
     </div>
+    <a href="index.php">Voltar</a>
     <footer class="primeiro-rodape">
         <div class="voltar-ao-topo">
             <hr>

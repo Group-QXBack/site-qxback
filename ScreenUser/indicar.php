@@ -108,7 +108,7 @@ $usuario = $_SESSION['usuario'];
     </p>
     <p>
         <strong>CPF do Contato:</strong>
-        <input type="text" class="input-text" name="cpf" required>
+        <input type="text" class="input-text" name="cpf" minlenght="14" maxlength="14" oninput="formatarCPF(this)" required>
     </p>
     <p>
         <strong>Celular do Contato:</strong>
@@ -256,6 +256,9 @@ $usuario = $_SESSION['usuario'];
         });
         document.getElementById('areasSelecionadas').value = areasSelecionadas.join(',');
     }
+    function formatarCPF(campo) {
+            campo.value = campo.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        }
     </script>
 </body>
 </html>

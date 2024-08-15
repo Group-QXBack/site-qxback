@@ -16,7 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             if (password_verify($senha, $row['senha'])) {
                 $_SESSION['usuario'] = $row;
-                header("Location: ../ScreenUser/index.php"); 
+                if ($row['tipo_conta'] == 'admin') {
+                    header("Location: ../ScreenAdmin/index.php"); 
+                } else {
+                    header("Location: ../ScreenUser/index.php"); 
+                }
                 exit();
             } else {
                 header("Location: ../ScreenLogin/index.html?error=Senha incorreta.");

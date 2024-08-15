@@ -34,7 +34,11 @@ CREATE TABLE indicacoes (
     telefone_empresa VARCHAR(15),
     celular_empresa VARCHAR(15) NOT NULL,
     email_empresa VARCHAR(255) NOT NULL,
-    data_indicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    data_indicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_id INT, -- Adiciona a coluna para referenciar o usuário
+    status VARCHAR(20) DEFAULT 'Em Andamento', -- Adiciona a coluna status com valor padrão
+    valor_pendente DECIMAL(10, 2) DEFAULT 0.00, -- Adiciona a coluna valor_pendente com valor padrão
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) -- Define a chave estrangeira
 );
 
 -- Tabela para armazenar informações do contato associado à indicação
