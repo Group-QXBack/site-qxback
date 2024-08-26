@@ -8,20 +8,11 @@ if (!isset($_SESSION['usuario'])) {
 
 include '../ScreenCadastro/config.php';
 
-$action = $_GET['action'] ?? '';
-$id = $_GET['id'] ?? '';
+// Sanitizar e validar os parâmetros
+$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-if (empty($action) || empty($id)) {
-    $_SESSION['message'] = [
-        'type' => 'error',
-        'text' => 'Ação ou ID não fornecidos.'
-    ];
-    header("Location: indicacoes.php");
-    exit();
-}
-
-$allowed_actions = ['aceitar', 'negar'];
-if (!in_array($action, $allowed_actions) || !filter_var($id, FILTER_VALIDATE_INT)) {
+if (!$action || !$id) {
     $_SESSION['message'] = [
         'type' => 'error',
         'text' => 'Ação ou ID inválidos.'
@@ -30,25 +21,46 @@ if (!in_array($action, $allowed_actions) || !filter_var($id, FILTER_VALIDATE_INT
     exit();
 }
 
-$status = ($action === 'aceitar') ? 'Aceita' : 'Negada';
-$sql = "UPDATE indicacoes SET status = ? WHERE id = ?";
-$stmt = $conexao->prepare($sql);
-$stmt->bind_param('si', $status, $id);
-
-if ($stmt->execute()) {
+$allowed_actions = ['aceitar', 'negar'];
+if (!in_array($action, $allowed_actions)) {
     $_SESSION['message'] = [
-        'type' => 'success',
-        'text' => "Indicação foi $status com sucesso!"
+        'type' => 'error',
+        'text' => 'Ação inválida.'
     ];
+    header("Location: indicacoes.php");
+    exit();
+}
+
+$status = ($action === 'aceitar') ? 'Aceita' : 'Negada';
+
+$sql = "UPDATE indicacoes SET status = ?, ultima_atualizacao = NOW() WHERE id = ?";
+$stmt = $conexao->prepare($sql);
+
+if ($stmt) {
+    $stmt->bind_param('si', $status, $id);
+    
+    if ($stmt->execute()) {
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => "Indicação foi $status com sucesso!"
+        ];
+    } else {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Erro ao atualizar o status da indicação.'
+        ];
+    }
+
+    $stmt->close();
 } else {
     $_SESSION['message'] = [
         'type' => 'error',
-        'text' => 'Erro ao atualizar o status da indicação.'
+        'text' => 'Erro na preparação da consulta.'
     ];
 }
 
-$stmt->close();
 $conexao->close();
 
 header("Location: indicacoes.php");
 exit();
+?>

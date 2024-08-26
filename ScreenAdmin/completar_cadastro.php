@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telefone = $_POST['telefone'] ?? '';
     $cep = $_POST['cep'] ?? '';
     $endereco = $_POST['endereco'] ?? '';
-    $numero = $_POST['numero'] ?? ''; // Adiciona o número
+    $numero = $_POST['numero'] ?? ''; 
     $complemento = $_POST['complemento'] ?? '';
     $bairro = $_POST['bairro'] ?? '';
     $cidade = $_POST['cidade'] ?? '';
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuario['telefone'] = $telefone;
         $usuario['cep'] = $cep;
         $usuario['endereco'] = $endereco;
-        $usuario['numero'] = $numero; // Atualiza o número
+        $usuario['numero'] = $numero; 
         $usuario['complemento'] = $complemento;
         $usuario['bairro'] = $bairro;
         $usuario['cidade'] = $cidade;

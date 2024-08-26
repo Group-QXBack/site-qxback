@@ -11,8 +11,7 @@ if (isset($_GET['cnpj'])) {
         exit();
     }
 
-    // Primeiro, tentar buscar no banco de dados
-    $sql = "SELECT nome_empresa, telefone_empresa, email_empresa FROM indicacoes WHERE cnpj = '$cnpj'";
+    $sql = "SELECT nome_empresa FROM indicacoes WHERE cnpj = '$cnpj'";
     $result = $conexao->query($sql);
 
     if ($result) {
@@ -20,16 +19,13 @@ if (isset($_GET['cnpj'])) {
             $empresa = $result->fetch_assoc();
             echo json_encode($empresa);
         } else {
-            // Se a empresa não estiver no banco de dados, buscar na API externa
             $apiUrl = "https://www.receitaws.com.br/v1/cnpj/$cnpj";
 
-            // Verificar se a URL é acessível e capturar o conteúdo
             $apiResponse = @file_get_contents($apiUrl);
 
             if ($apiResponse === FALSE) {
                 echo json_encode(['error' => 'Não foi possível acessar a API externa']);
             } else {
-                // Tentar decodificar a resposta JSON da API externa
                 $apiData = json_decode($apiResponse, true);
 
                 if (json_last_error() === JSON_ERROR_NONE) {
@@ -38,8 +34,6 @@ if (isset($_GET['cnpj'])) {
                     } else {
                         $dados_empresa = [
                             'nome_empresa' => $apiData['nome'] ?? '',
-                            'telefone_empresa' => $apiData['telefone'] ?? '',
-                            'email_empresa' => $apiData['email'] ?? '' // Pode não estar disponível na API
                         ];
                         echo json_encode($dados_empresa);
                     }

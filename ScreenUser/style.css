@@ -54,12 +54,12 @@ header .perfil i {
     padding: 60px;
     gap: 50px;
 }
-.select-area {
+.select-servico {
     display: flex;
     flex-direction: column;
 }
 
-.select-area select {
+.select-servico select {
     height: auto;
     padding: 10px;
     border: 1px solid #ccc;
@@ -172,7 +172,7 @@ header .perfil i {
     border: none;
     height: 20px;
     width: 120px;
-    background-color: var(--meiobranco);
+    background-color: var(--branconeve);
 }
 .input-text::placeholder {
     opacity: 0.4;
@@ -429,7 +429,7 @@ header .perfil i {
 
 .primeiro-txt p :hover,
 .segundo-txt p :hover {
-    color: #00d100;
+    color: hwb(120 0% 18%);
     transition: 0.5s;
 }
 
@@ -513,7 +513,7 @@ header .perfil i {
         gap: 30px;
         flex-direction: column;
         grid-template-columns: auto auto;
-        grid-template-areas:
+        grid-template-ser:
             "section"
             "article";
         height: 100%;

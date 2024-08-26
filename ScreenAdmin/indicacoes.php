@@ -13,8 +13,8 @@ include '../ScreenCadastro/config.php';
 
 $status_filter = $_GET['status'] ?? 'Em Andamento';
 $filter_type = $_GET['filter_type'] ?? '';
-
 $valid_statuses = ['Em Andamento', 'Aceita', 'Negada'];
+
 if (!in_array($status_filter, $valid_statuses)) {
     $status_filter = 'Em Andamento';
 }
@@ -25,25 +25,25 @@ $sql = "
         i.nome_empresa,
         i.cnpj,
         i.cpf,
-        i.telefone_empresa,
-        i.celular_empresa,
-        i.email_empresa,
         i.data_indicacao,
+        i.ultima_atualizacao,
         i.status,
         c.nome_contato,
         c.cargo_contato,
         c.celular_contato,
         c.email_contato,
         u.nome AS usuario_nome,
-        a.nome AS area_nome
+        GROUP_CONCAT(s.nome SEPARATOR ', ') AS servico_nome
     FROM 
         indicacoes i
         LEFT JOIN contatos c ON i.id = c.indicacao_id
         LEFT JOIN usuarios u ON i.usuario_id = u.id
-        LEFT JOIN indicacoes_areas ia ON i.id = ia.indicacao_id
-        LEFT JOIN areas a ON ia.area_id = a.id
+        LEFT JOIN indicacoes_servicos is_servicos ON i.id = is_servicos.indicacao_id
+        LEFT JOIN servicos s ON is_servicos.servicos_id = s.id
     WHERE 
         i.status = ?
+    GROUP BY
+        i.id, i.nome_empresa, i.cnpj, i.cpf, i.data_indicacao, i.ultima_atualizacao, i.status, c.nome_contato, c.cargo_contato, c.celular_contato, c.email_contato, u.nome
 ";
 
 $stmt = $conexao->prepare($sql);
@@ -51,7 +51,6 @@ $stmt->bind_param('s', $status_filter);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -64,330 +63,295 @@ $result = $stmt->get_result();
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
     <title>Indicações</title>
-    <style>
-        body {
-            font-family: 'Red Hat Display', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        
-        header {
-            background-color: #333;
-            padding: 10px 0;
-            text-align: center;
-        }
+    <style> 
+            body {
+                font-family: 'Red Hat Display', Arial, sans-serif;
+                background: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
+                color: whitesmoke;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
 
-        header .logo {
-            max-width: 150px;
-            height: auto;
-        }
+            header {
+                padding: 20px;
+            }
 
-        .corpo_principal {
-            display: flex;
-            flex-direction: column;
-            margin: 20px;
-        }
+            .logo {
+                max-width: 200px;
+                height: auto;
+            }
 
-        .container {
-            display: flex;
-            flex-direction: row;
-        }
+            .container {
+                margin: 20px auto;
+                max-width: 1200px;
+                padding: 0 20px;
+            }
 
-        section {
-            width: 200px;
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-right: 20px;
-        }
+            h1 {
+                margin-bottom: 20px;
+                font-size: 2.5em;
+                color: #fff;
+            }
 
-        section a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s, color 0.3s;
-        }
+            hr {
+                border: 0;
+                height: 1px;
+                background: linear-gradient(to right, rgb(255, 255, 255), rgb(0, 0, 0));
+                margin: 20px auto;
+                width: 80%;
+            }
 
-        section a:hover {
-            background-color: #f0f0f0;
-        }
+            .search-container {
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
-        section a i {
-            font-size: 20px;
-            margin-right: 10px;
-        }
+            .search-container label {
+                margin-right: 10px;
+            }
 
-        .linha-vertical {
-            border-left: 2px solid #ddd;
-            height: auto;
-            margin: 0 20px;
-        }
+            .search-container select, .search-container button {
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+                font-size: 16px;
+            }
 
-        .indicacoes-container {
-            flex: 1;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-        }
+            .search-container select {
+                margin-right: -1px;
+                flex: 1;
+                max-width: 200px;
+            }
 
-        .indicacoes-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+            .search-container button {
+                background-color: rgba(0, 0, 0, 0.3);
+                color: #fff;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
 
-        .indicacoes-table th, .indicacoes-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
+            .search-container button:hover {
+                background-color: rgb(75, 198, 133);
+            }
 
-        .indicacoes-table th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-        }
+            table {
+                width: 100%;
+                margin: 20px 0;
+                border-collapse: collapse;
+                background-color: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
 
-        .indicacoes-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+            th, td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
 
-        .indicacoes-table tr:hover {
-            background-color: #f1f1f1;
-        }
+            th {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+            }
 
-        .btn-acao {
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            margin: 2px;
-            display: inline-block;
-            text-align: center;
-        }
+            tr:nth-child(even) {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
 
-        .btn-aceitar {
-            background-color: #28a745;
-        }
+            tr:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
 
-        .btn-negado {
-            background-color: #dc3545;
-        }
+            .actions-column a, .btn-acao {
+                text-decoration: none;
+                color: #fff;
+                padding: 10px;
+                background-color: rgba(0, 0, 0, 0.3);
+                border-radius: 5px;
+                transition: background-color 0.3s;
+                display: inline-block;
+                margin: 0 5px;
+                font-size: 14px;
+                text-align: center;
+            }
 
-        .btn-view {
-            text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            color: #007bff;
-            background-color: #e7f0ff;
-            border: 1px solid #007bff;
-            font-weight: bold;
-        }
+            .btn-acao.btn-aceitar {
+                background-color: #28a745;
+            }
 
-        .btn-view:hover {
-            background-color: #d0e3ff;
-            color: #0056b3;
-        }
+            .btn-acao.btn-negado {
+                background-color: #dc3545;
+            }
 
-        .success-message, .error-message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
+            .btn-acao:hover {
+                background-color: rgb(75, 198, 133);
+            }
 
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-        }
+            .btn-view {
+                text-decoration: none;
+                color: #fff;
+                padding: 10px;
+                background-color: rgba(0, 0, 0, 0.3);
+                border-radius: 5px;
+                transition: background-color 0.3s;
+                display: inline-block;
+                margin: 0 5px;
+                font-size: 14px;
+                text-align: center;
+            }
 
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
+            .btn-view:hover {
+                background-color: rgb(75, 198, 133);
+            }
 
-        .no-data-message {
-            padding: 15px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border-radius: 8px;
-            text-align: center;
-        }
+            .no-data-message {
+                text-align: center;
+                color: #aaa;
+                padding: 20px;
+                font-size: 16px;
+            }
 
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 15px 0;
-            text-align: center;
-        }
+            .bottom-buttons {
+                margin-top: 20px;
+                text-align: center;
+            }
 
-        footer .primeiro-rodape, footer .segundo-rodape {
-            margin: 0;
-            padding: 10px;
-        }
+            .bottom-buttons a {
+                padding: 10px 20px;
+                background-color: rgba(0, 0, 0, 0.3);
+                color: #fff;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+                font-size: 16px;
+                text-decoration: none;
+                display: inline-block;
+            }
 
-        footer .voltar-ao-topo {
-            margin-bottom: 10px;
-        }
+            .bottom-buttons a:hover {
+                background-color: rgb(75, 198, 133);
+            }
 
-        footer .icons a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-            font-size: 20px;
-        }
-    </style>
+            footer {
+                padding: 20px;
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+            </style>
 </head>
 <body>
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
     </header>
-    <div class="corpo_principal">
+    <div class="container">
         <article>
             <h1>Indicações</h1>
             <hr>
         </article>
-        <div class="container">
-            <?php if ($message): ?>
-                <div class="<?php echo $message['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
-                    <?php echo htmlspecialchars($message['text']); ?>
-                </div>
-            <?php endif; ?>
+        <?php if ($message): ?>
+            <div class="<?php echo $message['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
+                <?php echo htmlspecialchars($message['text']); ?>
+            </div>
+        <?php endif; ?>
 
-            <div class="linha-vertical"></div>
-            <article class="indicacoes-container">
-                <form method="get" action="indicacoes.php">
-                    <label for="status">Filtrar por Status:</label>
-                    <select name="status" id="status">
-                        <option value="Em Andamento" <?php echo $status_filter === 'Em Andamento' ? 'selected' : ''; ?>>Em Andamento</option>
-                        <option value="Aceita" <?php echo $status_filter === 'Aceita' ? 'selected' : ''; ?>>Aceita</option>
-                        <option value="Negada" <?php echo $status_filter === 'Negada' ? 'selected' : ''; ?>>Negada</option>
-                    </select>
-                    <button type="submit">Filtrar</button>
-                </form>
+        <div class="search-container">
+            <form method="get" action="indicacoes.php">
+                <label for="status">Filtrar por Status:</label>
+                <select name="status" id="status">
+                    <option value="Em Andamento" <?php echo $status_filter === 'Em Andamento' ? 'selected' : ''; ?>>Em Andamento</option>
+                    <option value="Aceita" <?php echo $status_filter === 'Aceita' ? 'selected' : ''; ?>>Aceita</option>
+                    <option value="Negada" <?php echo $status_filter === 'Negada' ? 'selected' : ''; ?>>Negada</option>
+                </select>
+                <button type="submit">Filtrar</button>
+            </form>
+        </div>
 
-                <table class="indicacoes-table">
-                    <thead>
+        <table class="indicacoes-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome da Empresa</th>
+                    <th>CNPJ</th>
+                    <th>Nome do Contato</th>
+                    <th>Celular do Contato</th>
+                    <th>Email do Contato</th>
+                    <th>Serviço(s)</th>
+                    <th>Indicador</th>
+                    <th>Data da Indicação</th>
+                    <th>Última Atualização</th>
+                    <?php if ($status_filter === 'Em Andamento'): ?>
+                        <th>Ações</th>
+                    <?php elseif ($status_filter === 'Aceita' || $status_filter === 'Negada'): ?>
+                        <th>Editar</th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <th>ID</th>
-                            <th>Nome da Empresa</th>
-                            <th>CNPJ</th>
-                            <th>Telefone da Empresa</th>
-                            <th>Celular da Empresa</th>
-                            <th>Email da Empresa</th>
-                            <th>Nome do Contato</th>
-                            <th>CPF do Contato</th>
-                            <th>Cargo do Contato</th>
-                            <th>Celular do Contato</th>
-                            <th>Email do Contato</th>
-                            <th>Área</th>
-                            <th>Indicador</th>
-                            <th>Status</th>
-                            <th>Data da Indicação</th>
+                            <td><?php echo htmlspecialchars($row['id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nome_empresa']); ?></td>
+                            <td><?php echo htmlspecialchars($row['cnpj']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nome_contato']); ?></td>
+                            <td><?php echo htmlspecialchars($row['celular_contato']); ?></td>
+                            <td><?php echo htmlspecialchars($row['email_contato']); ?></td>
+                            <td><?php echo htmlspecialchars($row['servico_nome']); ?></td>
+                            <td><?php echo htmlspecialchars($row['usuario_nome']); ?></td>
+                            <td><?php echo htmlspecialchars($row['data_indicacao']); ?></td>
+                            <td><?php echo htmlspecialchars($row['ultima_atualizacao']); ?></td>
                             <?php if ($status_filter === 'Em Andamento'): ?>
-                                <th>Ações</th>
+                                <td class="actions-column">
+                                    <a href="#" class="btn-acao btn-aceitar" data-action="aceitar" data-id="<?php echo $row['id']; ?>">Aceitar</a>
+                                    <a href="#" class="btn-acao btn-negado" data-action="negar" data-id="<?php echo $row['id']; ?>">Negar</a>
+                                </td>
+                            <?php elseif ($status_filter === 'Aceita' || $status_filter === 'Negada'): ?>
+                                <td>
+                                    <a href="editar_indicacao.php?id=<?php echo $row['id']; ?>" class="btn-view">Editar</a>
+                                </td>
                             <?php endif; ?>
-
-
+                            <?php if ($filter_type === 'empresa'): ?>
+                                <td><a href="detalhes_empresa.php?id=<?php echo $row['id']; ?>" class="btn-view">Ver Detalhes</a></td>
+                            <?php elseif ($filter_type === 'contato'): ?>
+                                <td><a href="detalhes_contato.php?id=<?php echo $row['id']; ?>" class="btn-view">Ver Detalhes</a></td>
+                            <?php endif; ?>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($result->num_rows > 0): ?>
-                            <?php while ($row = $result->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($row['id']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['nome_empresa']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['cnpj']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['telefone_empresa']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['celular_empresa']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['email_empresa']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['nome_contato']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['cpf']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['cargo_contato']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['celular_contato']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['email_contato']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['area_nome']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['usuario_nome']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['status']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['data_indicacao']); ?></td>
-                                    <?php if ($status_filter === 'Em Andamento'): ?>
-                                        <td>
-                                            <a href="acoes.php?action=aceitar&id=<?php echo $row['id']; ?>" class="btn-acao btn-aceitar">Aceitar</a>
-                                            <a href="acoes.php?action=negar&id=<?php echo $row['id']; ?>" class="btn-acao btn-negado">Negar</a>
-                                        </td>
-                                    <?php endif; ?>
-                                    <?php if ($filter_type === 'empresa'): ?>
-                                        <td><a href="detalhes_empresa.php?id=<?php echo $row['id']; ?>" class="btn-view">Ver Detalhes</a></td>
-                                    <?php elseif ($filter_type === 'contato'): ?>
-                                        <td><a href="detalhes_contato.php?id=<?php echo $row['id']; ?>" class="btn-view">Ver Detalhes</a></td>
-                                    <?php endif; ?>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="<?php echo $filter_type ? '16' : '15'; ?>" class="no-data-message">Não há nenhuma indicação <?php echo $status_filter === 'Em Andamento' ? 'em andamento' : 'para o status selecionado'; ?>.</td>
-                            </tr>
-                        <?php endif; ?>
-                        <a href="index.php">Voltar</a>
-                    </tbody>
-                </table>
-            </article>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="<?php echo $filter_type ? '16' : '15'; ?>" class="no-data-message">Não há nenhuma indicação <?php echo $status_filter === 'Em Andamento' ? 'em andamento' : 'para o status selecionado'; ?>.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <div class="bottom-buttons">
+            <a href="index.php">Voltar</a>
         </div>
     </div>
-    <footer class="primeiro-rodape">
-        <div class="voltar-ao-topo">
-            <hr>
-            <i class="fa-solid fa-arrow-up-long" style="color: #00ff00;"></i>
-            <a style="cursor: pointer;" onclick="subiraoTopo();">Voltar ao topo</a>
-            <hr>
-        </div>
-        <article>
-            <div class="container-texto">
-                <div class="primeiro-txt">
-                    <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">QXBack</strong>
-                    </h3>
-                    <p>
-                        <a href="#">Programa</a>
-                        <a href="#">Como indicar?</a>
-                        <a href="#">Portal de indicações</a>
-                    </p>
-                </div>
-                <div class="segundo-txt">
-                    <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">Serviços</strong>
-                    </h3>
-                    <p>
-                        <a href="#">Atendimento Virtual</a>
-                        <a href="#">Feedback</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-    </footer>
-    <footer class="segundo-rodape">
-        <div class="copyright">
-            <nav class="icons">
-                <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
-            </nav>
-            <p>Política de Privacidade</p>
-        </div>
-    </footer>
+
+    <footer class="primeiro-rodape"></footer>
+    <footer class="segundo-rodape"></footer>
+
     <script>
-        function subiraoTopo() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.btn-acao');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const action = this.getAttribute('data-action');
+                    const id = this.getAttribute('data-id');
+                    const confirmation = confirm(`Tem certeza que deseja ${action} esta indicação?`);
+
+                    if (confirmation) {
+                        window.location.href = `acoes.php?action=${action}&id=${id}`;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
-
-<?php
-$stmt->close();
-$conexao->close();
-?>

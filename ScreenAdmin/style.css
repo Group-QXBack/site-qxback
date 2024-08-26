@@ -15,7 +15,7 @@
 
 body {
     width: 100%;
-    background-color: #000000;
+    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
     font-family: "Red Hat Display", sans-serif;
 }
 

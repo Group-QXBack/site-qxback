@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telefone = $_POST['telefone'] ?? '';
     $cep = $_POST['cep'] ?? '';
     $endereco = $_POST['endereco'] ?? '';
-    $numero = $_POST['numero'] ?? ''; // Adiciona o número
+    $numero = $_POST['numero'] ?? ''; 
     $complemento = $_POST['complemento'] ?? '';
     $bairro = $_POST['bairro'] ?? '';
     $cidade = $_POST['cidade'] ?? '';
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuario['telefone'] = $telefone;
         $usuario['cep'] = $cep;
         $usuario['endereco'] = $endereco;
-        $usuario['numero'] = $numero; // Atualiza o número
+        $usuario['numero'] = $numero; 
         $usuario['complemento'] = $complemento;
         $usuario['bairro'] = $bairro;
         $usuario['cidade'] = $cidade;
@@ -54,79 +54,135 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
     <title>Completar Cadastro</title>
-
+    <style>
+        body {
+            font-family: 'Red Hat Display', sans-serif;
+            background-color: #000;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: white;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            color: white;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-text {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .btn-salvar {
+            text-align: center;
+        }
+        .btn-finalizar-cadastro {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .success-message, .error-message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            color: #fff;
+        }
+        .success-message {
+            background-color: #28a745;
+        }
+        .error-message {
+            background-color: #dc3545;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
     </header>
-    <div class="submenu">
-        <ul>
-            <li>
-                <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                <ul>
-                    <li><a href="#">Indicações Iniciadas</a></li>
-                    <li><a href="#">Indicações em Andamento</a></li>
-                    <li><a href="#">Indicações Concluídas</a></li>
-                </ul>
-            </li>
-            <li>
-                <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                <ul id="btn-suporte">
-                    <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="corpo_principal">
+
+    <div class="container">
         <article>
             <h1>Completar Cadastro</h1>
             <hr>
         </article>
-        <div class="container">
-            <form action="completar_cadastro.php" method="post" class="form-completar">
-                <div class="form-group">
-                    <label for="telefone">Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" class="input-text" oninput="formatarTelefone(this)" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" required>
+        <form action="completar_cadastro.php" method="post" class="form-completar">
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" class="input-text" oninput="formatarTelefone(this)" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" name="cep" oninput="formatarCEP(this)" class="input-text" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" name="estado" class="input-text" value="<?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" name="cidade" class="input-text" value="<?php echo htmlspecialchars($usuario['cidade'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="bairro">Bairro:</label>
+                <input type="text" id="bairro" name="bairro" class="input-text" value="<?php echo htmlspecialchars($usuario['bairro'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="numero">Número:</label>
+                <input type="text" id="numero" name="numero" class="input-text" value="<?php echo htmlspecialchars($usuario['numero'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="complemento">Complemento:</label>
+                <input type="text" id="complemento" name="complemento" class="input-text" value="<?php echo htmlspecialchars($usuario['complemento'] ?? ''); ?>">
+            </div>
+            <?php if (isset($_SESSION['message'])): ?>
+                <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
+                    <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
                 </div>
-                <div class="form-group">
-                    <label for="cep">CEP:</label>
-                    <input type="text" id="cep" name="cep" oninput="formatarCEP(this)" class="input-text" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="estado">Estado:</label>
-                    <input type="text" id="estado" name="estado" class="input-text" value="<?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="cidade">Cidade:</label>
-                    <input type="text" id="cidade" name="cidade" class="input-text" value="<?php echo htmlspecialchars($usuario['cidade'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="bairro">Bairro:</label>
-                    <input type="text" id="bairro" name="bairro" class="input-text" value="<?php echo htmlspecialchars($usuario['bairro'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="numero">Número:</label>
-                    <input type="text" id="numero" name="numero" class="input-text" value="<?php echo htmlspecialchars($usuario['numero'] ?? ''); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="complemento">Complemento:</label>
-                    <input type="text" id="complemento" name="complemento" class="input-text" value="<?php echo htmlspecialchars($usuario['complemento'] ?? ''); ?>">
-                </div>
-                <?php if (isset($_SESSION['message'])): ?>
-                    <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
-                        <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
-                    </div>
-                <?php endif; ?>
-                <div class="btn-salvar">
-                    <button type="submit" class="btn-finalizar-cadastro">Finalizar Cadastro</button>
-                </div>
-            </form>
-        </div>
+            <?php endif; ?>
+            <div class="btn-salvar">
+                <button><a href="index.php" class="btn-cadastro">Voltar</a></button>
+            </div>
+            <div class="btn-salvar">
+                <button type="submit" class="btn-cadastro">Finalizar Cadastro</button>
+            </div>
+        </form>
     </div>
     <footer class="primeiro-rodape">
         <div class="voltar-ao-topo">
@@ -180,44 +236,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         .then(response => response.json())
                         .then(data => {
                             if (!data.erro) {
-                                document.getElementById('endereco').value = data.logradouro;
-                                document.getElementById('bairro').value = data.bairro;
-                                document.getElementById('cidade').value = data.localidade;
                                 document.getElementById('estado').value = data.uf;
-                            } else {
-                                alert('CEP não encontrado.');
+                                document.getElementById('cidade').value = data.localidade;
+                                document.getElementById('bairro').value = data.bairro;
+                                document.getElementById('endereco').value = data.logradouro;
                             }
-                        })
-                        .catch(() => alert('Erro ao buscar CEP.'));
+                        });
                 }
             });
         });
-        function formatarTelefone(campo) {
-            campo.value = campo.value.replace(/\D/g, '');
-            
-            campo.value = campo.value.substring(0, 14);
-            
-            if (campo.value.length > 2) {
-                campo.value = campo.value.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+
+        function formatarTelefone(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length > 6) {
+                input.value = value.replace(/(\d{2})(\d{5})(\d{4})/, '$1 $2-$3');
+            } else if (value.length > 2) {
+                input.value = value.replace(/(\d{2})(\d+)/, '$1 $2');
+            } else {
+                input.value = value;
             }
         }
-        function formatarCEP(campo) {
-            campo.value = campo.value.replace(/\D/g, '');
-            
-            campo.value = campo.value.substring(0, 8);
-            
-            if (campo.value.length > 5) {
-                campo.value = campo.value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
+
+        function formatarCEP(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 8) value = value.slice(0, 8);
+            if (value.length > 5) {
+                input.value = value.replace(/(\d{5})(\d{3})/, '$1-$2');
+            } else {
+                input.value = value;
             }
         }
-        function formatarCEP(campo) {
-            campo.value = campo.value.replace(/\D/g, '');
-            
-            campo.value = campo.value.substring(0, 8);
-            
-            if (campo.value.length > 5) {
-                campo.value = campo.value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
-            }
+
+        function subiraoTopo() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>

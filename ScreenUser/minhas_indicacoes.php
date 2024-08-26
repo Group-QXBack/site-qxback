@@ -10,15 +10,16 @@ if (!isset($_SESSION['usuario'])) {
 $usuario_id = $_SESSION['usuario']['id'];
 
 $query = "
-    SELECT i.nome_empresa, i.cnpj, i.telefone_empresa, i.celular_empresa, i.email_empresa, 
+    SELECT i.nome_empresa, i.cnpj,
            i.data_indicacao, i.status, i.valor_pendente, 
-           GROUP_CONCAT(a.nome SEPARATOR ', ') AS areas
+           GROUP_CONCAT(s.nome SEPARATOR ', ') AS servicos
     FROM indicacoes i
-    JOIN indicacoes_areas ia ON i.id = ia.indicacao_id
-    JOIN areas a ON ia.area_id = a.id
+    JOIN indicacoes_servicos i_servicos ON i.id = i_servicos.indicacao_id
+    JOIN servicos s ON i_servicos.servicos_id = s.id
     WHERE i.usuario_id = ?
     GROUP BY i.id
 ";
+
 $stmt = $conexao->prepare($query);
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
@@ -28,6 +29,7 @@ $indicacoes = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 $conexao->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -115,10 +117,7 @@ $conexao->close();
                 <tr>
                     <th>Nome da Empresa</th>
                     <th>CNPJ</th>
-                    <th>Telefone</th>
-                    <th>Celular</th>
-                    <th>E-mail</th>
-                    <th>Área Indicada</th>
+                    <th>Serviços Indicados</th>
                     <th>Status</th>
                     <th>Valor Pendente</th>
                     <th>Data da Indicação</th>
@@ -143,10 +142,7 @@ $conexao->close();
                         echo "<tr>
                             <td>{$row['nome_empresa']}</td>
                             <td>{$row['cnpj']}</td>
-                            <td>{$row['telefone_empresa']}</td>
-                            <td>{$row['celular_empresa']}</td>
-                            <td>{$row['email_empresa']}</td>
-                            <td>{$row['areas']}</td>
+                            <td>{$row['servicos']}</td>
                             <td class='$statusClass'>{$row['status']}</td>
                             <td class='valor-pendente'>R$ {$row['valor_pendente']}</td>
                             <td>{$row['data_indicacao']}</td>

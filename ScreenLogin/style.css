@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+ 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+ 
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: #001100;
     height: 100vh;
 }
-
+ 
 .login{
     width: 100vw;
     height: 100vh;
@@ -19,7 +19,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-
+ 
 .left-login{
     width: 50vw;
     height: 100vh;
@@ -28,11 +28,11 @@ body {
     align-items: center;
     flex-direction: column;
 }
-
+ 
 .left-login img{
     width: 40vw;
 }
-
+ 
 .right-login{
     width: 50vw;
     height: 100vh;
@@ -40,7 +40,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-
+ 
 .card-login{
     width: 60%;
     display: flex;
@@ -52,13 +52,13 @@ body {
     box-shadow: 0px 10px 40px #3ad302f8;
     border-radius: 20px;
 }
-
+ 
 .card-login h1{
     color:#000000;
     font-size: 800;
     margin: 0;
 }
-
+ 
 .textfield{
     width: 100%;
     display: flex;
@@ -68,7 +68,7 @@ body {
     margin: 10px 0px;
     font-weight: 800;
 }
-
+ 
 .textfield input{
     width: 100%;
     border: none;
@@ -81,20 +81,21 @@ body {
     outline: none;
     box-sizing: border-box;
 }
-
+ 
 .textfield label{
     color: #000000;
     margin-bottom: 10px;
 }
-
+ 
 .textfield input::placeholder{
     color: #ffffff;
 }
-
+ 
 .btn-login {
     width: 100%;
     padding: 16px 0;
-    margin: 25px;
+    margin-top: 10px;
+    margin-bottom: 25px;
     border: none;
     border-radius: 8px;
     outline: none;
@@ -104,17 +105,17 @@ body {
     color: #000;
     cursor: pointer;
     box-shadow: 0px 10px 40px -12px #318313;
-    text-align: center; /* Centraliza o texto */
-    text-decoration: none; /* Remove a linha de baixo */
+    text-align: center;
+    text-decoration: none;
 }
-
-
+ 
+ 
 @media only screen and (max-width: 950px){
     .card-login{
         width: 85%;
     }
 }
-
+ 
 @media only screen and (max-width: 600px){
     .login{
         flex-direction: column;
@@ -123,17 +124,18 @@ body {
         width: 100%;
         height: auto;
     }
-
+ 
     .right-login{
         width: 100%;
         height: auto;
     }
-
+ 
     .left-login img{
         width: 70vw;
     }
-
+ 
     .card-login{
         width: 90%;
     }
 }
+ 
