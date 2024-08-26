@@ -5,39 +5,76 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 $usuario = $_SESSION['usuario'];
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once '../ScreenCadastro/config.php';
 
+    // Dados pessoais
     $telefone = $_POST['telefone'] ?? '';
     $cep = $_POST['cep'] ?? '';
     $endereco = $_POST['endereco'] ?? '';
-    $numero = $_POST['numero'] ?? ''; 
+    $numero = $_POST['numero'] ?? '';
     $complemento = $_POST['complemento'] ?? '';
     $bairro = $_POST['bairro'] ?? '';
     $cidade = $_POST['cidade'] ?? '';
     $estado = $_POST['estado'] ?? '';
 
-    $stmt = $conexao->prepare("UPDATE usuarios SET telefone=?, cep=?, endereco=?, numero=?, complemento=?, bairro=?, cidade=?, estado=? WHERE cpf=?");
-    $stmt->bind_param('sssssssss', $telefone, $cep, $endereco, $numero, $complemento, $bairro, $cidade, $estado, $usuario['cpf']);
+    // Dados bancários
+    $nome_titular = $_POST['nome'] ?? '';
+    $cpf_titular = $_POST['sobrenome'] ?? '';
+    $banco = $_POST['email'] ?? '';
+    $conta = $_POST['dtnasc'] ?? '';
+    $agencia = $_POST['agencia'] ?? '';
+    $tipo_conta = isset($_POST['credito']) ? 'crédito' : (isset($_POST['debito']) ? 'débito' : '');
 
-    if ($stmt->execute()) {
-        $usuario['telefone'] = $telefone;
-        $usuario['cep'] = $cep;
-        $usuario['endereco'] = $endereco;
-        $usuario['numero'] = $numero; 
-        $usuario['complemento'] = $complemento;
-        $usuario['bairro'] = $bairro;
-        $usuario['cidade'] = $cidade;
-        $usuario['estado'] = $estado;
-
-        $_SESSION['message'] = ['type' => 'success', 'text' => 'Dados atualizados com sucesso!'];
-    } else {
-        $_SESSION['message'] = ['type' => 'error', 'text' => 'Ocorreu um erro ao atualizar seus dados. Tente novamente.'];
+    // Validação
+    if (empty($telefone) || empty($cep) || empty($endereco) || empty($estado) || empty($cidade) || empty($bairro) || empty($nome_titular) || empty($cpf_titular) || empty($banco) || empty($conta) || empty($agencia) || empty($tipo_conta)) {
+        $errors[] = 'Todos os campos são obrigatórios.';
     }
 
-    header("Location: ../ScreenUser/index.php");
-    exit();
+    if (!preg_match('/^\d{3}\.\d{3}\.\d{3}-\d{2}$/', $cpf_titular)) {
+        $errors[] = 'CPF inválido.';
+    }
+
+    if (empty($errors)) {
+        // Atualizar dados pessoais
+        $stmt = $conexao->prepare("UPDATE usuarios SET telefone=?, cep=?, endereco=?, numero=?, complemento=?, bairro=?, cidade=?, estado=? WHERE cpf=?");
+        $stmt->bind_param('sssssssss', $telefone, $cep, $endereco, $numero, $complemento, $bairro, $cidade, $estado, $usuario['cpf']);
+
+        if ($stmt->execute()) {
+            $usuario['telefone'] = $telefone;
+            $usuario['cep'] = $cep;
+            $usuario['endereco'] = $endereco;
+            $usuario['numero'] = $numero;
+            $usuario['complemento'] = $complemento;
+            $usuario['bairro'] = $bairro;
+            $usuario['cidade'] = $cidade;
+            $usuario['estado'] = $estado;
+
+            // Atualizar dados bancários
+            $stmt = $conexao->prepare("
+                INSERT INTO contas_bancarias (usuario_id, nome_titular, cpf_titular, banco, conta, agencia, tipo_conta)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                    nome_titular = VALUES(nome_titular),
+                    cpf_titular = VALUES(cpf_titular),
+                    banco = VALUES(banco),
+                    conta = VALUES(conta),
+                    agencia = VALUES(agencia),
+                    tipo_conta = VALUES(tipo_conta)
+            ");
+            $stmt->bind_param('issssss', $usuario['id'], $nome_titular, $cpf_titular, $banco, $conta, $agencia, $tipo_conta);
+
+            if ($stmt->execute()) {
+                $success_message = 'Dados atualizados com sucesso!';
+            } else {
+                $errors[] = 'Ocorreu um erro ao atualizar seus dados bancários. Tente novamente.';
+            }
+        } else {
+            $errors[] = 'Ocorreu um erro ao atualizar seus dados pessoais. Tente novamente.';
+        }
+    }
 }
 ?>
 
@@ -46,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style1.css">
+    <link rel="stylesheet" href="./estiloEditar.css">
     <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
@@ -54,144 +91,121 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
     <title>Completar Cadastro</title>
-    <style>
-        body {
-            font-family: 'Red Hat Display', sans-serif;
-            background-color: #000;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        header {
-            margin-bottom: 20px;
-        }
-        .container {
-            background-color: #333;
-            padding: 20px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-        h1 {
-            color: white;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            color: white;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .input-text {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-        .btn-salvar {
-            text-align: center;
-        }
-        .btn-finalizar-cadastro {
-            display: inline-block;
-            padding: 10px 20px;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-        .success-message, .error-message {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 4px;
-            color: #fff;
-        }
-        .success-message {
-            background-color: #28a745;
-        }
-        .error-message {
-            background-color: #dc3545;
-        }
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
-    </header>
+    </head>
 
-    <div class="container">
-        <article>
-            <h1>Completar Cadastro</h1>
-            <hr>
-        </article>
-        <form action="completar_cadastro.php" method="post" class="form-completar">
-            <div class="form-group">
-                <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" name="telefone" class="input-text" oninput="formatarTelefone(this)" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="cep">CEP:</label>
-                <input type="text" id="cep" name="cep" oninput="formatarCEP(this)" class="input-text" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado" class="input-text" value="<?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="cidade">Cidade:</label>
-                <input type="text" id="cidade" name="cidade" class="input-text" value="<?php echo htmlspecialchars($usuario['cidade'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="bairro">Bairro:</label>
-                <input type="text" id="bairro" name="bairro" class="input-text" value="<?php echo htmlspecialchars($usuario['bairro'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="numero">Número:</label>
-                <input type="text" id="numero" name="numero" class="input-text" value="<?php echo htmlspecialchars($usuario['numero'] ?? ''); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="complemento">Complemento:</label>
-                <input type="text" id="complemento" name="complemento" class="input-text" value="<?php echo htmlspecialchars($usuario['complemento'] ?? ''); ?>">
-            </div>
-            <?php if (isset($_SESSION['message'])): ?>
-                <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
-                    <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
-                </div>
-            <?php endif; ?>
-            <div class="btn-salvar">
-                <button><a href="index.php" class="btn-cadastro">Voltar</a></button>
-            </div>
-            <div class="btn-salvar">
-                <button type="submit" class="btn-cadastro">Finalizar Cadastro</button>
-            </div>
-        </form>
-    </div>
-    <footer class="primeiro-rodape">
-        <div class="voltar-ao-topo">
-            <hr>
-            <i class="fa-solid fa-arrow-up-long" style="color: #00ff00;"></i>
-            <a style="cursor: pointer;" onclick="subiraoTopo();">Voltar ao topo</a>
-            <hr>
+    <body>
+        <div class="header" id="header">
+        <button onclick="toggleSidebar()" class="btn_icon_header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+        </button>
+        <div class="logo_header">
+            <img src="../imagens/logobranca1.png" alt="Logo" class="img_logo_header">
         </div>
-        <article>
+        <div class="navigation_header" id="navigation_header">
+            <button onclick="toggleSidebar()" class="btn_icon_header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </button>
+            <a href="./index.php" id="btn-minhaConta" style="border-radius: 14px;">
+            <p>Minha Conta</p>
+            </a>
+            <a href="./minhas_indicacoes.php">
+            <p>Minhas Indicações</p>
+            </a>
+            <a href="./indicar.php">
+            <p>Indicar</p>
+            </a>
+        </div>
+    </div>
+    <div class="content">
+        <form method="POST" action="">
+            <fieldset>
+                <legend>Dados Pessoais</legend>
+                <div class="row">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" id="telefone" name="telefone" class="input-text" oninput="formatarTelefone(this)" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" required>
+                </div>
+                <div class="row">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="cep" oninput="formatarCEP(this)" class="input-text" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>" required>
+                </div>
+                <div class="row">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" required>
+                </div>
+                <div class="row">
+                    <label for="estado">Estado</label>
+                    <input type="text" id="estado" name="estado" class="input-text" value="<?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>" required>
+                    </div>
+                <div class="row">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" class="input-text" value="<?php echo htmlspecialchars($usuario['cidade'] ?? ''); ?>" required>
+                </div>
+                <div class="row">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" id="bairro" name="bairro" class="input-text" value="<?php echo htmlspecialchars($usuario['bairro'] ?? ''); ?>" required>
+                </div>
+                <div class="row">
+                    <label for="dtnasc">Complemento</label>
+                    <input type="text" id="dtnasc" name="dtnasc">
+                </div>
+                <div class="row"></div>
+                </fieldset>
+                <fieldset>
+        <legend>Dados Bancários</legend>
+        <div class="row">
+            <input type="checkbox" id="credito" name="credito" <?php echo isset($conta_bancaria['tipo_conta']) && $conta_bancaria['tipo_conta'] == 'crédito' ? 'checked' : ''; ?>>
+            <label for="credito">Crédito</label>
+            <input type="checkbox" id="debito" name="debito" <?php echo isset($conta_bancaria['tipo_conta']) && $conta_bancaria['tipo_conta'] == 'débito' ? 'checked' : ''; ?>>
+            <label for="debito">Débito</label>
+        </div>
+        <div class="row">
+            <label for="nome">Nome do Titular</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome do titular" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['nome_titular'] ?? ''); ?>" required>
+        </div>
+        <div class="row">
+            <label for="sobrenome">CPF</label>
+            <input type="text" id="sobrenome" name="sobrenome" minlength="14" maxlength="14" oninput="formatarCPF(this)" placeholder="CPF" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['cpf_titular'] ?? ''); ?>" required>
+        </div>
+        <div class="row">
+            <label for="email">Banco</label>
+            <input type="text" id="email" name="email" placeholder="Banco" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['banco'] ?? ''); ?>" required>
+        </div>
+        <div class="row">
+            <label for="conta">Conta</label>
+            <input type="number" id="conta" name="dtnasc" value="<?php echo htmlspecialchars($conta_bancaria['conta'] ?? ''); ?>" required>
+        </div>
+        <div class="row">
+            <label for="agencia">Agência</label>
+            <input type="number" id="agencia" name="agencia" value="<?php echo htmlspecialchars($conta_bancaria['agencia'] ?? ''); ?>" required>
+        </div>
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
+                <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
+            </div>
+        <?php endif; ?>
+        </fieldset>
+
+<?php if (!empty($errors)): ?>
+    <div class="error-messages">
+        <?php foreach ($errors as $error): ?>
+            <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+        <?php endforeach; ?>
+    </div>
+<?php elseif (isset($success_message)): ?>
+    <div class="success-message"><?php echo htmlspecialchars($success_message); ?></div>
+<?php endif; ?>
+
+<div class="buttons">
+    <input type="submit" value="Salvar">
+</div>
+</form>
+</div>
+
+<footer class="primeiro-rodape">
             <div class="container-texto">
                 <div class="primeiro-txt">
                     <h3>
@@ -213,7 +227,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </p>
                 </div>
             </div>
-        </article>
     </footer>
     <footer class="segundo-rodape">
         <div class="copyright">
@@ -227,6 +240,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </footer>
     <script src="js/main.js"></script>
     <script>
+            var header           = document.getElementById('header');
+    var navigationHeader = document.getElementById('navigation_header');
+    var content          = document.getElementById('content');
+    var showSidebar      = false;
+
+    function toggleSidebar()
+    {
+        showSidebar = !showSidebar;
+        if(showSidebar)
+        {
+            navigationHeader.style.marginLeft = '-10vw';
+            navigationHeader.style.animationName = 'showSidebar';
+            content.style.filter = 'blur(2px)';
+        }
+        else
+        {
+            navigationHeader.style.marginLeft = '-100vw';
+            navigationHeader.style.animationName = '';
+            content.style.filter = '';
+        }
+    }
+
+    function closeSidebar()
+    {
+        if(showSidebar)
+        {
+            showSidebar = true;
+            toggleSidebar();
+        }
+    }
+
+    window.addEventListener('resize', function(event) {
+        if(window.innerWidth > 768 && showSidebar) 
+        {  
+            showSidebar = true;
+            toggleSidebar();
+        }
+    });
+
         document.addEventListener('DOMContentLoaded', function() {
             const cepInput = document.getElementById('cep');
             cepInput.addEventListener('blur', function() {
@@ -236,40 +288,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         .then(response => response.json())
                         .then(data => {
                             if (!data.erro) {
-                                document.getElementById('estado').value = data.uf;
-                                document.getElementById('cidade').value = data.localidade;
-                                document.getElementById('bairro').value = data.bairro;
                                 document.getElementById('endereco').value = data.logradouro;
+                                document.getElementById('bairro').value = data.bairro;
+                                document.getElementById('cidade').value = data.localidade;
+                                document.getElementById('estado').value = data.uf;
+                            } else {
+                                alert('CEP não encontrado.');
                             }
-                        });
+                        })
+                        .catch(() => alert('Erro ao buscar CEP.'));
                 }
             });
         });
-
-        function formatarTelefone(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            if (value.length > 6) {
-                input.value = value.replace(/(\d{2})(\d{5})(\d{4})/, '$1 $2-$3');
-            } else if (value.length > 2) {
-                input.value = value.replace(/(\d{2})(\d+)/, '$1 $2');
-            } else {
-                input.value = value;
+        function formatarTelefone(campo) {
+            campo.value = campo.value.replace(/\D/g, '');
+            
+            campo.value = campo.value.substring(0, 14);
+            
+            if (campo.value.length > 2) {
+                campo.value = campo.value.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
             }
         }
-
-        function formatarCEP(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length > 8) value = value.slice(0, 8);
-            if (value.length > 5) {
-                input.value = value.replace(/(\d{5})(\d{3})/, '$1-$2');
-            } else {
-                input.value = value;
+        function formatarCEP(campo) {
+            campo.value = campo.value.replace(/\D/g, '');
+            
+            campo.value = campo.value.substring(0, 8);
+            
+            if (campo.value.length > 5) {
+                campo.value = campo.value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
             }
         }
-
-        function subiraoTopo() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function formatarCPF(campo) {
+            campo.value = campo.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
         }
     </script>
 </body>

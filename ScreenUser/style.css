@@ -13,16 +13,17 @@
 
 }
 
+
 body {
     width: 100%;
-    background-color: #000000;
+    background-color: var(--preto);
     font-family: "Red Hat Display", sans-serif;
 }
 
 header {
     width: 100%;
     height: 80px;
-    background-color: #000000;
+    background-color: var(--preto);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,31 +36,18 @@ header>.logo {
     margin-top: 10px;
 }
 
-header .perfil {
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding-right: 100px;
-
-}
-
-header .perfil i {
-    font-size: 30px;
-}
-
 .corpo_principal {
     display: flex;
     flex-direction: column;
     padding: 60px;
     gap: 50px;
 }
-.select-servico {
+.select-area {
     display: flex;
     flex-direction: column;
 }
 
-.select-servico select {
+.select-area select {
     height: auto;
     padding: 10px;
     border: 1px solid #ccc;
@@ -91,19 +79,13 @@ header .perfil i {
     height: 500px;
     place-items: center;
     grid-template-columns: 18% 12% 65%;
-    grid-template-areas:
-        "section linha-vertical article"
-    ;
+    grid-template-areas:"section linha-vertical article";
 }
 
 .container section {
     width: 200px;
     display: grid;
     grid-area: section;
-}
-.image {
-    text-align: center; 
-    margin: 20px auto; 
 }
 
 .foto-perfil {
@@ -143,9 +125,10 @@ header .perfil i {
     transition: all 0.2s ease;
 }
 #btn-minhaConta:hover {
-    color: black;
+    color: #fff;
 }
 .linha-vertical{
+    color:#fff;
     grid-area: linha-vertical;
     height: 400px;
     border-left: 1px solid;
@@ -172,7 +155,7 @@ header .perfil i {
     border: none;
     height: 20px;
     width: 120px;
-    background-color: var(--branconeve);
+    background-color: var(--meiobranco);
 }
 .input-text::placeholder {
     opacity: 0.4;
@@ -184,6 +167,26 @@ header .perfil i {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
+}
+
+.dados input {
+    width: 100px; /* Ajuste a largura */
+    padding: 5px; /* Adiciona um pouco de preenchimento interno */
+    border: 1px solid #ffffff; /* Define a cor da borda */
+    border-radius: 4px; /* Bordas arredondadas */
+    background-color: #f9f9f9; /* Cor de fundo */
+    font-size: 14px; /* Tamanho da fonte */
+    color: #333; /* Cor do texto */
+}
+
+.dados input:focus {
+    border-color: #76ff4c; /* Cor da borda ao focar no input */
+    outline: none; /* Remove o outline padrão */
+}
+
+.dados input[readonly] {
+    background-color: #ffffff; /* Cor de fundo para inputs somente leitura */
+    color: #4e4e4e; /* Cor do texto para inputs somente leitura */
 }
 
 .dados-perfil>.dados {
@@ -221,27 +224,27 @@ header .perfil i {
 }
 
 .dados-perfil>.image>a:hover {
-    background-color: var(--verde);
-    color: white;
+    background-color: #95eb95;
     transition: all 0.6s ease;
 }
 
 .container>article>.btn-salvar {
     display: grid;
     place-items: center;
-    height: 80px;
 }
 
 .container>article>.btn-salvar>a {
-    display: grid;
-    place-items: center;
+    display: flex;
+    justify-content: center;
+    width: 150px;
+    height: 30px;
     text-decoration: none;
-    border-radius: 8px;
-    background-color: #a1d7a1;
+    text-align: center;
+    background-color: white;
+    border-radius: 9px;
+    border: 2px solid #304D30;
     font-weight: bold;
-    font-size: 15px;
-    width: 200px;
-    height: 40px;
+    color: #304D30;
 }
 
 .container>article>.btn-salvar>a:hover {
@@ -310,7 +313,7 @@ header .perfil i {
     width: 100%;
     align-items: center;
     justify-content: center;
-    background-color: #000000;
+    background-color: var(--preto);
     font-weight: bold;
     height: 35px;
 }
@@ -327,10 +330,13 @@ header .perfil i {
     cursor: pointer;
 
 }
-
-.submenu ul li a,
 .submenu ul li p {
-    color: #ffffff;
+    color:#fff
+}
+
+
+.submenu ul li a{
+    color: #000000;
     transition: background .3s, color .3s;
     text-decoration: none;
     padding: 5px 10px;
@@ -350,7 +356,7 @@ header .perfil i {
     width: 220px;
     padding: 5px 10px;
     border-radius: 10px;
-    background-color: #000000;
+    background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
@@ -369,7 +375,7 @@ header .perfil i {
 
 /* rodape */
 .primeiro-rodape {
-    background-color: rgb(0, 0, 0);
+    background-color: var(--preto);
     width: 100%;
     height: 100%;
 }
@@ -429,7 +435,7 @@ header .perfil i {
 
 .primeiro-txt p :hover,
 .segundo-txt p :hover {
-    color: hwb(120 0% 18%);
+    color: #00d100;
     transition: 0.5s;
 }
 
@@ -448,16 +454,16 @@ header .perfil i {
 }
 
 .icons a i {
-    color: var(--verde);
+    color: #fff;
 }
 
 .icons a i:hover {
     transition: 0.5s;
-    color: var(--verdeclaro);
+    color: #ffffff57;
 }
 
 .segundo-rodape {
-    background-color: #000000;
+    background-color: var(--preto);
     text-align: center;
     display: flex;
     justify-content: center;
@@ -513,7 +519,7 @@ header .perfil i {
         gap: 30px;
         flex-direction: column;
         grid-template-columns: auto auto;
-        grid-template-ser:
+        grid-template-areas:
             "section"
             "article";
         height: 100%;
