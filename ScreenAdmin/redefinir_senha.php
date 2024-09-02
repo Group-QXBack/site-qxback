@@ -7,7 +7,10 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 $usuario = $_SESSION['usuario'];
-
+if ($usuario['tipo_conta'] !== 'admin') {
+    header("Location: ../ScreenAdmin/redefinir_senha.php");
+    exit();
+}
 include('../ScreenCadastro/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -39,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $msg = "Senha atual incorreta.";
     }
+    
 }
 ?>
 

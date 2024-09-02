@@ -13,18 +13,20 @@
 
 }
 
-
 body {
     width: 100%;
-    background-color: var(--preto);
+    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
+    background-size: 200% 200%;
+    animation: gradientAnimation 10s ease infinite;
     font-family: "Red Hat Display", sans-serif;
+    color: black;
 }
 
 header {
     width: 100%;
     height: 80px;
-    background-color: var(--preto);
-    display: flex;
+    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
+    background-size: 200% 200%;    display: flex;
     align-items: center;
     justify-content: space-between;
     color: #ffffff;
@@ -69,7 +71,7 @@ header>.logo {
 }
 
 .corpo_principal article hr {
-    border-color: #ffffff;
+    background-image: linear-gradient(to left, rgb(0, 0, 0),grey, white);
     flex: 1;
     margin: 10px;
 }
@@ -170,11 +172,11 @@ header>.logo {
 }
 
 .dados input {
-    width: 100px; /* Ajuste a largura */
+    width: 100px;
     padding: 5px; /* Adiciona um pouco de preenchimento interno */
-    border: 1px solid #ffffff; /* Define a cor da borda */
+    border: 1px solid grey; /* Define a cor da borda */
     border-radius: 4px; /* Bordas arredondadas */
-    background-color: #f9f9f9; /* Cor de fundo */
+    background-color: grey; /* Cor de fundo */
     font-size: 14px; /* Tamanho da fonte */
     color: #333; /* Cor do texto */
 }
@@ -185,8 +187,8 @@ header>.logo {
 }
 
 .dados input[readonly] {
-    background-color: #ffffff; /* Cor de fundo para inputs somente leitura */
-    color: #4e4e4e; /* Cor do texto para inputs somente leitura */
+    background-color: #fff; /* Cor de fundo para inputs somente leitura */
+    color: black; /* Cor do texto para inputs somente leitura */
 }
 
 .dados-perfil>.dados {
@@ -641,4 +643,4 @@ header>.logo {
         font-size: 9px;
     }
     
-}
+}   

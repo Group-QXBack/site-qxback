@@ -4,8 +4,8 @@
     $message = $_SESSION['message'] ?? null;
     unset($_SESSION['message']); 
 
-    if (!isset($_SESSION['usuario'])) {
-        header("Location: ../ScreenUser/index.html");
+    if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'user') {
+        header("Location: ../ScreenLogin/index.html");
         exit();
     }
     include '../ScreenCadastro/config.php';
@@ -32,7 +32,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="style.css">
         <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
@@ -50,9 +50,9 @@
                 <li>
                     <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
                     <ul>
-                        <li><a href="#">Indicações Iniciadas</a></li>
-                        <li><a href="#">Indicações em Andamento</a></li>
-                        <li><a href="#">Indicações Concluídas</a></li>
+                        <li><a href="minhas_indicacoes.php">Indicações Iniciadas</a></li>
+                        <li><a href="minhas_indicacoes.php">Indicações em Andamento</a></li>
+                        <li><a href="minhas_indicacoes.php">Indicações Concluídas</a></li>
                     </ul>
                 </li>
                 <li>

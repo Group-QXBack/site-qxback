@@ -24,8 +24,8 @@ if ($result->num_rows > 0) {
     $usuario = $result->fetch_assoc();
     $_SESSION['usuario'] = $usuario; 
     
-    if ($usuario['tipo_conta'] !== 'admin') {
-        header("Location: ../ScreenAdmin/index.php");
+    if ($usuario['tipo_conta'] !== 'financeiro') {
+        header("Location: ../ScreenFinanceiro/index.php");
         exit();
     }
 } else {
@@ -726,7 +726,7 @@ header .perfil i {
                 </section>
                 <div class="linha-vertical"></div>
                 <article>
-                    <h2><strong>Administrador | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
+                    <h2><strong>Financeiro | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
                     <div class="linha-horizontal"></div>
                     <main class="dados-perfil">
                         <div class="dados">

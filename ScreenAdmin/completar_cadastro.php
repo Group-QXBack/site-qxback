@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: ../ScreenUser/index.php");
+    header("Location: ../ScreenLogin/index.php");
     exit();
 }
 $usuario = $_SESSION['usuario'];

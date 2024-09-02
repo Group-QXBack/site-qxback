@@ -1,17 +1,15 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario'])) {
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
 
 include '../ScreenCadastro/config.php';
 
-// Inicializar a variável $message
 $message = [];
 
-// Obter ID da indicação
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if (!$id) {
@@ -23,7 +21,6 @@ if (!$id) {
     exit();
 }
 
-// Buscar dados da indicação
 $sql = "SELECT * FROM indicacoes WHERE id = ?";
 $stmt = $conexao->prepare($sql);
 $stmt->bind_param('i', $id);

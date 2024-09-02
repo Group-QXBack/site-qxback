@@ -1,30 +1,48 @@
 <?php
 session_start(); 
-if (!isset($_SESSION['usuario_id'])) {
-    echo "ID do Usuário não definido na sessão.";
+
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'inativo') {
+    header("Location: ../ScreenUser/index.html");
     exit();
 }
 
-require '../ScreenCadastro/config.php'; // Caminho para o arquivo de configuração
+require '../ScreenCadastro/config.php'; 
 
-// Debug: Verifique o motivo da solicitação
+$usuario_id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $motivo = isset($_POST['motivo']) ? trim($_POST['motivo']) : '';
+
 if (empty($motivo)) {
     echo "Motivo não fornecido.";
     exit();
 }
 
-// Obtém o ID do usuário logado
-$usuario_id = $_SESSION['usuario_id'];
+if ($usuario_id <= 0) {
+    echo "ID do usuário inválido.";
+    exit();
+}
 
-$stmt = $conexao->prepare("INSERT INTO solicitacoes_inativacao (usuario_id, motivo) VALUES (?, ?)");
+$sql = "SELECT id FROM solicitacoes_inativacao WHERE usuario_id = ?";
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $_SESSION['message'] = "Você já possui uma solicitação pendente.";
+    header("Location: status_solicitacao.php");
+    exit();
+}
+
+$stmt = $conexao->prepare("INSERT INTO solicitacoes_inativacao (usuario_id, motivo, status, data_solicitacao) VALUES (?, ?, 'Pendente', NOW())");
 $stmt->bind_param("is", $usuario_id, $motivo);
 
 if ($stmt->execute()) {
-    echo "Sua solicitação de inativação foi enviada com sucesso.";
+    $_SESSION['message'] = "Sua solicitação de reativação foi enviada com sucesso.";
+    header("Location: status_solicitacao.php"); 
 } else {
     echo "Erro ao enviar a solicitação: " . $stmt->error;
 }
+
 $stmt->close();
 $conexao->close();
 ?>

@@ -13,8 +13,8 @@ include '../ScreenCadastro/config.php';
 
 $usuario = $_SESSION['usuario'];
 
-if ($usuario['tipo_conta'] !== 'admin') {
-    header("Location: ../ScreenAdmin/indicacoes.php");
+if ($usuario['tipo_conta'] !== 'financeiro') {
+    header("Location: ../ScreenFinanceiro/indicacoes.php");
     exit();
 }
 
@@ -326,7 +326,7 @@ $result = $stmt->get_result();
                                 </td>
                             <?php elseif ($status_filter === 'Aceita' || $status_filter === 'Negada'): ?>
                                 <td>
-                                    <a href="editar_indicacao.php?id=<?php echo $row['id']; ?>" class="btn-view">Editar</a>
+                                    <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn-view">Editar</a>
                                 </td>
                             <?php endif; ?>
                             <?php if ($filter_type === 'empresa'): ?>

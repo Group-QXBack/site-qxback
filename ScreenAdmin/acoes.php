@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario'])) {
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
 
 include '../ScreenCadastro/config.php';
 
-// Sanitizar e validar os parâmetros
+
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 

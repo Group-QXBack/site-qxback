@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario'])) {
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'user') {
     header("Location: ../ScreenUser/index.php");
     exit();
 }
@@ -10,7 +10,6 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once '../ScreenCadastro/config.php';
 
-    // Dados pessoais
     $telefone = $_POST['telefone'] ?? '';
     $cep = $_POST['cep'] ?? '';
     $endereco = $_POST['endereco'] ?? '';
@@ -20,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cidade = $_POST['cidade'] ?? '';
     $estado = $_POST['estado'] ?? '';
 
-    // Dados bancários
     $nome_titular = $_POST['nome'] ?? '';
     $cpf_titular = $_POST['sobrenome'] ?? '';
     $banco = $_POST['email'] ?? '';
