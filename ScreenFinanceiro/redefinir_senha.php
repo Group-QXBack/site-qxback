@@ -1,10 +1,49 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
+
 $usuario = $_SESSION['usuario'];
+if ($usuario['tipo_conta'] !== 'financeiro') {
+    header("Location: redefinir_senha.php");
+    exit();
+}
+include('../ScreenCadastro/config.php');
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $senha_atual = $_POST['senha_atual'];
+    $nova_senha = $_POST['nova_senha'];
+    $confirmar_senha = $_POST['confirmar_senha'];
+
+    $sql = "SELECT senha FROM usuarios WHERE id = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("i", $usuario['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $usuario_db = $result->fetch_assoc();
+
+    if (password_verify($senha_atual, $usuario_db['senha'])) {
+        if ($nova_senha === $confirmar_senha) {
+            $nova_senha_hash = password_hash($nova_senha, PASSWORD_BCRYPT);
+            $sql = "UPDATE usuarios SET senha = ? WHERE id = ?";
+            $stmt = $conexao->prepare($sql);
+            $stmt->bind_param("si", $nova_senha_hash, $usuario['id']);
+            if ($stmt->execute()) {
+                $msg = "Senha atualizada com sucesso!";
+            } else {
+                $msg = "Erro ao atualizar a senha.";
+            }
+        } else {
+            $msg = "A nova senha e a confirmação não coincidem.";
+        }
+    } else {
+        $msg = "Senha atual incorreta.";
+    }
+    
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,12 +58,11 @@ $usuario = $_SESSION['usuario'];
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
-    <title>Área do Usuário</title>
+    <title>Redefinir Senha</title>
 </head>
 <body>
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
-
     </header>
     <div class="submenu">
         <ul>
@@ -46,77 +84,69 @@ $usuario = $_SESSION['usuario'];
     </div>
     <div class="corpo_principal">
         <article>
-            <h1>Meus Dados</h1>
+            <h1>Redefinir Senha</h1>
             <hr>
         </article>
         <div class="container">
             <section>
-                <a href="#" id="btn-minhaConta" style="border-radius: 14px;">
+                <a href="index.php" id="btn-minhaConta">
                     <i class="fi fi-sr-user"></i>
                     <p>Minha Conta</p>
                 </a>
-                <a href="redefinir_senha.php">
+                <a href="redefinir_senha.php" class="active">
                     <i class="fi fi-sr-lock"></i>
                     <p>Redefinir Senha</p>
                 </a>
-                <a href="#">
+                <a href="indicacoes.php">
                     <i class="fi fi-ss-book"></i>
-                    <p>Minhas Indicações</p>
+                    <p>Indicações</p>
                 </a>
-                <a href="#">
+                <a href="cadastros.php">
                     <i class="fi fi-sr-square-plus"></i>
-                    <p>Indicar</p>
+                    <p>Cadastros</p>
                 </a>
                 <a href="logout.php" id="btn-sair">
-                <i class="fi fi-br-exit"></i>
-                <p>Sair</p>
+                    <i class="fi fi-br-exit"></i>
+                    <p>Sair</p>
                 </a>
-
             </section>
             <div class="linha-vertical"></div>
             <article>
-                <h2><strong>Usuário | <?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
-                <div class="linha-horizontal"></div>
+            <h2><strong>Usuário | <?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
+                            <div class="linha-horizontal"></div>
+
+                <h2>Atualizar Senha</h2>
                 <main class="dados-perfil">
-                    <div class="dados">
+                    <form method="post" action="">
+                    
                         <p>
-                            <strong>CPF:</strong>
-                            <input type="text" class="input-text" style="width: 97px;" value="<?php echo isset($usuario['cpf']) ? htmlspecialchars($usuario['cpf']) : ''; ?>" readonly>
+                            <strong>Senha Atual:</strong>
+                            <input type="password" name="senha_atual" required>
                         </p>
+                        <br>
+                        <br>
                         <p>
-                            <strong>Data de Nascimento:</strong>
-                            <input type="date" class="input-date" value="<?php echo isset($usuario['data_nasc']) ? htmlspecialchars($usuario['data_nasc']) : ''; ?>" readonly>
+                            <strong>Nova Senha:</strong>
+                            <input type="password" name="nova_senha" required>
                         </p>
+                        <br><br>
                         <p>
-                            <strong>Email:</strong>
-                            <input type="text" class="input-text" style="width: 235px;" value="<?php echo isset($usuario['email']) ? htmlspecialchars($usuario['email']) : ''; ?>" readonly>
+                            <strong>Confirmar Nova Senha:</strong>
+                            <input type="password" name="confirmar_senha" required>
                         </p>
-                        <p>
-                            <strong>Telefone:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['telefone']) ? htmlspecialchars($usuario['telefone']) : ''; ?>" readonly>
+                        <br>
+                        <div class="btn-atualizar">
+                        <button type="submit" style="text-align: center;" class="btn-atualizar">Atualizar Senha</button>
+                        </div>
+                        <?php if (isset($msg)) { ?>
+                        <p class="feedback <?php echo $msg === "Senha atualizada com sucesso!" ? 'sucesso' : 'erro'; ?>">
+                        <?php echo htmlspecialchars($msg); ?>
                         </p>
-                        <p>
-                            <strong>CEP:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['cep']) ? htmlspecialchars($usuario['cep']) : ''; ?>" readonly>
-                        </p>
-                        <p>
-                            <strong>Endereço:</strong>
-                            <input type="text" class="input-text" style="width: 180px;" value="<?php echo isset($usuario['endereco']) ? htmlspecialchars($usuario['endereco']) : ''; ?>" readonly>
-                        </p>
-                        <p>
-                            <strong>Complemento:</strong>
-                            <input type="text" class="input-text" value="<?php echo isset($usuario['complemento']) ? htmlspecialchars($usuario['complemento']) : ''; ?>" readonly>
-                        </p>
-                    </div>
-                    <div class="image">
-                    <i class="fa-solid fa-circle-user" style="color: #304d30;"></i>
-    <a href="alterar_foto.php">Alterar foto do perfil</a>
-</div>
+                        <?php } ?>
+
+                    </form>
 
                 </main>
-                <div class="btn-salvar">
-                    <a href="#">Editar Perfil</a>
-                </div>
             </article>
         </div>
     </div>

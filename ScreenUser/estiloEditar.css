@@ -1,7 +1,7 @@
-/* Variáveis de Cores */
 :root {
+    --preto: #000;
     --color-white: #eeeeee;
-    --color-dark1: #343434;
+    --color-dark1: rgb(0, 0, 0);
     --color-dark2: #2d2d2d;
     --color-dark3: #414141;
     --color-dark4: #1c1c1c;
@@ -11,24 +11,19 @@
     --color-error: #FF4B4B;
 }
 
-/* Reset */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-
-
-/* Corpo Principal */
 body {
-    font-family: "Montserrat", sans-serif;
-    /*background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));*/
-    background-color: #343434;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--color-dark1);
     line-height: 1.6;
 }
 
-/* Header */
 .img_logo_header{
     width: 180px;
 }
@@ -39,10 +34,10 @@ body {
     align-items: center;
 }
 .header{
-    background-color: #1d1d1d;
+    background-color: var(--preto);
     justify-content: space-between;
     padding: 0 10%;
-    height: 4em;
+    height: 3.5em;
 }
 .navigation_header{
     gap: 3em;
@@ -63,6 +58,11 @@ body {
 .navigation_header a:hover{
     color: var(--color-white);
 }
+.active{
+    background: var(--color-dark3);
+    padding: 10px;
+    border-radius: 10px;
+}
 .btn_icon_header{
     background: transparent;
     border: none;
@@ -71,7 +71,6 @@ body {
     display: none;
 }
 
-/* Formulário */
 
 .content {
     height: 70%;
@@ -147,33 +146,66 @@ textarea {
     outline: none;
     width: 100%;
 }
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.content .btn-form{
-    font-size: 17px;
-}
-
-.content .btn-form{
-    cursor: pointer;
+input[type="submit"]{
     margin-top: 25px;
-    width: 130px;
-    height: 35px;
+    width: 100px;
+    height: 40px;
     padding: 5px 10px;
-    background-color: #2da110e8;
+    background-color: #4ff326;
     border: none;
     border-radius: 5px;
     color: #fff;
     transition: 0.3s all ease-in-out;
 }
 
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+    transform: scale(1.1);
+}
 
-/*Rodapé*/
+label[for="debito"],
+label[for="credito"] {
+    border: 1px solid #040004;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-weight: 600;
+    margin: 10px 0 10px 0;
+    display: inline-block;
+    transition: 0.3s all ease-in-out
+}
+
+input[type="checkbox"]:checked+label {
+    background-color: #64f83f;
+    border-color: #64f83f;
+    color: #FFF;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+label[for="debito"]:hover,
+label[for="credito"]:hover,
+input[type="submit"],
+input[type="reset"] {
+    cursor: pointer;
+}
+
 .primeiro-rodape {
-    background-color: var(--color-dark1);
+    background-color: var(--preto);
 }
 
 .primeiro-rodape a {
@@ -240,7 +272,7 @@ input::-webkit-inner-spin-button {
 }
 
 .segundo-rodape {
-    background-color: var(--color-dark1);
+    background-color: var(--preto);
     text-align: center;
     display: flex;
     justify-content: center;
@@ -250,7 +282,7 @@ input::-webkit-inner-spin-button {
 
 .copyright p {
     margin: 1px 0;
-    color: var(--color-white);
+    color: var(--branconeve);
 }
 
 

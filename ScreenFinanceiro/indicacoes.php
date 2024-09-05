@@ -31,7 +31,6 @@ $sql = "
         i.id,
         i.nome_empresa,
         i.cnpj,
-        i.cpf,
         i.data_indicacao,
         i.ultima_atualizacao,
         i.status,
@@ -55,7 +54,7 @@ if ($status_filter !== 'Todas') {
 
 $sql .= "
     GROUP BY
-        i.id, i.nome_empresa, i.cnpj, i.cpf, i.data_indicacao, i.ultima_atualizacao, i.status, c.nome_contato, c.cargo_contato, c.celular_contato, c.email_contato, u.nome
+        i.id, i.nome_empresa, i.cnpj, i.data_indicacao, i.ultima_atualizacao, i.status, c.nome_contato, c.cargo_contato, c.celular_contato, c.email_contato, u.nome
 ";
 
 $stmt = $conexao->prepare($sql);
@@ -301,7 +300,6 @@ $result = $stmt->get_result();
                     <?php if ($status_filter === 'Em Andamento'): ?>
                         <th>Ações</th>
                     <?php elseif ($status_filter === 'Aceita' || $status_filter === 'Negada'): ?>
-                        <th>Editar</th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -325,9 +323,6 @@ $result = $stmt->get_result();
                                     <a href="#" class="btn-acao btn-negado" data-action="negar" data-id="<?php echo $row['id']; ?>">Negar</a>
                                 </td>
                             <?php elseif ($status_filter === 'Aceita' || $status_filter === 'Negada'): ?>
-                                <td>
-                                    <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn-view">Editar</a>
-                                </td>
                             <?php endif; ?>
                             <?php if ($filter_type === 'empresa'): ?>
                                 <td><a href="detalhes_empresa.php?id=<?php echo $row['id']; ?>" class="btn-view">Ver Detalhes</a></td>

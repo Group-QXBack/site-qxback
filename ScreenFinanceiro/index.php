@@ -46,7 +46,7 @@ if ($result->num_rows > 0) {
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
-        <title>Área do Usuário</title>
+        <title>Área do Financeiro</title>
         <style>
             :root {
     --cinza: #E7E4D7;

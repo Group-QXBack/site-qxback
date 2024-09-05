@@ -1,0 +1,82 @@
+ALTER TABLE usuarios
+ADD COLUMN telefone VARCHAR(15) NULL,
+ADD COLUMN cep VARCHAR(10) NULL,
+ADD COLUMN endereco VARCHAR(255) NULL,
+ADD COLUMN complemento VARCHAR(255) NULL;
+
+
+ALTER TABLE usuarios ADD COLUMN foto_perfil VARCHAR(255) NULL;
+
+ALTER TABLE usuarios
+ADD COLUMN bairro VARCHAR(255) DEFAULT NULL AFTER complemento,
+ADD COLUMN cidade VARCHAR(255) DEFAULT NULL AFTER bairro,
+ADD COLUMN estado CHAR(2) DEFAULT NULL AFTER cidade;
+
+CREATE TABLE areas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL
+);
+INSERT INTO areas (nome) VALUES 
+('Comércio'),
+('Contabilidade'),
+('Administração'),
+('Tecnologia'),
+('Saúde');
+	
+
+
+-- Tabela para armazenar informações da empresa indicada
+CREATE TABLE indicacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_empresa VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
+    telefone_empresa VARCHAR(15),
+    celular_empresa VARCHAR(15) NOT NULL,
+    email_empresa VARCHAR(255) NOT NULL,
+    data_indicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_id INT, -- Adiciona a coluna para referenciar o usuário
+    status VARCHAR(20) DEFAULT 'Em Andamento', -- Adiciona a coluna status com valor padrão
+    valor_pendente DECIMAL(10, 2) DEFAULT 0.00, -- Adiciona a coluna valor_pendente com valor padrão
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) -- Define a chave estrangeira
+);
+
+-- Tabela para armazenar informações do contato associado à indicação
+CREATE TABLE contatos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    indicacao_id INT NOT NULL,
+    nome_contato VARCHAR(255) NOT NULL,
+    cargo_contato VARCHAR(255),
+    celular_contato VARCHAR(15) NOT NULL,
+    email_contato VARCHAR(255) NOT NULL,
+    FOREIGN KEY (indicacao_id) REFERENCES indicacoes(id)
+);
+
+-- Tabela para armazenar relação entre indicações e áreas
+CREATE TABLE indicacoes_areas (
+    indicacao_id INT,
+    area_id INT,
+    PRIMARY KEY (indicacao_id, area_id),
+    FOREIGN KEY (indicacao_id) REFERENCES indicacoes(id),
+    FOREIGN KEY (area_id) REFERENCES areas(id)
+);
+
+<?php
+
+$dbHost = '68.154.99.61';
+$dbUsername = 'qxb01';
+$dbPassword = 'uYm@!esunNk5BWg-';
+$dbName ='qxb01';
+
+$conexao = new mysqli($dbHost,$dbUsername,$dbPassword,$dbName);
+
+if($conexao->connect_errno)
+{
+   echo "Erro";
+}
+else{
+    echo "Conexão efetuada com Sucesso!";
+}
+
+?>
+
