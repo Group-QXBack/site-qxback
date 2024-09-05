@@ -12,7 +12,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="./styleIndicar.css">
         <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
@@ -25,24 +25,6 @@
         <header>
             <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
         </header>
-        <div class="submenu">
-            <ul>
-                <li>
-                    <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul>
-                        <li><a href="#">Indicações Iniciadas</a></li>
-                        <li><a href="#">Indicações em Andamento</a></li>
-                        <li><a href="#">Indicações Concluídas</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul id="btn-suporte">
-                        <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
         <div class="corpo_principal">
             <article>
                 <h1>Indicar</h1>
@@ -71,6 +53,7 @@
                         <p>Sair</p>
                     </a>
                 </section>
+                <div class="linha-vertical"></div>
                 <article class="form-container">
                     <h2><strong>Usuário | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
                     <div class="linha-horizontal"></div>
@@ -81,35 +64,42 @@
                                 <strong>Nome da Empresa:</strong>
                                 <input type="text" class="input-text" name="nome_empresa" id="nome_empresa" required>
                             </p>
+                            
                             <p>
                                 <strong>CNPJ:</strong>
                                 <input type="text" class="input-text" name="cnpj" minlength="18" maxlength="18" oninput="formatarCNPJ(this)" id="cnpj" placeholder="Digite o CNPJ" required>
                                 <button type="button" onclick="buscarDadosEmpresa()">Buscar</button>
                             </p>
+                            
                             <p>
                                 <strong>Nome do Contato:</strong>
                                 <input type="text" class="input-text" name="nome_contato" id="nome_contato" required>
                             </p>
+                            
                             <p>
                                 <strong>Cargo do Contato:</strong>
                                 <input type="text" class="input-text" name="cargo_contato" id="cargo_contato">
                             </p>
+                            
                             <p>
                                 <strong>CPF do Contato:</strong>
                                 <input type="text" class="input-text" name="cpf" minlength="14" maxlength="14" oninput="formatarCPF(this)" required>
                             </p>
+                            
                             <p>
                                 <strong>Celular do Contato:</strong>
                                 <input type="text" class="input-text" oninput="formatarCelular(this)" name="celular_contato" id="celular_contato" required>
                             </p>
+                            
                             <p>
                                 <strong>Telefone do Contato</strong>
                                 <input type="text" class="input-text" oninput="formatarTelefone(this)" name="telefone_contato" id="telefone_contato">
                             </p>
+                            
                             <p>
                                 <strong>Email do Contato:</strong>
                                 <input type="email" class="input-text" name="email_contato" id="email_contato" required>
-                            </p>
+                       
                             <div id="servicos-container">
                                 <div class="servico-group">
                                     <label for="servicos">Serviço: </label>
@@ -139,14 +129,12 @@
                 </article>
             </div>
         </div>
-        <footer>
-            <div class="voltar-ao-topo">
-                <i class="fa-solid fa-arrow-up-long"></i>
-                <a style="cursor: pointer;" onclick="subiraoTopo();">Voltar ao topo</a>
-            </div>
+        <footer class="primeiro-rodape">
             <div class="container-texto">
                 <div class="primeiro-txt">
-                    <h3>QXBack</h3>
+                    <h3>
+                    <strong style="cursor: default; color: #1bff1b;">QXBack</strong>
+                    </h3>
                     <p>
                         <a href="#">Programa</a>
                         <a href="#">Como indicar?</a>
@@ -154,7 +142,9 @@
                     </p>
                 </div>
                 <div class="segundo-txt">
-                    <h3>Serviços</h3>
+                    <h3>
+                    <strong style="cursor: default; color: #1bff1b;">Serviços</strong>
+                    </h3>
                     <p>
                         <a href="#">Atendimento Virtual</a>
                         <a href="#">Feedback</a>

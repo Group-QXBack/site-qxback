@@ -81,12 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./estiloEditar.css">
+    <link rel="stylesheet" href="./../ScreenUser/styleEditar.css">
     <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
     <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
     <title>Completar Cadastro</title>
     </head>
@@ -124,27 +125,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <legend>Dados Pessoais</legend>
                 <div class="row">
                     <label for="telefone">Telefone</label>
-                    <input type="text" id="telefone" name="telefone" class="input-text" oninput="formatarTelefone(this)" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" required>
+                    <input type="text" id="telefone" name="telefone" class="input-text" oninput="formatarTelefone(this)" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>">
                 </div>
                 <div class="row">
                     <label for="cep">CEP</label>
-                    <input type="text" id="cep" name="cep" oninput="formatarCEP(this)" class="input-text" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>" required>
+                    <input type="text" id="cep" name="cep" oninput="formatarCEP(this)" class="input-text" value="<?php echo htmlspecialchars($usuario['cep'] ?? ''); ?>">
                 </div>
                 <div class="row">
                     <label for="endereco">Endereço</label>
-                    <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" required>
+                    <input type="text" id="endereco" name="endereco" class="input-text" value="<?php echo htmlspecialchars($usuario['endereco'] ?? ''); ?>" >
                 </div>
                 <div class="row">
                     <label for="estado">Estado</label>
-                    <input type="text" id="estado" name="estado" class="input-text" value="<?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>" required>
+                    <input type="text" id="estado" name="estado" class="input-text" value="<?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>" >
                     </div>
                 <div class="row">
                     <label for="cidade">Cidade</label>
-                    <input type="text" id="cidade" name="cidade" class="input-text" value="<?php echo htmlspecialchars($usuario['cidade'] ?? ''); ?>" required>
+                    <input type="text" id="cidade" name="cidade" class="input-text" value="<?php echo htmlspecialchars($usuario['cidade'] ?? ''); ?>" >
                 </div>
                 <div class="row">
                     <label for="bairro">Bairro</label>
-                    <input type="text" id="bairro" name="bairro" class="input-text" value="<?php echo htmlspecialchars($usuario['bairro'] ?? ''); ?>" required>
+                    <input type="text" id="bairro" name="bairro" class="input-text" value="<?php echo htmlspecialchars($usuario['bairro'] ?? ''); ?>" >
                 </div>
                 <div class="row">
                     <label for="dtnasc">Complemento</label>
@@ -155,30 +156,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <fieldset>
         <legend>Dados Bancários</legend>
         <div class="row">
-            <input type="checkbox" id="credito" name="credito" <?php echo isset($conta_bancaria['tipo_conta']) && $conta_bancaria['tipo_conta'] == 'crédito' ? 'checked' : ''; ?>>
-            <label for="credito">Crédito</label>
-            <input type="checkbox" id="debito" name="debito" <?php echo isset($conta_bancaria['tipo_conta']) && $conta_bancaria['tipo_conta'] == 'débito' ? 'checked' : ''; ?>>
-            <label for="debito">Débito</label>
-        </div>
-        <div class="row">
             <label for="nome">Nome do Titular</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite o nome do titular" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['nome_titular'] ?? ''); ?>" required>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome do titular" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['nome_titular'] ?? ''); ?>" >
         </div>
         <div class="row">
             <label for="sobrenome">CPF</label>
-            <input type="text" id="sobrenome" name="sobrenome" minlength="14" maxlength="14" oninput="formatarCPF(this)" placeholder="CPF" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['cpf_titular'] ?? ''); ?>" required>
+            <input type="text" id="sobrenome" name="sobrenome" minlength="14" maxlength="14" oninput="formatarCPF(this)" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['cpf_titular'] ?? ''); ?>" >
         </div>
         <div class="row">
             <label for="email">Banco</label>
-            <input type="text" id="email" name="email" placeholder="Banco" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['banco'] ?? ''); ?>" required>
+            <input type="text" id="email" name="email" autocomplete="off" value="<?php echo htmlspecialchars($conta_bancaria['banco'] ?? ''); ?>" >
         </div>
         <div class="row">
             <label for="conta">Conta</label>
-            <input type="number" id="conta" name="dtnasc" value="<?php echo htmlspecialchars($conta_bancaria['conta'] ?? ''); ?>" required>
+            <input type="number" id="conta" name="dtnasc" value="<?php echo htmlspecialchars($conta_bancaria['conta'] ?? ''); ?>" >
         </div>
         <div class="row">
             <label for="agencia">Agência</label>
-            <input type="number" id="agencia" name="agencia" value="<?php echo htmlspecialchars($conta_bancaria['agencia'] ?? ''); ?>" required>
+            <input type="number" id="agencia" name="agencia" value="<?php echo htmlspecialchars($conta_bancaria['agencia'] ?? ''); ?>" >
         </div>
         <?php if (isset($_SESSION['message'])): ?>
             <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
@@ -198,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php endif; ?>
 
 <div class="buttons">
-    <input type="submit" value="Salvar">
+    <button type="submit" class="btn-form">Enviar</button>
 </div>
 </form>
 </div>
@@ -207,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="container-texto">
                 <div class="primeiro-txt">
                     <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">QXBack</strong>
+                        <strong style="cursor: default; color: #1bff1b;">QXBack</strong>
                     </h3>
                     <p>
                         <a href="#">Programa</a>
@@ -217,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="segundo-txt">
                     <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">Serviços</strong>
+                        <strong style="cursor: default; color: #1bff1b;">Serviços</strong>
                     </h3>
                     <p>
                         <a href="#">Atendimento Virtual</a>

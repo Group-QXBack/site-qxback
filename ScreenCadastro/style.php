@@ -25,6 +25,7 @@ body {
     height: 80vh;
     display: flex;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+    flex-wrap: wrap; /* Adicionado para garantir que os itens se ajustem */
 }
 
 .form-image {
@@ -36,7 +37,8 @@ body {
 }
 
 .form-image img {
-    width: 34rem;
+    width: 100%; /* Alterado para garantir que a imagem se ajuste */
+    max-width: 34rem;
 }
 
 .form {
@@ -194,15 +196,18 @@ body {
     color: #000000;
 }
 
+/* Estilos Responsivos */
 @media screen and (max-width: 1330px) {
     .form-image {
         display: none;
     }
     .container {
-        width: 50%;
+        width: 70%; /* Ajuste de largura para telas maiores */
+        height: auto;
     }
     .form {
         width: 100%;
+        padding: 2rem; /* Ajuste de padding para telas menores */
     }
 }
 
@@ -214,21 +219,17 @@ body {
     .input-group {
         flex-direction: column;
         z-index: 5;
-        padding-right: 5rem;
+        padding-right: 1rem; /* Ajustado para melhor espaçamento em telas pequenas */
         max-height: 10rem;
-        overflow-y: scroll;
-        flex-wrap: nowrap;
+        overflow-y: auto; /* Ajustado para rolagem mais suave */
     }
-    .gender-inputs {
-        margin-top: 2rem;
-    }
-    .gender-group {
+    .genero-group {
         flex-direction: column;
     }
-    .gender-title h6 {
+    .genero-title h6 {
         margin: 0;
     }
-    .gender-input {
+    .genero-input {
         margin-top: 0.5rem;
     }
 }

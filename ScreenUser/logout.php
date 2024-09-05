@@ -4,6 +4,6 @@ session_start();
 session_unset();
 session_destroy();
 
-header("Location: ../ScreenLogin/index.html");
+header("Location: ../LandingPage/index.html");
 exit();
 ?>
