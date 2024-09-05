@@ -107,6 +107,11 @@ header img {
     transition: all 0.2s ease;
 }
 
+.container .form-container .form-indicacao p{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 #btn-sair:hover {
     color: #000;
     border-radius: 14px;
@@ -158,22 +163,23 @@ header img {
     margin: 10px 0;
 }
 
-.dados input {
+.container .form-container .form-indicacao input {
     width: 100px; /* Ajuste a largura */
+    height: 13px;
     padding: 5px; /* Adiciona um pouco de preenchimento interno */
-    border: 1px solid #f7f7f76e; /* Define a cor da borda */
-    border-radius: 4px; /* Bordas arredondadas */
+    border: 1px solid #00000088; /* Define a cor da borda */
+    border-radius: 6px; /* Bordas arredondadas */
     background-color: #eeeeeebe; /* Cor de fundo */
     font-size: 14px; /* Tamanho da fonte */
     color: #333; /* Cor do texto */
 }
 
-.dados input:focus {
+.container .form-container .form-indicacao input:focus {
     border-color: #76ff4c; /* Cor da borda ao focar no input */
     outline: none; /* Remove o outline padrão */
 }
 
-.dados input[readonly] {
+.container .form-container .form-indicacao input[readonly] {
     background-color: var(--meiobranco); /* Cor de fundo para inputs somente leitura */
     color: #4e4e4e; /* Cor do texto para inputs somente leitura */
 }

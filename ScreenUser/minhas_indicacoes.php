@@ -35,125 +35,72 @@ $conexao->close();
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="./indicacoes.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Indicações</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-        }
-        .container {
-            width: 90%;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .status-em-andamento {
-            color: #f39c12;
-            font-weight: bold;
-        }
-        .status-confirmada {
-            color: #2ecc71;
-            font-weight: bold;
-        }
-        .status-rejeitada {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        .valor-pendente {
-            text-align: right;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
 </head>
 <body>
-    <header>
+    <nav>
+<div class="nav" id="nav">
+        <button onclick="toggleSidebar()" class="btn_icon_header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+        </button>
+        <div class="logo_header">
+            <img src="../imagens/logobranca1.png" alt="Logo" class="img_logo_header">
+        </div>
+        <div class="navigation_header" id="navigation_header">
+            <button onclick="toggleSidebar()" class="btn_icon_header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </button>
+            <a href="./index.php" id="btn-minhaConta" style="border-radius: 14px;">
+            <p>Minha Conta</p>
+            </a>
+            <a href="./minhas_indicacoes.php">
+            <p>Minhas Indicações</p>
+            </a>
+            <a href="./indicar.php">
+            <p>Indicar</p>
+            </a>
+        </div>
+    </div>
+    </nav>
         <h1>Minhas Indicações</h1>
-    </header>
     <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome da Empresa</th>
-                    <th>CNPJ</th>
-                    <th>Serviços Indicados</th>
-                    <th>Status</th>
-                    <th>Valor Pendente</th>
-                    <th>Data da Indicação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (!empty($indicacoes)) {
-                    foreach ($indicacoes as $row) {
-                        $statusClass = '';
-                        switch ($row['status']) {
-                            case 'Em Andamento':
-                                $statusClass = 'status-em-andamento';
-                                break;
-                            case 'Confirmada':
-                                $statusClass = 'status-confirmada';
-                                break;
-                            case 'Rejeitada':
-                                $statusClass = 'status-rejeitada';
-                                break;
-                        }
-                        echo "<tr>
-                            <td>{$row['nome_empresa']}</td>
-                            <td>{$row['cnpj']}</td>
-                            <td>{$row['servicos']}</td>
-                            <td class='$statusClass'>{$row['status']}</td>
-                            <td class='valor-pendente'>R$ {$row['valor_pendente']}</td>
-                            <td>{$row['data_indicacao']}</td>
-                        </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='9'>Nenhuma indicação encontrada.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+    <?php
+    if (!empty($indicacoes)) {
+    foreach ($indicacoes as $row) {
+        $statusClass = '';
+        switch ($row['status']) {
+            case 'Em Andamento':
+                $statusClass = 'status-em-andamento';
+                break;
+            case 'Confirmada':
+                $statusClass = 'status-confirmada';
+                break;
+            case 'Rejeitada':
+                $statusClass = 'status-rejeitada';
+                break;
+        }
+        echo "<details>
+            <summary>
+                <span>{$row['nome_empresa']} - {$row['cnpj']} - {$row['status']}</span>
+            </summary>
+            <div>
+                <p><strong>Serviços Indicados:</strong> {$row['servicos']}</p>
+                <p><strong>Valor Pendente:</strong> R$ {$row['valor_pendente']}</p>
+                <p><strong>Data da Indicação:</strong> {$row['data_indicacao']}</p>
+            </div>
+        </details>";
+    }
+} else {
+    echo "<p>Nenhuma indicação encontrada.</p>";
+}
+?>
+
     </div>
     <footer>
         &copy; 2024 QXBack. Todos os direitos reservados.

@@ -1,8 +1,7 @@
 /* Variáveis de Cores */
 :root {
-    --preto: #000;
     --color-white: #eeeeee;
-    --color-dark1: rgb(0, 0, 0);
+    --color-dark1: #343434;
     --color-dark2: #2d2d2d;
     --color-dark3: #414141;
     --color-dark4: #1c1c1c;
@@ -19,11 +18,13 @@
     box-sizing: border-box;
 }
 
+
+
 /* Corpo Principal */
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Montserrat", sans-serif;
     /*background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));*/
-    background-color: var(--color-dark1);
+    background-color: #343434;
     line-height: 1.6;
 }
 
@@ -38,10 +39,10 @@ body {
     align-items: center;
 }
 .header{
-    background-color: var(--preto);
+    background-color: #1d1d1d;
     justify-content: space-between;
     padding: 0 10%;
-    height: 3.5em;
+    height: 4em;
 }
 .navigation_header{
     gap: 3em;
@@ -61,11 +62,6 @@ body {
 }
 .navigation_header a:hover{
     color: var(--color-white);
-}
-.active{
-    background: var(--color-dark3);
-    padding: 10px;
-    border-radius: 10px;
 }
 .btn_icon_header{
     background: transparent;
@@ -151,67 +147,33 @@ textarea {
     outline: none;
     width: 100%;
 }
-
-input[type="radio"],
-input[type="checkbox"] {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-input[type="submit"]{
+.content .btn-form{
+    font-size: 17px;
+}
+
+.content .btn-form{
+    cursor: pointer;
     margin-top: 25px;
-    width: 100px;
-    height: 40px;
+    width: 130px;
+    height: 35px;
     padding: 5px 10px;
-    background-color: #4ff326;
+    background-color: #2da110e8;
     border: none;
     border-radius: 5px;
     color: #fff;
     transition: 0.3s all ease-in-out;
 }
 
-input[type="submit"]:hover,
-input[type="reset"]:hover {
-    transform: scale(1.1);
-}
-
-label[for="debito"],
-label[for="credito"] {
-    border: 1px solid #040004;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: 600;
-    margin: 10px 0 10px 0;
-    display: inline-block;
-    transition: 0.3s all ease-in-out
-}
-
-input[type="checkbox"]:checked+label {
-    background-color: #64f83f;
-    border-color: #64f83f;
-    color: #FFF;
-}
-
-input[type="checkbox"] {
-    display: none;
-}
-
-label[for="debito"]:hover,
-label[for="credito"]:hover,
-input[type="submit"],
-input[type="reset"] {
-    cursor: pointer;
-}
 
 /*Rodapé*/
 .primeiro-rodape {
-    background-color: var(--preto);
+    background-color: var(--color-dark1);
 }
 
 .primeiro-rodape a {
@@ -278,7 +240,7 @@ input[type="reset"] {
 }
 
 .segundo-rodape {
-    background-color: var(--preto);
+    background-color: var(--color-dark1);
     text-align: center;
     display: flex;
     justify-content: center;
@@ -288,7 +250,7 @@ input[type="reset"] {
 
 .copyright p {
     margin: 1px 0;
-    color: var(--branconeve);
+    color: var(--color-white);
 }
 
 

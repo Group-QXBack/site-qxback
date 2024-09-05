@@ -45,24 +45,6 @@
         <header>
             <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
         </header>
-        <div class="submenu">
-            <ul>
-                <li>
-                    <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul>
-                        <li><a href="#">Indicações Iniciadas</a></li>
-                        <li><a href="#">Indicações em Andamento</a></li>
-                        <li><a href="#">Indicações Concluídas</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul id="btn-suporte">
-                        <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
         <div class="corpo_principal">
             <article>
                 <h1>Meus Dados</h1>
@@ -98,7 +80,7 @@
                 </section>
                 <div class="linha-vertical"></div>
                 <article>
-                    <h2><strong>Usuário | <?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
+                    <h2><strong><?php echo htmlspecialchars($usuario['nome'] ?? ''); ?></strong></h2>
                     <div class="linha-horizontal"></div>
                     <main class="dados-perfil">
                         <div class="dados">
@@ -131,10 +113,6 @@
                                 <input type="text" class="input-text" value="<?php echo htmlspecialchars($usuario['complemento'] ?? ''); ?>" readonly>
                             </p>
                         </div>
-                        <div class="image">
-                            <i class="fa-solid fa-circle-user" style="color: #304d30;"></i>
-                            <a href="alterar_foto.php">Alterar foto do perfil</a>
-                        </div>
                     </main>
                     <div class="btn-salvar">
                         <a href="completar_cadastro.php" class="btn-finalizar-cadastro">Editar Cadastro</a>
@@ -143,27 +121,20 @@
             </div>
         </div>
         <footer class="primeiro-rodape">
-            <div class="voltar-ao-topo">
-                <hr>
-                <i class="fa-solid fa-arrow-up-long" style="color: #00ff00;"></i>
-                <a style="cursor: pointer;" onclick="subiraoTopo();">Voltar ao topo</a>
-                <hr>
-            </div>
             <article>
                 <div class="container-texto">
                     <div class="primeiro-txt">
                         <h3>
-                            <strong style="cursor: default; color: rgb(255, 255, 255);">QXBack</strong>
+                            <strong style="cursor: default; color: #1bff1b;">QXBack</strong>
                         </h3>
                         <p>
                             <a href="#">Programa</a>
                             <a href="#">Como indicar?</a>
-                            <a href="#">Portal de indicações</a>
                         </p>
                     </div>
                     <div class="segundo-txt">
                         <h3>
-                            <strong style="cursor: default; color: rgb(255, 255, 255);">Serviços</strong>
+                            <strong style="cursor: default; color: #1bff1b;">Serviços</strong>
                         </h3>
                         <p>
                             <a href="#">Atendimento Virtual</a>
