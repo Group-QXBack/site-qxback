@@ -1,0 +1,277 @@
+/* Variáveis de Cores */
+:root {
+    --color-white: #eeeeee;
+    --color-dark1: #343434;
+    --color-dark2: #2d2d2d;
+    --color-dark3: #414141;
+    --color-dark4: #1c1c1c;
+    --color-dark5: #343434;
+    --color-green: #42FF00;
+    --color-blue: #007BFF;
+    --color-error: #FF4B4B;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Corpo Principal */
+body {
+    font-family: "Montserrat", sans-serif;
+    /*background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));*/
+    background-color: #343434;
+    line-height: 1.6;
+}
+
+/* Header */
+.img_logo_header{
+    width: 180px;
+}
+.header,
+.navigation_header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.header{
+    background-color: #1d1d1d;
+    justify-content: space-between;
+    padding: 0 10%;
+    height: 4em;
+}
+.navigation_header{
+    gap: 3em;
+    z-index: 2;
+}
+.content{
+    padding-top: 5em;
+    text-align: center;
+    height: 100vh;
+    transition: 1s;
+}
+.navigation_header a{
+    text-decoration: none;
+    color: var(--color-white);
+    transition: 1s;
+    font-weight: bold;
+}
+.navigation_header a:hover{
+    color: var(--color-white);
+}
+.btn_icon_header{
+    background: transparent;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    display: none;
+}
+
+/* Formulário */
+
+.content {
+    height: 70%;
+    box-sizing: border-box;
+    background-color: #FFF;
+    width: 70%;
+    padding: 20px;
+    margin: 20px auto 0 auto;
+    box-shadow: 0px 6px 10px;
+    border-radius: 15px;
+}
+
+.row {
+    padding: 5px;
+}
+
+.buttons {
+    text-align: center;
+}
+
+fieldset {
+    width: 100%;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-color: #c2cbce;
+    box-shadow: 2px 2px 2px #c2cbce;
+}
+
+legend {
+    color: #000;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+label:not( [for="debito"], [for="credito"]) {
+    display: inline-block;
+    width: 120px;
+}
+
+label{
+    color: #000;
+}
+
+input {
+    padding: 2px;
+    outline: none;
+    width: 300px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="email"] {
+    border: none;
+    border-bottom: 2px solid #c2cbce;
+    transition: 0.3s all ease-in-out
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus
+input[type="email"]:focus {
+    color: #000000;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-color: #8fff6c;
+}
+
+textarea {
+    padding: 10px;
+    resize: none;
+    outline: none;
+    width: 100%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.content .btn-form{
+    font-size: 17px;
+}
+
+.content .btn-form{
+    cursor: pointer;
+    margin-top: 25px;
+    width: 130px;
+    height: 35px;
+    padding: 5px 10px;
+    background-color: #2da110e8;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    transition: 0.3s all ease-in-out;
+}
+
+
+/*Rodapé*/
+.primeiro-rodape {
+    background-color: var(--color-dark1);
+}
+
+.primeiro-rodape a {
+    text-decoration: none;
+    color: #ffffff;
+}s
+
+.primeiro-rodape article {
+    display: block;
+    padding: 20px;
+}
+
+.container-texto {
+    display: flex;
+    gap: 50px;
+    height: 2 00px;
+    margin-left: 8%;
+    margin-top: 5%;
+}
+
+.primeiro-txt,
+.segundo-txt {
+    height: 200px;
+    width: 200px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.primeiro-txt p,
+.segundo-txt p {
+    display: grid;
+    gap: 5px;
+
+}
+
+.primeiro-txt p :hover,
+.segundo-txt p :hover {
+    color: #00d100;
+    transition: 0.5s;
+}
+
+
+.dados-icons {
+    color: var(--verde);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dados-icons>.icons {
+    font-size: 28px;
+    display: flex;
+    gap: 12px;
+}
+
+.icons a i {
+    color: #fff;
+}
+
+.icons a i:hover {
+    transition: 0.5s;
+    color: #ffffff57;
+}
+
+.segundo-rodape {
+    background-color: var(--color-dark1);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.copyright p {
+    margin: 1px 0;
+    color: var(--color-white);
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .navigation_header{
+        position: absolute;
+        flex-direction: column !important;
+        top: 0;
+        background: var(--color-dark5);
+        height: 100%;
+        width: 35vw;
+        padding: 1em;
+        animation-duration: 1s;
+        margin-left: -100vw;
+    }
+    .btn_icon_header{
+        display: block;
+    }
+}
+@keyframes showSidebar {
+    from {margin-left: -100vw;}
+    to {margin-left: -10vw;}
+}

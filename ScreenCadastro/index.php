@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.php">
     <title>Cadastro</title>
     <script>
         function formatarCPF(campo) {
@@ -104,7 +104,7 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
     <div class="form-image">
-        <img src="../imagens/ImagemCadastro.png" alt="">
+        <img src="../imagens/qxback-img.png" alt="">
     </div>
     <div class="form">
         <form action="index.php" method="POST" onsubmit="return validarFormulario()">
@@ -141,7 +141,7 @@ if (isset($_POST['submit'])) {
 
                 <div class="input-box">
                     <label for="data_nasc">Data de Nascimento</label>
-                    <input id="data_nasc" style="width: 225px;" type="date" name="data_nasc" placeholder="XX/XX/XXXX" required>
+                    <input id="data_nasc" style="width: 225px;" type="date" name="data_nasc" placeholder="dd/mm/aaaa" required>
                     <div id="error-idade" class="error-message">
                         <?php if (isset($erroIdade)) { echo $erroIdade; } ?>
                     </div>

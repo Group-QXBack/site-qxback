@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'user') {
+if (!isset($_SESSION['usuario'])) {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
@@ -60,24 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
     </header>
-    <div class="submenu">
-        <ul>
-            <li>
-                <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                <ul>
-                    <li><a href="#">Indicações Iniciadas</a></li>
-                    <li><a href="#">Indicações em Andamento</a></li>
-                    <li><a href="#">Indicações Concluídas</a></li>
-                </ul>
-            </li>
-            <li>
-                <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                <ul id="btn-suporte">
-                    <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
     <div class="corpo_principal">
         <article>
             <h1>Redefinir Senha</h1>
@@ -109,10 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="linha-vertical"></div>
             <article>
             <h2><strong>Usuário | <?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
-                            <div class="linha-horizontal"></div>
-
+                <div class="linha-horizontal"></div>
                 <h2>Atualizar Senha</h2>
                 <main class="dados-perfil">
+                    <div class="dados">
                     <form method="post" action="">
                     
                         <p>
@@ -141,23 +123,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?php } ?>
 
                     </form>
-
+                    </div>
                 </main>
             </article>
         </div>
     </div>
     <footer class="primeiro-rodape">
-        <div class="voltar-ao-topo">
-            <hr>
-            <i class="fa-solid fa-arrow-up-long" style="color: #00ff00;"></i>
-            <a style="cursor: pointer;" onclick="subiraoTopo();">Voltar ao topo</a>
-            <hr>
-        </div>
         <article>
             <div class="container-texto">
                 <div class="primeiro-txt">
                     <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">QXBack</strong>
+                        <strong style="cursor: default; color: #1bff1b;">QXBack</strong>
                     </h3>
                     <p>
                         <a href="#">Programa</a>
@@ -167,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="segundo-txt">
                     <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">Serviços</strong>
+                        <strong style="cursor: default; color: #1bff1b;">Serviços</strong>
                     </h3>
                     <p>
                         <a href="#">Atendimento Virtual</a>

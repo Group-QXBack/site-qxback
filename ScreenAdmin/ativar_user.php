@@ -1,9 +1,5 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
-    header("Location: ../ScreenUser/index.html");
-    exit();
-}
 include_once('../ScreenCadastro/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['userId'])) {

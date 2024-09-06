@@ -1,15 +1,17 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
+if (!isset($_SESSION['usuario'])) {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
 
 include '../ScreenCadastro/config.php';
 
+// Inicializar a variável $message
 $message = [];
 
+// Obter ID da indicação
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if (!$id) {
@@ -21,13 +23,8 @@ if (!$id) {
     exit();
 }
 
-// Buscar a indicação e o serviço associado
-$sql = "
-    SELECT i.*, is_servicos.status AS servico_status, is_servicos.ultima_atualizacao
-    FROM indicacoes i
-    LEFT JOIN indicacoes_servicos is_servicos ON i.id = is_servicos.indicacao_id
-    WHERE i.id = ?
-";
+// Buscar dados da indicação
+$sql = "SELECT * FROM indicacoes WHERE id = ?";
 $stmt = $conexao->prepare($sql);
 $stmt->bind_param('i', $id);
 $stmt->execute();
@@ -45,38 +42,41 @@ if ($result->num_rows === 0) {
 $indicacao = $result->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome_empresa = filter_input(INPUT_POST, 'nome_empresa', FILTER_SANITIZE_STRING);
+    $cnpj = filter_input(INPUT_POST, 'cnpj', FILTER_SANITIZE_STRING);
+    $cpf = filter_input(INPUT_POST, 'cpf', FILTER_SANITIZE_STRING);
+    $data_indicacao = filter_input(INPUT_POST, 'data_indicacao', FILTER_SANITIZE_STRING);
+    $ultima_atualizacao = filter_input(INPUT_POST, 'ultima_atualizacao', FILTER_SANITIZE_STRING);
     $status = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_STRING);
 
-    if (!$status) {
+    if (!$nome_empresa || !$cnpj || !$cpf || !$data_indicacao || !$status) {
         $message = [
             'type' => 'error',
-            'text' => 'Status da indicação é obrigatório.'
+            'text' => 'Todos os campos são obrigatórios.'
         ];
     } else {
-        // Atualizar o status na tabela indicacoes_servicos
-        $sql_update_indicacao = "UPDATE indicacoes_servicos SET status = ?, ultima_atualizacao = NOW() WHERE indicacao_id = ?";
-        $stmt_update_indicacao = $conexao->prepare($sql_update_indicacao);
-        $stmt_update_indicacao->bind_param('si', $status, $id);
+        $sql = "UPDATE indicacoes SET nome_empresa = ?, cnpj = ?, cpf = ?, data_indicacao = ?, status = ?, ultima_atualizacao = NOW() WHERE id = ?";
+        $stmt = $conexao->prepare($sql);
+        $stmt->bind_param('sssssi', $nome_empresa, $cnpj, $cpf, $data_indicacao, $status, $id);
 
-        if ($stmt_update_indicacao->execute()) {
+        if ($stmt->execute()) {
             $_SESSION['message'] = [
                 'type' => 'success',
-                'text' => 'Status da indicação atualizado com sucesso!'
+                'text' => 'Indicação atualizada com sucesso!'
             ];
             header("Location: indicacoes.php");
             exit();
         } else {
             $message = [
                 'type' => 'error',
-                'text' => 'Erro ao atualizar o status da indicação.'
+                'text' => 'Erro ao atualizar a indicação.'
             ];
         }
     }
 }
 
-$stmt->close();
-$conexao->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -170,17 +170,20 @@ $conexao->close();
             <label for="cnpj">CNPJ</label>
             <input type="text" id="cnpj" name="cnpj" value="<?php echo htmlspecialchars($indicacao['cnpj']); ?>" readonly>
 
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" name="cpf" value="<?php echo htmlspecialchars($indicacao['cpf']); ?>" readonly>
+
             <label for="data_indicacao">Data da Indicação</label>
             <input type="date" id="data_indicacao" name="data_indicacao" value="<?php echo htmlspecialchars($indicacao['data_indicacao']); ?>" readonly>
 
-            <label for="ultima_atualizacao">Última Atualização</label>
+            <label for="ultima_atualizacao">Ultima Atualização</label>
             <input type="date" id="ultima_atualizacao" name="ultima_atualizacao" value="<?php echo htmlspecialchars($indicacao['ultima_atualizacao']); ?>" readonly>
 
-            <label for="status">Status da Indicação</label>
+            <label for="status">Status</label>
             <select id="status" name="status" required>
-                <option value="Pendente" <?php echo $indicacao['servico_status'] === 'Pendente' ? 'selected' : ''; ?>>Pendente</option>
-                <option value="Aceita" <?php echo $indicacao['servico_status'] === 'Aceita' ? 'selected' : ''; ?>>Aceita</option>
-                <option value="Negada" <?php echo $indicacao['servico_status'] === 'Negada' ? 'selected' : ''; ?>>Negada</option>
+                <option value="Em Andamento" <?php echo $indicacao['status'] === 'Em Andamento' ? 'selected' : ''; ?>>Em Andamento</option>
+                <option value="Aceita" <?php echo $indicacao['status'] === 'Aceita' ? 'selected' : ''; ?>>Aceita</option>
+                <option value="Negada" <?php echo $indicacao['status'] === 'Negada' ? 'selected' : ''; ?>>Negada</option>
             </select>
 
             <button type="submit">Atualizar</button>
@@ -188,3 +191,8 @@ $conexao->close();
     </div>
 </body>
 </html>
+
+<?php
+$stmt->close();
+$conexao->close();
+?>

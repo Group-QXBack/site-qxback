@@ -1,39 +1,31 @@
 <?php
-session_start();
+    session_start();
 
-$message = $_SESSION['message'] ?? null;
-unset($_SESSION['message']); 
+    $message = $_SESSION['message'] ?? null;
+    unset($_SESSION['message']); 
 
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../ScreenUser/index.html");
-    exit();
-}
-
-include '../ScreenCadastro/config.php';
-
-$usuario = $_SESSION['usuario'];
-$userId = $usuario['id'];
-
-$sql = "SELECT * FROM usuarios WHERE id = ?";
-$stmt = $conexao->prepare($sql);
-$stmt->bind_param('i', $userId);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    $usuario = $result->fetch_assoc();
-    $_SESSION['usuario'] = $usuario; 
-    
-    if ($usuario['tipo_conta'] !== 'admin') {
-        header("Location: ../ScreenAdmin/index.php");
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: ../ScreenUser/index.html");
         exit();
     }
-} else {
-    $message = ['type' => 'error', 'text' => 'Usuário não encontrado.'];
-    header("Location: ../ScreenUser/index.html");
-    exit();
-}
-?>
+    include '../ScreenCadastro/config.php';
+
+    $usuario = $_SESSION['usuario'];
+    $userId = $usuario['id'];
+
+    $sql = "SELECT * FROM usuarios WHERE id = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $usuario = $result->fetch_assoc();
+        $_SESSION['usuario'] = $usuario; 
+    } else {
+        $message = ['type' => 'error', 'text' => 'Usuário não encontrado.'];
+    }
+    ?>
 
     <!DOCTYPE html>
     <html lang="pt-BR">
@@ -46,7 +38,7 @@ if ($result->num_rows > 0) {
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
-        <title>Área do Administrador</title>
+        <title>Área do Usuário</title>
         <style>
             :root {
     --cinza: #E7E4D7;

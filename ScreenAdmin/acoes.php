@@ -1,24 +1,23 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
+if (!isset($_SESSION['usuario'])) {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
 
 include '../ScreenCadastro/config.php';
 
+// Sanitizar e validar os parâmetros
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
-$servicos_id = filter_input(INPUT_GET, 'servicos_id', FILTER_VALIDATE_INT);
-$indicacao_id = filter_input(INPUT_GET, 'indicacao_id', FILTER_VALIDATE_INT);
-$status_filter = filter_input(INPUT_GET, 'status', FILTER_SANITIZE_STRING);
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-if (!$action || !$servicos_id || !$indicacao_id) {
+if (!$action || !$id) {
     $_SESSION['message'] = [
         'type' => 'error',
-        'text' => 'Ação, ID do serviço ou ID da indicação inválidos.'
+        'text' => 'Ação ou ID inválidos.'
     ];
-    header("Location: indicacoes.php?status=" . urlencode($status_filter));
+    header("Location: indicacoes.php");
     exit();
 }
 
@@ -28,27 +27,27 @@ if (!in_array($action, $allowed_actions)) {
         'type' => 'error',
         'text' => 'Ação inválida.'
     ];
-    header("Location: indicacoes.php?status=" . urlencode($status_filter));
+    header("Location: indicacoes.php");
     exit();
 }
 
 $status = ($action === 'aceitar') ? 'Aceita' : 'Negada';
 
-$sql = "UPDATE indicacoes_servicos SET status = ?, ultima_atualizacao = NOW() WHERE servicos_id = ? AND indicacao_id = ?";
+$sql = "UPDATE indicacoes SET status = ?, ultima_atualizacao = NOW() WHERE id = ?";
 $stmt = $conexao->prepare($sql);
 
 if ($stmt) {
-    $stmt->bind_param('sii', $status, $servicos_id, $indicacao_id);
+    $stmt->bind_param('si', $status, $id);
     
     if ($stmt->execute()) {
         $_SESSION['message'] = [
             'type' => 'success',
-            'text' => "Serviço foi $status com sucesso!"
+            'text' => "Indicação foi $status com sucesso!"
         ];
     } else {
         $_SESSION['message'] = [
             'type' => 'error',
-            'text' => 'Erro ao atualizar o status do serviço.'
+            'text' => 'Erro ao atualizar o status da indicação.'
         ];
     }
 
@@ -62,6 +61,6 @@ if ($stmt) {
 
 $conexao->close();
 
-header("Location: indicacoes.php?status=" . urlencode($status_filter));
+header("Location: indicacoes.php");
 exit();
 ?>

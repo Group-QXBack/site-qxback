@@ -74,8 +74,8 @@ header img {
 
 .container {
     background-color: var(--meiobranco);
+    height: 750px;
     display: grid;
-    height: 550px;
     border-radius: 20px;
     place-items: center;
     grid-template-columns: 18% 12% 65%;
@@ -105,6 +105,12 @@ header img {
     border-radius: 14px;
     color: #000;
     transition: all 0.2s ease;
+}
+
+.container .form-container .form-indicacao {
+    display: flex;
+    flex-direction: column; /* Organiza inputs abaixo do texto */
+    margin-bottom: 10px;
 }
 
 #btn-sair:hover {
@@ -152,77 +158,39 @@ header img {
 .input-date {
     border: none;
 }
-.dados-perfil {
+.container .form-container .form-indicacao input {
+    width: 100%; /* Define a largura do input */
+    height: 25px; /* Define a altura do input */
+    padding: 5px;
+    border: 1px solid #00000088;
+    border-radius: 6px;
+    background-color: #eeeeeebe;
+    font-size: 14px;
+    color: #333;
+}
+.container .form-container {
     display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
+    flex-direction: column; /* Organiza os elementos em coluna */
+    gap: 10px; /* Espaço entre os elementos */
 }
 
-.dados input {
-    width: 100px; /* Ajuste a largura */
-    padding: 5px; /* Adiciona um pouco de preenchimento interno */
-    border: 1px solid #a8a8a8d0; /* Define a cor da borda */
-    border-radius: 4px; /* Bordas arredondadas */
-    background-color: #eeeeeebe; /* Cor de fundo */
-    font-size: 14px; /* Tamanho da fonte */
-    color: #333; /* Cor do texto */
-}
-
-.dados input:focus {
+.container .form-container .form-indicacao input:focus {
     border-color: #76ff4c; /* Cor da borda ao focar no input */
     outline: none; /* Remove o outline padrão */
 }
 
-.dados input[readonly] {
+.container .form-container .form-indicacao input[readonly] {
     background-color: var(--meiobranco); /* Cor de fundo para inputs somente leitura */
     color: #4e4e4e; /* Cor do texto para inputs somente leitura */
 }
 
-.dados-perfil>.dados {
-    display: grid;
-    gap: 10px;
-}
 
-.dados p {
-    display: flex;
-    align-items: center;
-    height: 30px;
-    gap: 5px;
-}
-
-.dados-perfil>.image {
-    display: grid;
-    place-items: center;
-    padding-right: 70px;
-}
-
-.dados-perfil>.image>i {
-    font-size: 100px;
-}
-
-.dados-perfil>.image>a {
-    width: 120px;
-    height: 45px;
-    text-decoration: none;
-    text-align: center;
-    background-color: white;
-    border-radius: 9px;
-    border: 2px solid #304D30;
-    font-weight: bold;
-    color: #304D30;
-}
-
-.dados-perfil>.image>a:hover {
-    background-color: #95eb95;
-    transition: all 0.6s ease;
-}
-
-.container>article>.btn-salvar {
+.container>article>button {
     display: grid;
     place-items: center;
 }
 
-.container>article>.btn-salvar>a {
+.container>article>button>a {
     display: flex;
     justify-content: center;
     width: 150px;
@@ -236,14 +204,13 @@ header img {
     color: #304D30;
 }
 
-.container>article>.btn-salvar>a:hover {
+.container>article>button>a:hover {
     background-color: #95eb95;
     transition:0.5s;
 
 }
 
-
-.btn-salvar input[type="submit"] {
+button input[type="submit"] {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -280,71 +247,6 @@ header img {
 
 .btn-salvar input[type="submit"]:hover {
     background-color: #45a049;
-}
-
-.submenu {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--preto);
-    font-weight: bold;
-    height: 35px;
-}
-
-.submenu ul {
-    display: flex;
-    list-style: none;
-    padding: 10px;
-    gap: 500px;
-}
-
-.submenu ul li {
-    position: relative;
-    cursor: pointer;
-
-}
-.submenu ul li p {
-    color:#fff
-}
-
-
-.submenu ul li a{
-    color: #000000;
-    transition: background .3s, color .3s;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.submenu ul li a:hover,
-.submenu ul li p:hover {
-    background-color: #6f886fa8;
-    color: #000000;
-}
-
-.submenu ul ul {
-    display: none;
-    position: absolute;
-    top: 100%;
-    width: 220px;
-    padding: 5px 10px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    z-index: 1;
-}
-
-.submenu ul li:hover ul {
-    display: block;
-}
-
-.submenu ul ul li {
-    margin: 0;
-}
-
-.submenu ul ul li a {
-    display: block;
 }
 
 /* rodape */
