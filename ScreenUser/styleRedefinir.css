@@ -156,14 +156,13 @@ header img {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    flex-direction: column;
 }
 
 .dados input {
-    width: 100px; /* Ajuste a largura */
+    width: 120px; /* Ajuste a largura */
     padding: 5px; /* Adiciona um pouco de preenchimento interno */
-    border: 1px solid #f7f7f76e; /* Define a cor da borda */
-    border-radius: 4px; /* Bordas arredondadas */
+    border: 1px solid #0000006e; /* Define a cor da borda */
+    border-radius: 10px; /* Bordas arredondadas */
     background-color: #eeeeeebe; /* Cor de fundo */
     font-size: 14px; /* Tamanho da fonte */
     color: #333; /* Cor do texto */

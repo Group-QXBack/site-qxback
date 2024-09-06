@@ -61,15 +61,47 @@ $conexao->close();
                 padding: 0;
                 text-align: center;
             }
-            header {
-        width: 100%;
-        height: 80px;
-        background-color: #000000;
-        background-size: 200% 200%;    display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: #ffffff;
-    }
+            .img_logo_header{
+    width: 180px;
+}
+.header,
+.navigation_header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.header{
+    background-color: #1d1d1d;
+    justify-content: space-between;
+    padding: 0 10%;
+    height: 4em;
+}
+.navigation_header{
+    gap: 3em;
+    z-index: 2;
+}
+.content{
+    padding-top: 5em;
+    text-align: center;
+    height: 100vh;
+    transition: 1s;
+}
+.navigation_header a{
+    text-decoration: none;
+    color: var(--color-white);
+    transition: 1s;
+    font-weight: bold;
+}
+.navigation_header a:hover{
+    color: var(--color-white);
+}
+.btn_icon_header{
+    background: transparent;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    display: none;
+}
 
             .logo {
                 max-width: 200px;
@@ -217,158 +249,114 @@ $conexao->close();
             .details-row li {
                 margin-bottom: 5px;
             }
-            .submenu {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--preto);
-        font-weight: bold;
-        height: 35px;
-    }
-    .submenu ul {
-        display: flex;
-        list-style: none;
-        padding: 10px;
-        gap: 500px;
-    }
 
-    .submenu ul li {
-        position: relative;
-        cursor: pointer;
+            .sem-indicacoes{
 
-    }
-    .submenu ul li p {
-        color:#fff
-    }
+            }
 
-
-    .submenu ul li a{
-        color: #000000;
-        transition: background .3s, color .3s;
-        text-decoration: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-
-    .submenu ul li a:hover,
-    .submenu ul li p:hover {
-        background-color: #6f886fa8;
-        color: #000000;
-    }
-
-    .submenu ul ul {
-        display: none;
+    @media screen and (max-width: 768px) {
+    .navigation_header{
         position: absolute;
-        top: 100%;
-        width: 220px;
-        padding: 5px 10px;
-        border-radius: 10px;
-        background-color: #ffffff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        z-index: 1;
+        flex-direction: column !important;
+        top: 0;
+        background: var(--color-dark5);
+        height: 100%;
+        width: 35vw;
+        padding: 1em;
+        animation-duration: 1s;
+        margin-left: -100vw;
     }
-
-    .submenu ul li:hover ul {
+    .btn_icon_header{
         display: block;
     }
-
-    .submenu ul ul li {
-        margin: 0;
-    }
-
-    .submenu ul ul li a {
-        display: block;
-    }
-    header>.logo {
-            width: 90px;
-            height: 40px;
-        }
-
-        header .logo {
-            padding-left: 50px;
-        }
-        header>.logo {
-        height: 45px;
-        width: 150px;
-        padding-left: 15px;
-        margin-top: 10px;
-    }
-
+}
+    @keyframes showSidebar {
+    from {margin-left: -100vw;}
+    to {margin-left: -10vw;}
+}
     </style>
 </head>
 <body>
-<header>
-        <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
-        <div class="submenu">
-            <ul>
-                <li>
-                    <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul>
-                        <li><a href="minhas_indicacoes.php">Indicações Iniciadas</a></li>
-                        <li><a href="minhas_indicacoes.php">Indicações em Andamento</a></li>
-                        <li><a href="minhas_indicacoes.php">Indicações Concluídas</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul id="btn-suporte">
-                        <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                    </ul>
-                </li>
-            </ul>
+    <div class="header" id="header">
+        <button onclick="toggleSidebar()" class="btn_icon_header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+        </button>
+        <div class="logo_header">
+            <img src="../imagens/logobranca1.png" alt="Logo" class="img_logo_header">
         </div>
-    </header>
+        <div class="navigation_header" id="navigation_header">
+            <button onclick="toggleSidebar()" class="btn_icon_header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </button>
+            <a href="./index.php" id="btn-minhaConta" style="border-radius: 14px;">
+            <p>Minha Conta</p>
+            </a>
+            <a href="./minhas_indicacoes.php">
+            <p>Minhas Indicações</p>
+            </a>
+            <a href="./indicar.php">
+            <p>Indicar</p>
+            </a>
+        </div>
+    </div>
     <div class="container">
-        <h1>Minhas Indicações</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome da Empresa</th>
-                    <th>CNPJ</th>
-                    <th>Valor Pendente</th>
-                    <th>Data da Indicação</th>
-                    <th>Ações</th>
+        <?php if (!empty($indicacoes)): ?>
+    <!-- Tabela de Indicações -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nome da Empresa</th>
+                <th>CNPJ</th>
+                <th>Valor Pendente</th>
+                <th>Data de Indicação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($indicacoes as $indicacao): ?>
+                <tr class="main-row" data-id="<?php echo htmlspecialchars($indicacao['id']); ?>">
+                    <td><?php echo htmlspecialchars($indicacao['nome_empresa']); ?></td>
+                    <td><?php echo htmlspecialchars($indicacao['cnpj']); ?></td>
+                    <td class="valor-pendente">R$ <?php echo number_format($indicacao['valor_pendente'], 2, ',', '.'); ?></td>
+                    <td><?php echo htmlspecialchars($indicacao['data_indicacao']); ?></td>
+                    <td><button class="expand-btn">+</button></td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($indicacoes)): ?>
-                    <?php foreach ($indicacoes as $indicacao): ?>
-                        <tr class="main-row" data-id="<?php echo htmlspecialchars($indicacao['id']); ?>">
-                            <td><?php echo htmlspecialchars($indicacao['nome_empresa']); ?></td>
-                            <td><?php echo htmlspecialchars($indicacao['cnpj']); ?></td>
-                            <td class="valor-pendente">R$ <?php echo number_format($indicacao['valor_pendente'], 2, ',', '.'); ?></td>
-                            <td><?php echo htmlspecialchars($indicacao['data_indicacao']); ?></td>
-                            <td><button class="expand-btn">+</button></td>
-                        </tr>
-                        <tr class="details-row" id="details-<?php echo htmlspecialchars($indicacao['id']); ?>">
-                            <td colspan="7">
-                                <strong>Serviços Detalhados:</strong>
-                                <ul>
-                                    <?php 
-                                    if (isset($indicacoes_servicos[$indicacao['id']])) {
-                                        foreach ($indicacoes_servicos[$indicacao['id']] as $servico) {
-                                            echo "<li>" . htmlspecialchars($servico['servico_nome']) . " - " . htmlspecialchars($servico['status']) . "</li>";
-                                        }
-                                    }
-                                    ?>
-                                </ul>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="7" class="no-data-message">Nenhuma indicação encontrada.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                <tr class="details-row" id="details-<?php echo htmlspecialchars($indicacao['id']); ?>">
+                    <td colspan="7">
+                        <strong>Serviços Detalhados:</strong>
+                        <ul>
+                            <?php 
+                            if (isset($indicacoes_servicos[$indicacao['id']])) {
+                                foreach ($indicacoes_servicos[$indicacao['id']] as $servico) {
+                                    echo "<li>" . htmlspecialchars($servico['servico_nome']) . " - " . htmlspecialchars($servico['status']) . "</li>";
+                                }
+                            }
+                            ?>
+                        </ul>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+                </table>
+            <?php else: ?>
+    <!-- Exibir imagem quando não houver indicações -->
+    <div class="sem-indicacoes">
+        <img src="../imagens/img-espera.png" alt="Nenhuma indicação encontrada">
+        <h2>Nenhuma indicação encontrada</h2>
+    </div>
+<?php endif; ?>
+
+
         <div class="bottom-buttons">
             <a href="index.php">Voltar</a>
         </div>
     </div>
     <footer>
-        &copy; 2024 QXBack. Todos os direitos reservados.
+        <p>&copy; 2024 QXBack. Todos os direitos reservados.</p>
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
