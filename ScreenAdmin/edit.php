@@ -1,31 +1,38 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
+    header("Location: ../ScreenUser/index.html");
+    exit();
+}
+
 if (!empty($_GET['id'])) {
     include_once('../ScreenCadastro/config.php');
 
     $id = $_GET['id'];
 
-    $sqlSelect = "SELECT * FROM usuarios WHERE id=$id";
-    $result = $conexao->query($sqlSelect);
+    $sqlSelect = "SELECT * FROM usuarios WHERE id=?";
+    $stmt = $conexao->prepare($sqlSelect);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
-        while ($user_data = $result->fetch_assoc()) {
-            $nome = $user_data['nome'];
-            $cpf = $user_data['cpf'];
-            $email = $user_data['email'];
-            $telefone = $user_data['telefone'];
-            $data_nasc = $user_data['data_nasc'];
-            $genero = $user_data['genero'];
-            $cep = $user_data['cep'];
-            $cidade = $user_data['cidade'];
-            $estado = $user_data['estado'];
-            $bairro = $user_data['bairro'];
-            $endereco = $user_data['endereco'];
-            $numero = $user_data['numero'];
-            $complemento = $user_data['complemento'];
-            $tipo_conta = $user_data['tipo_conta'];
-        }
+        $user_data = $result->fetch_assoc();
+        $nome = $user_data['nome'];
+        $cpf = $user_data['cpf'];
+        $email = $user_data['email'];
+        $telefone = $user_data['telefone'];
+        $data_nasc = $user_data['data_nasc'];
+        $genero = $user_data['genero'];
+        $cep = $user_data['cep'];
+        $cidade = $user_data['cidade'];
+        $estado = $user_data['estado'];
+        $bairro = $user_data['bairro'];
+        $endereco = $user_data['endereco'];
+        $numero = $user_data['numero'];
+        $complemento = $user_data['complemento'];
+        $tipo_conta = $user_data['tipo_conta'];
     } else {
         header('Location: cadastros.php');
         exit();
@@ -34,10 +41,6 @@ if (!empty($_GET['id'])) {
     header('Location: cadastros.php');
     exit();
 }
-
-$sqlCursos = "SELECT * FROM usuarios";
-$resultCursos = $conexao->query($sqlCursos);
-
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +53,7 @@ $resultCursos = $conexao->query($sqlCursos);
     <style>
         body{
             font-family: Arial, Helvetica, sans-serif;
-            background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
+            background-color: #4a4a4a;
             color: whitesmoke;
             background-size: cover; 
             background-attachment: fixed; 
@@ -229,6 +232,7 @@ $resultCursos = $conexao->query($sqlCursos);
                     <select name="tipo_conta" required>
                         <option value="user" <?php echo ($tipo_conta == 'user') ? 'selected' : ''; ?>>Usuário</option>
                         <option value="admin" <?php echo ($tipo_conta == 'admin') ? 'selected' : ''; ?>>Administrador</option>
+                        <option value="financeiro" <?php echo ($tipo_conta == 'financeiro') ? 'selected' : '' ?>>Financeiro</option>
                     </select>
                 </div>
                 <br><br>

@@ -10,7 +10,6 @@ include '../ScreenCadastro/config.php';
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $servico_id = $_GET['id'];
 
-    // Buscar informações do serviço
     $sql = "SELECT * FROM servicos WHERE id = ?";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("i", $servico_id);
@@ -26,11 +25,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     }
     $stmt->close();
 
-    // Buscar empresas disponíveis
     $sql_empresas = "SELECT id, nome_empresa FROM empresas";
     $empresas_result = $conexao->query($sql_empresas);
 
-    // Buscar empresa responsável pelo serviço
     $sql_responsavel = "
         SELECT empresa_id FROM empresa_servico WHERE servico_id = ?";
     $stmt_responsavel = $conexao->prepare($sql_responsavel);
@@ -45,13 +42,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $descricao = $_POST['descricao'];
         $empresa_responsavel_id = $_POST['empresa_responsavel'];
 
-        // Atualizar dados do serviço
         $sql = "UPDATE servicos SET nome = ?, descricao = ? WHERE id = ?";
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param("ssi", $nome_servico, $descricao, $servico_id);
 
         if ($stmt->execute()) {
-            // Atualizar empresa responsável
             $sql_update_responsavel = "INSERT INTO empresa_servico (servico_id, empresa_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE empresa_id = VALUES(empresa_id)";
             $stmt_update_responsavel = $conexao->prepare($sql_update_responsavel);
             $stmt_update_responsavel->bind_param("ii", $servico_id, $empresa_responsavel_id);
@@ -83,7 +78,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
+            background-color: #4a4a4a;
             color: whitesmoke;
             text-align: center;
             background-size: cover; 

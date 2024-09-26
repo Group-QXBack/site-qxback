@@ -42,7 +42,7 @@ body {
 }
  
 .card-login{
-    width: 60%;
+    width: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,23 +92,33 @@ body {
 }
  
 .btn-login {
-    width: 100%;
-    padding: 16px 0;
-    margin-top: 10px;
-    margin-bottom: 25px;
-    border: none;
-    border-radius: 8px;
-    outline: none;
-    text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 3px;
-    color: #000;
-    cursor: pointer;
-    box-shadow: 0px 10px 40px -12px #318313;
-    text-align: center;
-    text-decoration: none;
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    margin-top: 1rem; 
 }
- 
+
+.btn-login {
+    width: 100%; 
+    border: none;
+    background-color: #000; 
+    padding: 0.62rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+}
+
+
+.btn-login:hover {
+    background-color: #333;
+}
+
+.btn-login a {
+    text-decoration: none;
+    font-weight: 700;
+    color: #fff; 
+}
  
 @media only screen and (max-width: 950px){
     .card-login{
@@ -137,5 +147,8 @@ body {
     .card-login{
         width: 90%;
     }
+}
+.entre-aqui{
+    margin-top: 3%;
 }
  

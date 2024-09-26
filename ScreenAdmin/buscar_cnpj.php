@@ -1,6 +1,6 @@
 <?php
 if (isset($_GET['cnpj'])) {
-    $cnpj = preg_replace('/\D/', '', $_GET['cnpj']); // Remove qualquer coisa que não seja número
+    $cnpj = preg_replace('/\D/', '', $_GET['cnpj']); 
 
     $url = "https://www.receitaws.com.br/v1/cnpj/{$cnpj}";
     $ch = curl_init($url);

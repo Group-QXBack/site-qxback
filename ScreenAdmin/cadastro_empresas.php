@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../ScreenUser/index.html");
+    if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
+    header("Location: ../ScreenLogin/index.html");
     exit();
 }
 
@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $estado = $_POST['estado'];
     $cep = $_POST['cep'];
 
-    // Verificar se o CNPJ já está cadastrado
     $sql = "SELECT id FROM empresas WHERE cnpj = ?";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("s", $cnpj);
@@ -33,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt->close();
 
-    // Inserir a nova empresa
     $sql = "INSERT INTO empresas (cnpj, nome_empresa, telefone, email, endereco, cidade, estado, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("ssssssss", $cnpj, $nome_empresa, $telefone, $email, $endereco, $cidade, $estado, $cep);
@@ -48,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 
-// Consultar empresas
 $sql = "SELECT * FROM empresas";
 $result = $conexao->query($sql);
 ?>
@@ -61,153 +58,177 @@ $result = $conexao->query($sql);
     <title>Cadastro de Empresas</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
-            color: whitesmoke;
-            text-align: center;
-            background-size: cover; 
-            background-attachment: fixed; 
-            margin: 0; 
-            padding: 0; 
-        }
-        .section-buttons {
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .section-buttons button {
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            background-color: rgb(0, 0, 0, 0.3);
-            color: whitesmoke;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .section-buttons button:hover {
-            background-color: rgb(75, 198, 133);
-        }
-        table {
-            margin: 0 auto;
-            margin-bottom: 20px;
-        }
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: rgb(0, 0, 0, 0.3);
-        }
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .actions-column a {
-            text-decoration: none;
-            color: white;
-            padding: 8px;
-            background-color: rgb(0, 0, 0, 0.3);
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            display: inline-block;
-        }
-        .actions-column a:hover {
-            background-color: rgb(20, 150, 80);
-        }
-        input[type="submit"], a {
-            padding: 8px;
-            background-color: rgb(0, 0, 0, 0.3);
-            color: whitesmoke;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        input[type="submit"]:hover, a:hover {
-            background-color: rgb(75, 198, 133);
-        }
-        .search-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .search-container input[type="text"] {
-            padding: 8px;
-            border: none;
-            border-radius: 4px 0 0 4px;
-            margin-right: -4px;
-            box-sizing: border-box;
-        }
-        .search-container button {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            background-color: rgb(0, 0, 0, 0.3);
-            color: whitesmoke;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        .search-container button:hover {
-            background-color: rgb(75, 198, 133);
-        }
-        .top-buttons button {
-            padding: 8px;
-            border-radius: 4px;
-            background-color: rgb(0, 0, 0, 0.3);
-            color: whitesmoke;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
-        }
-        .top-buttons button:hover {
-            background-color: rgb(75, 198, 133);
-        }
+    font-family: Arial, sans-serif;
+    background-color: #4a4a4a;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+
+.search-container, .section-buttons {
+    margin-bottom: 20px;
+}
+
+.search-container a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.search-container a:hover {
+    background: #4bc866;
+}
+
+.section-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-buttons form {
+    width: 100%;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+form input[type="text"], form input[type="email"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background: #4bc866;
+}
+
+.success-message, .error-message {
+    padding: 10px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.success-message {
+    background: #4caf50;
+}
+
+.error-message {
+    background: #f44336;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.actions-column a {
+    display: inline-block;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.actions-column a:hover {
+    background: #149a50;
+}
+
     </style>
 </head>
 <body>
-    <h1>Cadastro de Empresas</h1>
-    <div class="search-container">
-        <a href="cadastros.php">Voltar</a>
-    </div>
+    <div class="container">
+        <h1>Cadastro de Empresas</h1>
 
-    <div class="section-buttons">
-        <form method="POST" action="cadastro_empresas.php">
-            <label for="cnpj">CNPJ:</label>
-            <input type="text" id="cnpj" name="cnpj"  oninput="formatarCNPJ(this); buscarCNPJ(this.value)"><br><br>
+        <div class="section-buttons">
+            <form method="POST" action="cadastro_empresas.php">
+                <label for="cnpj">CNPJ:</label>
+                <input type="text" id="cnpj" name="cnpj" oninput="formatarCNPJ(this); buscarCNPJ(this.value)">
 
-            <label for="nome_empresa">Nome da Empresa:</label>
-            <input type="text" id="nome_empresa" name="nome_empresa" required><br><br>
-            
-            <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" required><br><br>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+                <label for="nome_empresa">Nome da Empresa:</label>
+                <input type="text" id="nome_empresa" name="nome_empresa" required>
 
-            <label for="cep">CEP:</label>
-            <input type="text" id="cep" name="cep" oninput="formatarCEP(this); buscarCEP(this.value)" required><br><br>
-            
-            <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" required><br><br>
-            
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" name="cidade" required><br><br>
-            
-            <label for="estado">Estado:</label>
-            <input type="text" id="estado" name="estado" maxlength="2" required><br><br>
-            
-            <input type="submit" value="Cadastrar Empresa">
-        </form>
-    </div>
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" required>
 
-    <?php if (isset($_SESSION['message'])): ?>
-        <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
-            <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" name="cep" oninput="formatarCEP(this); buscarCEP(this.value)" required>
+
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" required>
+
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" name="cidade" required>
+
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" name="estado" maxlength="2" required>
+
+                <input type="submit" value="Cadastrar Empresa">
+            </form>
         </div>
-        <?php unset($_SESSION['message']); ?>
-    <?php endif; ?>
+        <div class="search-container">
+            <a href="cadastros.php">Voltar</a>
+        </div>
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
+                <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
+            </div>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
+    </div>
 
     <script>
         function formatarCNPJ(campo) {

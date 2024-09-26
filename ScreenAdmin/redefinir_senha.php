@@ -7,7 +7,10 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 $usuario = $_SESSION['usuario'];
-
+if ($usuario['tipo_conta'] !== 'admin') {
+    header("Location: ../ScreenAdmin/redefinir_senha.php");
+    exit();
+}
 include('../ScreenCadastro/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -39,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $msg = "Senha atual incorreta.";
     }
+    
 }
 ?>
 
@@ -60,24 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
     </header>
-    <div class="submenu">
-        <ul>
-            <li>
-                <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                <ul>
-                    <li><a href="#">Indicações Iniciadas</a></li>
-                    <li><a href="#">Indicações em Andamento</a></li>
-                    <li><a href="#">Indicações Concluídas</a></li>
-                </ul>
-            </li>
-            <li>
-                <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                <ul id="btn-suporte">
-                    <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
     <div class="corpo_principal">
         <article>
             <h1>Redefinir Senha</h1>
@@ -108,56 +94,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </section>
             <div class="linha-vertical"></div>
             <article>
-            <h2><strong>Usuário | <?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
-                            <div class="linha-horizontal"></div>
-
+                <h2><strong><?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
+                <div class="linha-horizontal"></div>
                 <h2>Atualizar Senha</h2>
                 <main class="dados-perfil">
                     <form method="post" action="">
-                    
-                        <p>
-                            <strong>Senha Atual:</strong>
-                            <input type="password" name="senha_atual" required>
-                        </p>
+                        <div class="form-group">
+                            <label for="senha_atual"><strong>Senha Atual:</strong></label>
+                            <input type="password" id="senha_atual" name="senha_atual" required>
+                        </div>
                         <br>
-                        <br>
-                        <p>
-                            <strong>Nova Senha:</strong>
-                            <input type="password" name="nova_senha" required>
-                        </p>
-                        <br><br>
-                        <p>
-                            <strong>Confirmar Nova Senha:</strong>
-                            <input type="password" name="confirmar_senha" required>
-                        </p>
-                        <br>
+                        <div class="form-group">
+                            <label for="nova_senha"><strong>Nova Senha:</strong></label>
+                            <input id="senha" type="password" name="nova_senha" minlength="7" maxlength="30" placeholder="Digite sua nova senha" required pattern=".{7,}" title="A senha deve ter pelo menos 7 caracteres e incluir pelo menos 1 caractere especial">
+                            <div id="error-senha" class="error-message">
+                                <?php if (isset($erroSenha)) { echo $erroSenha; } ?>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmar_senha"><strong>Confirmar Nova Senha:</strong></label>
+                            <input id="confirmSenha" type="password" name="confirmar_senha" placeholder="Confirme sua Senha" required>
+                            <div id="error-confirmSenha" class="error-message">
+                                <?php if (isset($erroConfirmSenha)) { echo $erroConfirmSenha; } ?>
+                            </div>
+                        </div>
                         <div class="btn-atualizar">
-                        <button type="submit" style="text-align: center;" class="btn-atualizar">Atualizar Senha</button>
+                            <button type="submit">Atualizar Senha</button>
                         </div>
                         <?php if (isset($msg)) { ?>
                         <p class="feedback <?php echo $msg === "Senha atualizada com sucesso!" ? 'sucesso' : 'erro'; ?>">
-                        <?php echo htmlspecialchars($msg); ?>
+                            <?php echo htmlspecialchars($msg); ?>
                         </p>
                         <?php } ?>
-
                     </form>
-
                 </main>
             </article>
         </div>
     </div>
     <footer class="primeiro-rodape">
-        <div class="voltar-ao-topo">
-            <hr>
-            <i class="fa-solid fa-arrow-up-long" style="color: #00ff00;"></i>
-            <a style="cursor: pointer;" onclick="subiraoTopo();">Voltar ao topo</a>
-            <hr>
-        </div>
         <article>
             <div class="container-texto">
                 <div class="primeiro-txt">
                     <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">QXBack</strong>
+                        <strong style="cursor: default; color: #1bff1b;">QXBack</strong>
                     </h3>
                     <p>
                         <a href="#">Programa</a>
@@ -167,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="segundo-txt">
                     <h3>
-                        <strong style="cursor: default; color: rgb(255, 255, 255);">Serviços</strong>
+                        <strong style="cursor: default; color: #1bff1b;">Serviços</strong>
                     </h3>
                     <p>
                         <a href="#">Atendimento Virtual</a>

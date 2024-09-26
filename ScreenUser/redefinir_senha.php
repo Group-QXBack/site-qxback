@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario'])) {
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'user') {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styleRedefinir.css">
+    <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
@@ -90,40 +90,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </section>
             <div class="linha-vertical"></div>
             <article>
-            <h2><strong>Usuário | <?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
+                <h2><strong>Usuário | <?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?></strong></h2>
                 <div class="linha-horizontal"></div>
                 <h2>Atualizar Senha</h2>
                 <main class="dados-perfil">
-                    <div class="dados">
                     <form method="post" action="">
-                    
-                        <p>
-                            <strong>Senha Atual:</strong>
-                            <input type="password" name="senha_atual" required>
-                        </p>
-                        <br>
-                        <br>
-                        <p>
-                            <strong>Nova Senha:</strong>
-                            <input type="password" name="nova_senha" required>
-                        </p>
-                        <br><br>
-                        <p>
-                            <strong>Confirmar Nova Senha:</strong>
-                            <input type="password" name="confirmar_senha" required>
-                        </p>
-                        <br>
+                        <div class="form-group">
+                            <label for="senha_atual"><strong>Senha Atual:</strong></label>
+                            <input type="password" id="senha_atual" name="senha_atual" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nova_senha"><strong>Nova Senha:</strong></label>
+                            <input id="senha" type="password" name="nova_senha" minlength="7" maxlength="30" placeholder="Digite sua nova senha" required pattern=".{7,}" title="A senha deve ter pelo menos 7 caracteres e incluir pelo menos 1 caractere especial">
+                            <div id="error-senha" class="error-message">
+                                <?php if (isset($erroSenha)) { echo $erroSenha; } ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmar_senha"><strong>Confirmar Nova Senha:</strong></label>
+                            <input id="confirmSenha" type="password" name="confirmar_senha" placeholder="Confirme sua Senha" required>
+                            <div id="error-confirmSenha" class="error-message">
+                                <?php if (isset($erroConfirmSenha)) { echo $erroConfirmSenha; } ?>
+                            </div>
+                        </div>
                         <div class="btn-atualizar">
-                        <button type="submit" style="text-align: center;" class="btn-atualizar">Atualizar Senha</button>
+                            <button type="submit">Atualizar Senha</button>
                         </div>
                         <?php if (isset($msg)) { ?>
                         <p class="feedback <?php echo $msg === "Senha atualizada com sucesso!" ? 'sucesso' : 'erro'; ?>">
-                        <?php echo htmlspecialchars($msg); ?>
+                            <?php echo htmlspecialchars($msg); ?>
                         </p>
                         <?php } ?>
-
                     </form>
-                    </div>
                 </main>
             </article>
         </div>

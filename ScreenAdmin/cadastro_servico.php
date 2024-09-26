@@ -1,17 +1,17 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../ScreenUser/index.html");
+if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
+    header("Location: ../ScreenLogin/index.html");
     exit();
 }
 
 include '../ScreenCadastro/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome_servico = $_POST['nome_servico'];
-    $descricao = $_POST['descricao'];
-    $empresa_id = $_POST['empresa_id'];
+    $nome_servico = trim($_POST['nome_servico']);
+    $descricao = trim($_POST['descricao']);
+    $empresa_id = intval($_POST['empresa_id']);
 
     $sql = "SELECT id FROM servicos WHERE nome = ? AND descricao = ?";
     $stmt = $conexao->prepare($sql);
@@ -48,13 +48,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $_SESSION['message'] = ['type' => 'error', 'text' => 'Erro ao cadastrar serviço.'];
     }
-    
+
     header("Location: cadastro_servico.php");
     exit();
 }
-
 $sql = "SELECT id, nome_empresa FROM empresas";
 $empresas_result = $conexao->query($sql);
+
+if (!$empresas_result) {
+    echo "Erro ao recuperar empresas: " . $conexao->error;
+    $conexao->close();
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +71,7 @@ $empresas_result = $conexao->query($sql);
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
+            background-color: #4a4a4a;
             color: whitesmoke;
             text-align: center;
             background-size: cover; 
@@ -196,7 +201,7 @@ $empresas_result = $conexao->query($sql);
             <input type="submit" value="Cadastrar Serviço">
         </form>
     <div class="bottom-buttons">
-        <a href="cadastros.php">Voltar</a>
+    <a href="cadastros.php?tipo_cadastro=empresas">Voltar</a>
         </fieldset>
     </div>
     </div>

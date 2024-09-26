@@ -7,6 +7,7 @@ $erroCPF = '';
 $erroEmail = '';
 $erroIdade = '';
 $mensagemSucesso = '';
+$erroGenerico = '';
 
 if (isset($_POST['submit'])) {
     $nome = $_POST['nome'];
@@ -16,6 +17,7 @@ if (isset($_POST['submit'])) {
     $data_nasc = $_POST['data_nasc'];
     $senha = $_POST['senha'];
     $confirmSenha = $_POST['confirmSenha'];
+    $recaptchaResponse = $_POST['g-recaptcha-response'];
 
     $dataNascimento = new DateTime($data_nasc);
     $dataAtual = new DateTime();
@@ -36,30 +38,59 @@ if (isset($_POST['submit'])) {
         $erroConfirmSenha = "As senhas não coincidem.";
     }
 
-    $cpfQuery = "SELECT * FROM usuarios WHERE cpf = '$cpf'";
-    $cpfResult = mysqli_query($conexao, $cpfQuery);
-    if (mysqli_num_rows($cpfResult) > 0) {
+    $cpfQuery = "SELECT * FROM usuarios WHERE cpf = ?";
+    $stmt = $conexao->prepare($cpfQuery);
+    $stmt->bind_param("s", $cpf);
+    $stmt->execute();
+    $cpfResult = $stmt->get_result();
+
+    if ($cpfResult->num_rows > 0) {
         $erroCPF = "Já existe uma conta cadastrada com este CPF.";
     }
 
-    $emailQuery = "SELECT * FROM usuarios WHERE email = '$email'";
-    $emailResult = mysqli_query($conexao, $emailQuery);
-    if (mysqli_num_rows($emailResult) > 0) {
+    $emailQuery = "SELECT * FROM usuarios WHERE email = ?";
+    $stmt = $conexao->prepare($emailQuery);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $emailResult = $stmt->get_result();
+
+    if ($emailResult->num_rows > 0) {
         $erroEmail = "Já existe uma conta cadastrada com este e-mail.";
     }
 
-    if ($senhaValida && $senhasCoincidem && !$erroCPF && !$erroEmail && !$erroIdade) {
+    $recaptchaSecret = '6Le78UAqAAAAAJc79C0mvT0pkHdJ0kj7LygcoJu1'; 
+    $recaptchaVerifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    $response = file_get_contents($recaptchaVerifyUrl . '?secret=' . $recaptchaSecret . '&response=' . $recaptchaResponse);
+    $responseKeys = json_decode($response, true);
+
+    if (!$responseKeys['success']) {
+        $erroGenerico = 'Verificação do reCAPTCHA falhou. Tente novamente.';
+    }
+
+    if ($senhaValida && $senhasCoincidem && !$erroCPF && !$erroEmail && !$erroIdade && !$erroGenerico) {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO usuarios(nome, cpf, email, data_nasc, senha, genero, tipo_conta) VALUES ('$nome', '$cpf', '$email', '$data_nasc', '$senhaHash', '$genero', 'user')";
-        $result = mysqli_query($conexao, $query);
+        $query = "INSERT INTO usuarios(nome, cpf, email, data_nasc, senha, genero, tipo_conta) VALUES (?, ?, ?, ?, ?, ?, 'user')";
+        $stmt = $conexao->prepare($query);
+        $stmt->bind_param("ssssss", $nome, $cpf, $email, $data_nasc, $senhaHash, $genero);
 
-        if ($result) {
+        if ($stmt->execute()) {
             $mensagemSucesso = "Cadastro realizado com sucesso!";
-            header('Location: ../ScreenLogin/index.html?error=Cadastro feito com sucesso.');
-            exit();
+            echo "<script>
+                    window.onload = function() {
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'reCAPTCHA_success', {
+                              'event_category': 'Formulário',
+                              'event_label': 'Cadastro',
+                              'value': 1
+                            });
+                        } else {
+                            console.error('Google Analytics gtag function is not available.');
+                        }
+                    };
+                  </script>";
         } else {
-            $erroGenerico = "Erro ao cadastrar - " . mysqli_error($conexao);
+            $erroGenerico = "Erro ao cadastrar - " . $conexao->error;
         }
     }
 }
@@ -70,8 +101,17 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.php">
+    <link rel="stylesheet" href="./style1.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Cadastro</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MCQCCY98ZL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MCQCCY98ZL');
+</script>
     <script>
         function formatarCPF(campo) {
             campo.value = campo.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
@@ -103,104 +143,107 @@ if (isset($_POST['submit'])) {
     </script>
 </head>
 <body>
-    <div class="form-image">
-        <img src="../imagens/qxback-img.png" alt="">
-    </div>
-    <div class="form">
-        <form action="index.php" method="POST" onsubmit="return validarFormulario()">
-            <div class="form-header">
-                <div class="title">
-                    <h1>Cadastre-se</h1>
-                </div>
-                <div class="login-button">
-                    <button><a href="../ScreenLogin/index.html">Entrar</a></button>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div class="input-box">
-                    <label for="nome">Nome</label>
-                    <input id="nome" type="text" name="nome" minlength="8" maxlength="50" placeholder="Digite seu nome completo" required>
-                </div>
-
-                <div class="input-box">
-                    <label for="cpf">CPF</label>
-                    <input type="text" name="cpf" minlength="14" maxlength="14" id="cpf" class="inputUser" oninput="formatarCPF(this)" required>
-                    <div id="error-cpf" class="error-message">
-                        <?php if (isset($erroCPF)) { echo $erroCPF; } ?>
-                    </div>
-                </div>  
-
-                <div class="input-box">
-                    <label for="email">E-mail</label>
-                    <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
-                    <div id="error-email" class="error-message">
-                        <?php if (isset($erroEmail)) { echo $erroEmail; } ?>
+    <div class="container">
+        <div class="form-image">
+            <img src="../imagens/qxback-2.png" alt="Imagem do Formulário">
+        </div>
+        <div class="form">
+            <form action="index.php" method="POST" onsubmit="return validarFormulario()">
+                <div class="form-header">
+                    <div class="title">
+                        <h1>Cadastre-se</h1>
                     </div>
                 </div>
 
-                <div class="input-box">
-                    <label for="data_nasc">Data de Nascimento</label>
-                    <input id="data_nasc" style="width: 225px;" type="date" name="data_nasc" placeholder="dd/mm/aaaa" required>
-                    <div id="error-idade" class="error-message">
-                        <?php if (isset($erroIdade)) { echo $erroIdade; } ?>
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="nome"><h3>Nome</h3></label>
+                        <input id="nome" type="text" name="nome" minlength="8" maxlength="50" placeholder="Digite seu nome completo" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="cpf"><h3>CPF</h3></label>
+                        <input type="text" name="cpf" minlength="14" maxlength="14" id="cpf" placeholder="Digite seu CPF" oninput="formatarCPF(this)" required>
+                        <div id="error-cpf" class="error-message">
+                            <?php if (isset($erroCPF)) { echo $erroCPF; } ?>
+                        </div>
+                    </div>  
+
+                    <div class="input-box">
+                        <label for="email"><h3>E-mail</h3></label>
+                        <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
+                        <div id="error-email" class="error-message">
+                            <?php if (isset($erroEmail)) { echo $erroEmail; } ?>
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="data_nasc"><h3>Data de Nascimento</h3></label>
+                        <input id="data_nasc" type="date" name="data_nasc" placeholder="dd/mm/aaaa" required>
+                        <div id="error-idade" class="error-message">
+                            <?php if (isset($erroIdade)) { echo $erroIdade; } ?>
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="senha"><h3>Senha</h3></label>
+                        <input id="senha" type="password" name="senha" minlength="7" maxlength="30" placeholder="Digite sua senha" required>
+                        <div id="error-senha" class="error-message">
+                            <?php if (isset($erroSenha)) { echo $erroSenha; } ?>
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="confirmSenha"><h3>Confirme sua Senha</h3></label>
+                        <input id="confirmSenha" type="password" name="confirmSenha" placeholder="Confirme sua senha" required>
+                        <div id="error-confirmSenha" class="error-message">
+                            <?php if (isset($erroConfirmSenha)) { echo $erroConfirmSenha; } ?>
+                        </div>
                     </div>
                 </div>
 
-                <div class="input-box">
-                    <label for="senha">Senha</label>
-                    <input id="senha" type="password" name="senha" minlength="7" maxlength="30" placeholder="Digite sua senha" required pattern=".{7,}" title="A senha deve ter pelo menos 7 caracteres e incluir pelo menos 1 caractere especial">
-                    <div id="error-senha" class="error-message">
-                        <?php if (isset($erroSenha)) { echo $erroSenha; } ?>
+                <div class="genero-inputs">
+                    <div class="genero-title">
+                        <h3>Gênero</h3>
+                    </div>
+                    <div class="genero">
+                        <div class="genero-input">
+                            <input id="feminino" value="feminino" type="radio" name="genero">
+                            <label for="feminino"><h3>Feminino</h3></label>
+                        </div>
+                        <br>
+                        <div class="genero-input">
+                            <input id="masculino" value="masculino" type="radio" name="genero">
+                            <label for="masculino"><h3>Masculino</h3></label>
+                        </div> 
+                        <br>
+                        <div class="genero-input">
+                            <input id="nao-declarado" value="Não declarado" type="radio" name="genero">
+                            <label for="nao-declarado"><h3>Não declarar</h3></label>
+                        </div>
+                        <div class="g-recaptcha" data-sitekey="6Le78UAqAAAAAMI-GeVanGrsirH-otodLUMmYMny"></div>
                     </div>
                 </div>
 
-                <div class="input-box">
-                    <label for="confirmSenha">Confirme sua Senha</label>
-                    <input id="confirmSenha" type="password" name="confirmSenha" placeholder="Digite sua senha novamente" required>
-                    <div id="error-confirmSenha" class="error-message">
-                        <?php if (isset($erroConfirmSenha)) { echo $erroConfirmSenha; } ?>
+                <div class="continue-button">
+                    <button type="submit" name="submit">Cadastrar</button>
+                </div>
+                <br>
+                <div class="entrar-txt">
+                    <h4>Ou já tem uma conta? <a href="../ScreenLogin/index.html"><strong>Entrar</strong></a></h4>
+                </div>
+
+                <?php if (isset($mensagemSucesso)) { ?>
+                    <div class="success-message">
+                        <?php echo $mensagemSucesso; ?>
                     </div>
-                </div>
-            </div>
-
-            <div class="genero-inputs">
-                <div class="genero-title">
-                    <h6>Gênero</h6>
-                </div>
-                <div class="genero">
-                    <div class="genero-input">
-                        <input id="feminino" value="feminino" type="radio" name="genero">
-                        <label for="feminino">Feminino</label>
+                <?php } ?>
+                <?php if (isset($erroGenerico)) { ?>
+                    <div class="error-message">
+                        <?php echo $erroGenerico; ?>
                     </div>
-
-                    <div class="genero-input">
-                        <input id="masculino" value="masculino" type="radio" name="genero">
-                        <label for="masculino">Masculino</label>
-                    </div>
-
-                    <div class="genero-input">
-                        <input id="outros" value="outros" type="radio" name="genero">
-                        <label for="outros">Outros</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="continue-button">
-                <button type="submit" name="submit">Continuar</button>
-            </div>
-
-            <?php if (isset($mensagemSucesso)) { ?>
-                <div class="success-message">
-                    <?php echo $mensagemSucesso; ?>
-                </div>
-            <?php } ?>
-            <?php if (isset($erroGenerico)) { ?>
-                <div class="error-message">
-                    <?php echo $erroGenerico; ?>
-                </div>
-            <?php } ?>
-        </form>
+                <?php } ?>
+            </form>
+        </div>
     </div>
 </body>
 </html>

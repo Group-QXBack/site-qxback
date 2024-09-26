@@ -62,7 +62,7 @@ if (isset($_GET['id'])) {
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));
+            background-color: #4a4a4a;
             color: whitesmoke;
             margin: 0;
             padding: 0;
