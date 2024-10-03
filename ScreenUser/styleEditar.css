@@ -23,6 +23,7 @@
 /* Corpo Principal */
 body {
     font-family: "Montserrat", sans-serif;
+    /*background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 209, 0));*/
     background-color: #343434;
     line-height: 1.6;
 }
@@ -164,7 +165,7 @@ input::-webkit-inner-spin-button {
     padding: 5px 10px;
     background-color: #2da110e8;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     color: #fff;
     transition: 0.3s all ease-in-out;
 }

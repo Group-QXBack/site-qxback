@@ -1,0 +1,366 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #001100;
+    overflow: hidden;
+}
+
+/* Contêiner das mensagens de erro e sucesso */
+.message-container {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.error-message {
+    color: red;
+    background-color: #fdd;
+}
+
+.success-message {
+    color: green;
+    background-color: #dfd;
+}
+
+.form-image {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.form-image img {
+    width: 43rem;
+}
+
+.form {
+    margin: 30px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #44ff00f8;
+    box-shadow: 0px 10px 40px #3ad30273;
+    border-radius: 20px;
+    padding: 3rem;
+    position: relative;
+}
+
+.form-header {
+    margin-bottom: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+}
+
+.login-button button {
+    border: none;
+    background-color: #fff;
+    padding: 0.6rem 3rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-button button:hover {
+    background-color: #ffffffbb;
+}
+
+.login-button button a {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    color: #000000;
+}
+
+.form-header h1::after {
+    content: '';
+    display: block;
+    width: 5rem;
+    height: 0.3rem;
+    background-color: #fff;
+    margin: 0 auto;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.input-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 0;
+    width: 100%;
+}
+
+.input-group .input-box label {
+    font-size: 15px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.input-box input {
+    margin: 0.6rem 0;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 6px #0000001c;
+    font-size: 1rem;
+}
+
+.input-box input:hover {
+    background-color: #ffffffbb;
+}
+
+.input-box input:focus-visible {
+    outline: 1px solid #000000;
+}
+
+.input-box label,
+.genero-title h6 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #000000c0;
+}
+
+.feedback {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.feedback.sucesso {
+    color: #28a745;
+}
+
+.feedback.erro {
+    color: #dc3545;
+}
+
+.input-box input::placeholder {
+    color: #000000be;
+}
+
+.genero {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.genero-group {
+    margin-top: 0.62rem;
+    padding: 0 .5rem;
+}
+
+.genero-input {
+    display: flex;
+    align-items: center;
+}
+
+.genero-inputs .genero-title h6 {
+    font-size: 15px;
+}
+
+.genero-input label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #000000c0;
+}
+
+.continue-button button {
+    width: 100%;
+    margin-top: 0.6rem;
+    border: none;
+    background-color: #fff;
+    padding: 0.62rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.continue-button button:hover {
+    background-color: #ffffffbb;
+}
+
+.continue-button button a {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+}
+
+@media screen and (max-width: 1330px) {
+    body {
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .form-header h1::after {
+        visibility: hidden;
+    }
+
+    .form-header h1 {
+        font-size: 1rem; /* Ajusta o tamanho da fonte */
+        color: #000; /* Cor do texto */
+    }
+
+    .form-header .login-button {
+        font-size: 1rem; /* Ajusta o tamanho do texto do botão */
+    }
+
+    .form-image {
+        width: 50%;
+        height: auto;
+    }
+
+    .form-image img {
+        width: 100%;
+        max-width: 50rem;
+        height: auto;
+    }
+
+    .form {
+        height: 500px;
+        max-width: 600px; /* Reduz a largura máxima do formulário */
+        width: 90%; /* Ajusta a largura do formulário */
+        padding: 2rem; /* Reduz o padding para manter o conteúdo visível */
+        overflow-y: auto; /* Permite rolagem dentro do formulário */
+        scrollbar-width: none; /* Oculta a barra de rolagem no Firefox */
+        -ms-overflow-style: none; /* Oculta a barra de rolagem no IE e Edge */
+        box-shadow: 0px 10px 40px #3ad30273;
+        background-color: #44ff00f8;
+        border-radius: none;
+    }
+
+    .form-header {
+        margin-bottom: 0.6rem;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .input-group {
+        width: 100%;
+        padding: 1rem 0;
+    }
+
+    .input-group .input-box label {
+        font-size: 15px;
+    }
+
+    .input-box {
+        margin-bottom: 1rem;
+        width: 58%;
+        margin-bottom: 1rem;
+    }
+
+    .input-box input {
+        margin: auto;
+        padding: 0.6rem 2rem;
+        font-size: 0.8rem;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form {
+        padding: 1rem;
+    }
+
+    .form-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .input-box input {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .genero-input label {
+        font-size: 0.85rem;
+    }
+
+    .continue-button button {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .form {
+        width: 100%;
+        max-width: 400px;
+        padding: 1rem;
+        overflow-y: auto;
+        border-radius: 15px;
+    }
+
+    .form-header h1::after {
+        visibility: hidden;
+    }
+
+    .input-box input {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .genero-input label {
+        font-size: 0.85rem;
+    }
+
+    .continue-button button {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+}

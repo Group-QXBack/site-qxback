@@ -66,7 +66,7 @@ if ($result->num_rows > 0) {
                     </div>
                 <?php endif; ?>
                 <section>
-                    <a href="#" id="btn-minhaConta" style="border-radius: 14px;">
+                    <a href="index.php" id="btn-minhaConta" style="border-radius: 14px;">
                         <i class="fi fi-sr-user"></i>
                         <p>Minha Conta</p>
                     </a>

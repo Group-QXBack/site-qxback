@@ -51,31 +51,51 @@ $conexao->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styleIndicacoes.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../ScreenUser/styleIndicacoes.php">
     <title>Minhas Indicações</title>
 </head>
 <body>
 <header>
-        <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
-        <div class="submenu">
-            <ul>
-                <li>
-                    <p>Status Indicações <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul>
-                        <li><a href="minhas_indicacoes.php">Indicações Iniciadas</a></li>
-                        <li><a href="minhas_indicacoes.php">Indicações em Andamento</a></li>
-                        <li><a href="minhas_indicacoes.php">Indicações Concluídas</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <p>Suporte <i class="fa-solid fa-chevron-down"></i></p>
-                    <ul id="btn-suporte">
-                        <li><a href="atendimento_virtual.html">Atendimento Virtual</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <img src="../imagens/logobranca1.png" class="logo" alt="logo">
     </header>
+    <nav class="menu-lateral">
+        <div class="btn-expandir">
+            <i class="bi bi-list"></i>
+        </div>
+        <ul>
+            <li class="item-menu">
+                <a href="index.php">
+                    <span class="icon"><i class="bi bi-person-fill"></i></span>
+                    <span class="txt-link">Perfil</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="../ScreenUser/minhas_indicacoes.php">
+                    <span class="icon"><i class="bi bi-journal-plus"></i></span>
+                    <span class="txt-link">Minhas Indicações</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="../ScreenUser/indicarUsuario.php">
+                    <span class="icon"><i class="bi bi-plus-square"></i></span>
+                    <span class="txt-link">Indicar</span>
+                </a>
+            </li>
+            <li class="item-menu">
+            <a href="../ScreenUser/solicitar_resgate.php">
+                    <span class="icon"><i class="bi bi-coin"></i></span>
+                    <span class="txt-link">Solicitar Resgate</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="../ScreenUser/logout.php">
+                    <span class="icon"><i class="bi bi-box-arrow-right"></i></span>
+                    <span class="txt-link">Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <div class="container">
         <h1>Minhas Indicações</h1>
         <table>
@@ -124,9 +144,6 @@ $conexao->close();
             <a href="index.php">Voltar</a>
         </div>
     </div>
-    <footer>
-        &copy; 2024 QXBack. Todos os direitos reservados.
-    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.expand-btn').forEach(function (button) {

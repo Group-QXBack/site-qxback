@@ -7,7 +7,7 @@
     if (!isset($_SESSION['usuario'])) {
         header("Location: ../ScreenUser/index.html");
         exit();
-    }
+    } 
 
     include '../ScreenCadastro/config.php';
 

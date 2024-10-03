@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servicosSelecionados = isset($_POST['servicos']) ? $_POST['servicos'] : [];
 
     if (empty($nome_empresa) || empty($cnpj) || empty($nome_contato) || empty($numero_contato) || empty($email_contato)) {
-        header("Location: ../ScreenUser/indicar.php?error=Todos os campos obrigatórios devem ser preenchidos!");
+        header("Location: ../ScreenUser/indicarUsuario.php?error=Todos os campos obrigatórios devem ser preenchidos!");
         exit();
     }
 
@@ -64,17 +64,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $conexao->commit();
-        header("Location: ../ScreenUser/indicar.php?success=Indicação enviada com sucesso!");
+        header("Location: ../ScreenUser/indicarUsuario.php?success=Indicação enviada com sucesso!");
         exit();
     } catch (Exception $e) {
         $conexao->rollback();
-        header("Location: ../ScreenUser/indicar.php?error=" . urlencode($e->getMessage()));
+        header("Location: ../ScreenUser/indicarUsuario.php?error=" . urlencode($e->getMessage()));
         exit();
     } finally {
         $conexao->close();
     }
 } else {
-    header("Location: ../ScreenUser/indicar.php");
+    header("Location: ../ScreenUser/indicarUsuario.php");
     exit();
 }
 
