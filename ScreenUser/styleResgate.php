@@ -98,7 +98,7 @@ ul li.item-menu a .icon i{
 h1 {
     text-align: center;
     margin: 10px 0;
-    color: #2cab00;
+    color: #000;
 }
 
 h2 {
@@ -117,9 +117,15 @@ form {
     background-color: #ebebeb;
     border-radius: 8px;
     padding: 20px;
-    width: 420px;
+    width: 70%;
     margin: 20px auto;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+form .resgatar{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 label {
@@ -128,7 +134,7 @@ label {
     color: #00000;
 }
 
-input[type="number"] {
+input[type="text"] {
     width: 95%;
     padding: 10px;
     background-color: #f8f7f8;
@@ -149,6 +155,42 @@ button {
     margin-top: 10px;
     transition: background-color 0.3s;
     width: 100%;
+}
+
+.dados-usuario{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #FFF;
+    border-radius: 6px;
+    border: 1px solid ##777777;
+    padding: 30px 20px 20px;
+    text-align: left;
+    vertical-align: top;
+    min-height: 160px;
+}
+
+.dados-usuario .conta-bancaria, .endereco-usuario{
+    width: 50%;
+}
+
+.dados-usuario p{
+    color: #707070;
+    text-align: left;
+}
+.dados-usuario .btn-resgate{
+    background-color: #FFF;
+    font-size: 13px;
+    line-height: 1.5em;
+    letter-spacing: 0px;
+    font-weight: normal;
+    color: #42FF00;
+    display: inline-block;
+    font-weight: 700;
+    float: right;
+}
+.dados-usuario .endereco-usuario{
+    margin-left: 20px;
 }
 
 table {
@@ -181,7 +223,7 @@ tr:hover {
     background-color: #3a3a3a;
 }
 
-button, .btn-voltar {
+button{
     background-color: #42FF00;
     color: #161616;
     padding: 10px 20px;
@@ -193,10 +235,6 @@ button, .btn-voltar {
     transition: background-color 0.3s;
     width: 100%;
     text-decoration: none;
-}
-
-.btn-voltar:hover {
-    background-color: #36d400; 
 }
 
 #telaSemResgate {
@@ -218,16 +256,4 @@ button, .btn-voltar {
 .paragrafo {
     color: #fff; 
     margin: 10px 0;/
-}
-
-.btn-voltar {
-    background-color: #42FF00;
-    color: #161616;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px; 
-    font-size: 16px;
-    cursor: pointer; 
-    text-decoration: none;
-    transition: background-color 0.3s;
 }

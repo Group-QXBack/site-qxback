@@ -51,177 +51,97 @@ $result = $conexao->query($sql);
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../ScreenUser/styleIndicar.php">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Empresas</title>
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #4a4a4a;
-    color: #fff;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    margin: 20px 0;
-}
-
-.container {
-    width: 80%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-}
-
-.search-container, .section-buttons {
-    margin-bottom: 20px;
-}
-
-.search-container a {
-    display: inline-block;
-    padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.3);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.search-container a:hover {
-    background: #4bc866;
-}
-
-.section-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.section-buttons form {
-    width: 100%;
-}
-
-form label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-form input[type="text"], form input[type="email"] {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-form input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.3);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-form input[type="submit"]:hover {
-    background: #4bc866;
-}
-
-.success-message, .error-message {
-    padding: 10px;
-    margin: 20px 0;
-    border-radius: 4px;
-    color: #fff;
-}
-
-.success-message {
-    background: #4caf50;
-}
-
-.error-message {
-    background: #f44336;
-}
-
-table {
-    width: 100%;
-    margin-bottom: 20px;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-tr:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.actions-column a {
-    display: inline-block;
-    padding: 8px 12px;
-    background: rgba(0, 0, 0, 0.3);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.actions-column a:hover {
-    background: #149a50;
-}
-
-    </style>
+    <title>Indicar</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Cadastro de Empresas</h1>
-
-        <div class="section-buttons">
-            <form method="POST" action="cadastro_empresas.php">
-                <label for="cnpj">CNPJ:</label>
-                <input type="text" id="cnpj" name="cnpj" oninput="formatarCNPJ(this); buscarCNPJ(this.value)">
-
-                <label for="nome_empresa">Nome da Empresa:</label>
-                <input type="text" id="nome_empresa" name="nome_empresa" required>
-
-                <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" name="telefone" required>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="cep">CEP:</label>
-                <input type="text" id="cep" name="cep" oninput="formatarCEP(this); buscarCEP(this.value)" required>
-
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" name="endereco" required>
-
-                <label for="cidade">Cidade:</label>
-                <input type="text" id="cidade" name="cidade" required>
-
-                <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado" maxlength="2" required>
-
-                <input type="submit" value="Cadastrar Empresa">
-            </form>
+    <header>
+        <img src="../imagens/logobranca1.png" class="logo" alt="logo">
+    </header>
+    
+    <nav class="menu-lateral">
+        <div class="btn-expandir">
+            <i class="bi bi-list"></i>
         </div>
+        <ul>
+            <li class="item-menu">
+                <a href="index.php">
+                    <span class="icon"><i class="bi bi-person-fill"></i></span>
+                    <span class="txt-link">Perfil</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="../ScreenUser/minhas_indicacoes.php">
+                    <span class="icon"><i class="bi bi-journal-plus"></i></span>
+                    <span class="txt-link">Minhas Indicações</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="../ScreenUser/indicarUsuario.php">
+                    <span class="icon"><i class="bi bi-plus-square"></i></span>
+                    <span class="txt-link">Indicar</span>
+                </a>
+            </li>
+            <li class="item-menu">
+            <a href="../ScreenUser/solicitar_resgate.php">
+                    <span class="icon"><i class="bi bi-coin"></i></span>
+                    <span class="txt-link">Solicitar Resgate</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="../ScreenUser/logout.php">
+                    <span class="icon"><i class="bi bi-box-arrow-right"></i></span>
+                    <span class="txt-link">Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <section>
+        <div class="primeira_sessao">
+         <div class="titulo">
+            <h1>Cadastrar Empresa</h1>
+            </div>
+            <div class="form-indicacao">
+        <form action="processar_indicacao.php" method="POST">
+        <p>
+            <label for="nome_empresa">Nome da Empresa:</label>
+            <input type="text" id="nome_empresa" name="nome_empresa" required>
+        </p>
+        <p>
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" id="cnpj" name="cnpj" oninput="formatarCNPJ(this); buscarCNPJ(this.value)">
+        </p>
+        <p>
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" required>
+        </p>
+        <p>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </p>
+        <p>
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" name="cep" oninput="formatarCEP(this); buscarCEP(this.value)" required>
+        </p>
+        <p>
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" required>
+        </p>
+        <input type="submit" value="Cadastrar Empresa">
         <div class="search-container">
             <a href="cadastros.php">Voltar</a>
         </div>
+            </form>
+        </div>
+
         <?php if (isset($_SESSION['message'])): ?>
             <div class="<?php echo $_SESSION['message']['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
                 <?php echo htmlspecialchars($_SESSION['message']['text']); ?>
@@ -229,6 +149,8 @@ tr:hover {
             <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
     </div>
+    </section>
+        </form>
 
     <script>
         function formatarCNPJ(campo) {
@@ -282,6 +204,6 @@ tr:hover {
                     });
             }
         }
-    </script>
-</body>
+        </script>
+    </body>
 </html>

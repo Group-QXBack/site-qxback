@@ -69,75 +69,88 @@ if (!$empresas_result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Serviços</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #4a4a4a;
-            color: whitesmoke;
-            text-align: center;
-            background-size: cover; 
-            background-attachment: fixed; 
-            margin: 0; 
-            padding: 0; 
-        }
-        .section-buttons {
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .section-buttons button {
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            background-color: rgb(0, 0, 0, 0.3);
-            color: whitesmoke;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .section-buttons button:hover {
-            background-color: rgb(75, 198, 133);
-        }
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .form-container label {
-            margin-right: 10px;
-        }
-        input[type="text"], input[type="textarea"], select {
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            padding: 10px 20px;
-                background-color: rgba(0, 0, 0, 0.3);
-                color: #fff;
-                border-radius: 5px;
+            body {
+                font-family: 'Red Hat Display', Arial, sans-serif;
+                background-color: #161616;
+                color: whitesmoke;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+
+            header {
+                width: 100%;
+                height: 75px;
+                background-color: #1d1d1d;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-bottom: 2px solid #42FF00;
+            }
+
+            .logo {
+                max-width: 200px;
+                height: auto;
+            }
+            .section-buttons {
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            .section-buttons button {
+                padding: 8px;
+                border: none;
+                border-radius: 4px;
+                background-color: rgb(0, 0, 0, 0.3);
+                color: whitesmoke;
+                cursor: pointer;
                 transition: background-color 0.3s;
-                font-size: 16px;
-                text-decoration: none;
-                display: inline-block;
-        }
-        input[type="submit"]:hover {
-            background-color: rgb(75, 198, 133);
-        }
-        .success-message, .error-message {
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px auto;
-            width: 80%;
-            max-width: 600px;
-        }
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .bottom-buttons a {
+            }
+            .section-buttons button:hover {
+                background-color: rgb(75, 198, 133);
+            }
+            .form-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .form-container label {
+                margin-right: 10px;
+            }
+            input[type="text"], input[type="textarea"], select {
+                padding: 8px;
+                border: none;
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            input[type="submit"] {
+                padding: 10px 20px;
+                    background-color: rgba(0, 0, 0, 0.3);
+                    color: #fff;
+                    border-radius: 5px;
+                    transition: background-color 0.3s;
+                    font-size: 16px;
+                    text-decoration: none;
+                    display: inline-block;
+            }
+            input[type="submit"]:hover {
+                background-color: rgb(75, 198, 133);
+            }
+            .success-message, .error-message {
+                padding: 10px;
+                border-radius: 4px;
+                margin: 10px auto;
+                width: 80%;
+                max-width: 600px;
+            }
+            .success-message {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .error-message {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+            .bottom-buttons a {
                 padding: 10px 20px;
                 background-color: rgba(0, 0, 0, 0.3);
                 color: #fff;
@@ -153,33 +166,36 @@ if (!$empresas_result) {
             }
             
             fieldset{
-            border: 1px solid rgb(113, 202, 150);
-            border-radius: 4px;
-        }
-        legend{
-            border: 1px solid rgb(113, 202, 150);
-            padding: 5px;
-            width: 250px;
-            text-align: center;
-            background-color: rgb(113, 202, 150);
-            border-radius: 4px;
-        }
-        .box{
-            color: aliceblue;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 10px;
-            border-radius: 4px;
-            width: 555px;
-            font-size: 14px;
-            text-align: center;
-        }
+                border: 1px solid #42FF00;
+                border-radius: 4px;
+                }
+            legend{
+                border: 1px solid #42FF00;
+                padding: 5px;
+                width: 250px;
+                text-align: center;
+                background-color: #42FF00;
+                border-radius: 4px;
+            }
+            .box{
+                color: aliceblue;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, 0.4);
+                padding: 10px;
+                border-radius: 4px;
+                width: 555px;
+                font-size: 14px;
+                text-align: center;
+            }
     </style>
 </head>
 <body>
+    <header>
+        <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
+    </header>
     <h1>Cadastro de Serviços</h1>
     <div class="box">
         <form method="POST" action="cadastro_servico.php">

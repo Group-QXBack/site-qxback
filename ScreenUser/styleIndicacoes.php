@@ -95,37 +95,38 @@ ul li.item-menu a .icon i{
 }
 
 h1 {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 30px;
-        margin-top: 40px;
-        font-size: 2.5em;
-        color: #fff;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 40px;
+    font-size: 2.5em;
+    color: #42FF00;
 }
 
-    hr {
-        border: 0;
-        height: 1px;
-        background-color: rgb(54, 54, 54);
-        margin: 20px auto;
-        width: 80%;
-    }
+hr {
+    border: 0;
+    height: 1px;
+    background-color: rgb(54, 54, 54);
+    margin: 20px auto;
+    width: 80%;
+}
 
-    table {
-        width: 100%;
-        margin: 20px 0;
-        border-collapse: collapse;
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #42FF00;
+    background-color: #ebebeb;
+}
 
     th {
         background-color: rgba(0, 0, 0, 0.5);

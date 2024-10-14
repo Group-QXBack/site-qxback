@@ -84,12 +84,71 @@ $result = $stmt->get_result();
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #4a4a4a;
+            background-color: #161616;
             color: whitesmoke;
             margin: 0;
             padding: 0;
             text-align: center;
         }
+        header {
+            width: 100%;
+            height: 75px;
+            background-color: #1d1d1d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #42FF00;
+        }
+
+        header .logo {
+            display: flex;
+            margin-left: 30px;
+            height: 45px;
+            margin-top: 2px;
+        }
+        header .icon{
+            height: 20px;
+            margin: 10px;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            display: flex;
+            justify-content: end;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: none; /* Oculto inicialmente */
+            position: absolute; /* Torna o menu flutuante */
+            top: 60px; /* Distância da barra de navegação */
+            right: 20px; /* Alinha à direita */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .nav-menu.show {
+            display: block; /* Exibe quando ativado */
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            display: block;
+            padding: 10px 15px;
+            transition: background 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #555;
+            border-radius: 5px;
+        }
+
         h1 {
             margin: 20px 0;
             font-size: 2em;
@@ -97,7 +156,7 @@ $result = $stmt->get_result();
         .search-container {
             display: flex;
             justify-content: center;
-            margin: 20px 0;
+            
         }
         .search-container form {
             display: flex;
@@ -106,23 +165,23 @@ $result = $stmt->get_result();
             width: 100%;
         }
         .search-container input[type="text"] {
+            margin-top: 8px;
             padding: 10px;
             border: none;
-            border-radius: 4px 0 0 4px;
-            margin-right: -1px;
-            flex: 1;
+            border-radius: 10px;
             font-size: 16px;
         }
         .search-container button, .search-container a {
             padding: 10px 20px;
             border: none;
-            border-radius: 0 4px 4px 0;
+            border-radius: 20px;
             background-color: rgb(0, 0, 0, 0.3);
             color: whitesmoke;
             cursor: pointer;
             transition: background-color 0.3s;
             font-size: 16px;
             text-decoration: none;
+            margin: 10px;
         }
         .search-container button:hover, .search-container a:hover {
             background-color: rgb(75, 198, 133);
@@ -214,13 +273,15 @@ $result = $stmt->get_result();
         }
         textarea, input[type="text"] {
             width: 100%;
-            padding: 10px;
+
             border-radius: 4px;
             border: 1px solid #ccc;
             box-sizing: border-box;
             margin-bottom: 10px;
+            height: 35px;
         }
         input[type="submit"] {
+
             padding: 10px;
             background-color: rgb(0, 0, 0, 0.3);
             color: whitesmoke;
@@ -234,36 +295,52 @@ $result = $stmt->get_result();
             background-color: rgb(75, 198, 133);
         }
         .pagination {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-}
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
 
-.pagination a {
-    text-decoration: none;
-    color: whitesmoke;
-    background-color: rgb(0, 0, 0, 0.3);
-    padding: 10px 20px;
-    border-radius: 4px;
-    margin: 0 5px;
-    transition: background-color 0.3s, transform 0.3s;
-    font-size: 16px;
-}
+        .pagination a {
+            text-decoration: none;
+            color: whitesmoke;
+            background-color: rgb(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin: 0 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+        }
 
-.pagination a:hover {
-    background-color: rgb(75, 198, 133);
-    transform: scale(1.05);
-}
+        .pagination a:hover {
+            background-color: rgb(75, 198, 133);
+            transform: scale(1.05);
+        }
 
-.pagination a.disabled {
-    background-color: rgba(0, 0, 0, 0.1);
-    cursor: not-allowed;
-    color: #666;
-}
+        .pagination a.disabled {
+            background-color: rgba(0, 0, 0, 0.1);
+            cursor: not-allowed;
+            color: #666;
+        }
 
     </style>
 </head>
 <body>
+<header>
+        <img src="../imagens/logobranca1.png" class="logo" alt="logo">
+
+        <div class="menu-icon">
+            <button onclick="menuShow()" style="background-color: #1d1d1d; border: none;">
+                <img class="icon" src="../imagens/menubar.png" alt="Menu">
+            </button>
+        </div>
+
+        <ul class="nav-menu" id="menu">
+            <li class="nav-item"><a href="./cadastro_empresas.php" class="nav-link">Cadastrar Empresa</a></li>
+            <li class="nav-item"><a href="./cadastro_servico.php" class="nav-link">Cadastrar Serviço</a></li>
+            <li class="nav-item"><a href="./solicitacoes_reativacao.php" class="nav-link">Reativação</a></li>
+        </ul>
+</header>
+
     <h1>Lista de Cadastros</h1>
     <div class="search-container">
     <form action="cadastros.php" method="GET">
@@ -339,28 +416,23 @@ $result = $stmt->get_result();
             echo '</tbody></table>';
         }
         ?>
-<div class="pagination">
-    <?php if ($página_atual > 1): ?>
-        <a href="?tipo_cadastro=<?php echo urlencode($tipo_cadastro); ?>&page=<?php echo $página_atual - 1; ?>">&laquo; Anterior</a>
-    <?php else: ?>
-        <a href="#" class="disabled">&laquo; Anterior</a>
-    <?php endif; ?>
+        <div class="pagination">
+            <?php if ($página_atual > 1): ?>
+                <a href="?tipo_cadastro=<?php echo urlencode($tipo_cadastro); ?>&page=<?php echo $página_atual - 1; ?>">&laquo; Anterior</a>
+            <?php else: ?>
+                <a href="#" class="disabled">&laquo; Anterior</a>
+            <?php endif; ?>
 
-    <?php if ($página_atual < $total_paginas): ?>
-        <a href="?tipo_cadastro=<?php echo urlencode($tipo_cadastro); ?>&page=<?php echo $página_atual + 1; ?>">Próximo &raquo;</a>
-    <?php else: ?>
-        <a href="#" class="disabled">Próximo &raquo;</a>
-    <?php endif; ?>
-</div>
-
+            <?php if ($página_atual < $total_paginas): ?>
+                <a href="?tipo_cadastro=<?php echo urlencode($tipo_cadastro); ?>&page=<?php echo $página_atual + 1; ?>">Próximo &raquo;</a>
+            <?php else: ?>
+                <a href="#" class="disabled">Próximo &raquo;</a>
+            <?php endif; ?>
+        </div>
     </div>
     </div>
                 
-    <div class="top-buttons">
-        <a href="cadastro_empresas.php">Cadastrar Empresa</a>
-        <a href="cadastro_servico.php">Cadastrar Serviços</a>
-        <a href="solicitacoes_reativacao.php">Solicitações de Reativação</a>
-    </div>
+
 
     <div id="inactivateModal" class="modal">
         <div class="modal-content">
@@ -405,6 +477,11 @@ $result = $stmt->get_result();
                 closeModal(event.target.id);
             }
         }
+        function menuShow() {
+            const menu = document.getElementById('menu');
+             menu.classList.toggle('show');
+        }
+
     </script>
 </body>
 </html>

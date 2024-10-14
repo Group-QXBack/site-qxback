@@ -2,17 +2,14 @@
 session_start();
 include '../ScreenCadastro/config.php';
 
-// Verifica se o usuário está logado como admin
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo_conta'] !== 'admin') {
     header("Location: ../ScreenUser/index.html");
     exit();
 }
 
-// Busca as solicitações de resgate pendentes
 $sql = "SELECT sr.*, u.nome FROM solicitações_resgate sr JOIN usuarios u ON sr.usuario_id = u.id WHERE sr.status = 'pendente'";
 $result = $conexao->query($sql);
 
-// Verifica se a requisição é do tipo POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $idSolicitacao = $_POST['id'];
     $acao = $_POST['acao'];
@@ -22,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param('i', $idSolicitacao);
         $stmt->execute();
-        $stmt->close(); // Sempre feche o statement após usar
 
         header("Location: pagamento.php?id=" . $idSolicitacao);
         exit();
@@ -31,30 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param('i', $idSolicitacao);
         $stmt->execute();
-        $stmt->close();
     }
 
     header("Location: solicitacoes_resgate.php");
     exit();
 }
-
-// Inicialização de variáveis para mensagens (caso necessário)
-$message = null; // Adicione esta linha se precisar usar a variável $message no HTML
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
-    <title>Indicações</title>
-    <style> 
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/af6c14a78e.js" crossorigin="anonymous"></script>
+        <title>Indicações</title>
+        <style> 
             body {
                 font-family: 'Red Hat Display', Arial, sans-serif;
                 background-color: #161616;
@@ -234,93 +225,71 @@ $message = null; // Adicione esta linha se precisar usar a variável $message no
                 background-color: rgba(0, 0, 0, 0.3);
             }
         </style>
-</head>
-<body>
-    <header>
-        <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
-    </header>
-    <div class="container">
-        <article>
-            <h1>Solicitação de Resgate</h1>
-            <hr>
-        </article>
-
-        <?php if ($message): ?>
-            <div class="<?php echo $message['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
-                <?php echo htmlspecialchars($message['text']); ?>
-            </div>
-        <?php endif; ?>
-
-        <div class="search-container">
-            <form method="get" action="indicacoes.php">
-                <label for="status">Filtrar por Status:</label>
-                <select name="status" id="status">
-                    <option value="Todas">Todas</option>
-                    <option value="pendente">Pendente</option>
-                    <option value="Aceita">Aceita</option>
-                    <option value="Negada">Negada</option>
-                </select>
-                <button type="submit">Filtrar</button>
-            </form>
-        </div>
-
+    </head>
+    <body>
+        <header>
+            <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
+        </header>
         <div class="container">
-            <table>
-                <thead>
+            <article>
+                <h1>Indicações</h1>
+                <hr>
+            </article>
+            <?php if ($message): ?>
+                <div class="<?php echo $message['type'] == 'success' ? 'success-message' : 'error-message'; ?>">
+                    <?php echo htmlspecialchars($message['text']); ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="search-container">
+            <form method="get" action="indicacoes.php">
+        <label for="status">Filtrar por Status:</label>
+        <select name="status" id="status">
+            <option value="Todas" <?php echo $status_filter === 'Todas' ? 'selected' : ''; ?>>Todas</option>
+            <option value="pendente" <?php echo $status_filter === 'pendente' ? 'selected' : ''; ?>>Pendente</option>
+            <option value="Aceita" <?php echo $status_filter === 'Aceita' ? 'selected' : ''; ?>>Aceita</option>
+            <option value="Negada" <?php echo $status_filter === 'Negada' ? 'selected' : ''; ?>>Negada</option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Valor</th>
+                    <th>Data da Solicitação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <th>Usuário</th>
-                        <th>Valor</th>
-                        <th>Data da Solicitação</th>
-                        <th>Ações</th>
+                        <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                        <td>R$ <?php echo number_format($row['valor'], 2, ',', '.'); ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($row['data_solicitacao'])); ?></td>
+                        <td>
+                            <form method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                <button type="submit" name="acao" value="pagar">Pagar</button>
+                                <button type="submit" name="acao" value="rejeitar">Rejeitar</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($row['nome']); ?></td>
-                            <td>R$ <?php echo number_format($row['valor'], 2, ',', '.'); ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($row['data_solicitacao'])); ?></td>
-                            <td>
-                                <form method="POST" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                    <button id="dialogPagar" type="submit" name="acao" value="pagar">Pagar</button>
-                                <dialog id="dialog">
-                                    <div class="container">
-                                <h1>Qual é o seu telefone?</h1>
-                                <strong>Telefone</strong>
-                                <input type="text" class="input-dialog" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>">
-                                <button id="saveDialog" type="submit" style="background-color: chartreuse; font-weight: 500; margin-top: 13px;">Salvar</button>
-                                <button id="closeDialog" style="color: #31b800; font-weight: 500;">Cancelar</button>
-                                </div>
-                            <style>
-                                button#saveDialog,#closeDialog{
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;
-                                    height: 40px;
-                                    border-radius: 10px;
-                                    justify-content: center;
-                                }
-                            </style>
-                        </dialog>
-                                    <button type="submit" name="acao" value="rejeitar">Rejeitar</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="bottom-buttons">
-            <a href="index.php">Voltar</a>
-        </div>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
     </div>
+            <div class="bottom-buttons">
+                <a href="index.php">Voltar</a>
+            </div>
+        </div>
 
-    <footer class="primeiro-rodape"></footer>
-    <footer class="segundo-rodape"></footer>
+        <footer class="primeiro-rodape"></footer>
+        <footer class="segundo-rodape"></footer>
 
-    <script>
+        <script>
     document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.btn-acao');
 
@@ -339,36 +308,7 @@ $message = null; // Adicione esta linha se precisar usar a variável $message no
         });
     });
 });
-
-const dialogs = {
-    pagar: document.getElementById('dialog'),
-};
-const openDialogButtons = {
-    pagar: document.getElementById('openDialog'),
-};
-const closeDialogButtons = {
-    pagar: document.getElementById('closeDialog'),
-};
-
-Object.keys(openDialogButtons).forEach(key => {
-    openDialogButtons[key].addEventListener('click', function() {
-        dialogs[key].showModal(); 
-    });
-});
-
-Object.keys(closeDialogButtons).forEach(key => {
-    closeDialogButtons[key].addEventListener('click', function() {
-        dialogs[key].close(); 
-    });
-});
-
-
-const input = document.getElementById('input-dialog');
-input.addEventListener('input-dialog', function() {
-if (this.value !== "") {
-this.readOnly = true;
-}
-});
 </script>
-</body>
-</html>
+
+    </body>
+    </html>

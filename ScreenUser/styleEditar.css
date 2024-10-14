@@ -1,7 +1,7 @@
 /* Variáveis de Cores */
 :root {
     --color-white: #eeeeee;
-    --color-dark1: #343434;
+    --color-dark1: #777777;
     --color-dark2: #2d2d2d;
     --color-dark3: #414141;
     --color-dark4: #1c1c1c;
@@ -11,8 +11,10 @@
     --color-error: #FF4B4B;
 }
 
+
 /* Reset */
 * {
+    
     margin: 0;
     padding: 0;
     box-sizing: border-box;

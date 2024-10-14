@@ -34,6 +34,7 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../ScreenUser/style.php ">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Perfil</title>
 </head>
 <body>
@@ -92,10 +93,21 @@ if ($result->num_rows > 0) {
                         <dialog id="dialog-email">
                             <div class="container">
                                 <h1>Alterar Email</h1>
-                                <input type="email" class="input-dialog" placeholder="Novo email">
-                                <button id="saveEmail">Salvar</button>
-                                <button id="closeDialogEmail">Cancelar</button>
+                                <p>O endereço que você recebe informações sobre sua conta, e-mails institucionais, promoções e campanhas</p>
+                                <input type="email" class="input-dialog" placeholder="Novo email" value="<?php echo htmlspecialchars($usuario['email'] ?? ''); ?>">
+                                <button id="saveEmail" style="background-color: chartreuse; font-weight: 500; margin-top: 20px;">Salvar</button>
+                                <button id="closeDialogEmail" style="color: #31b800; font-weight: 500;">Cancelar</button>
                             </div>
+                            <style>
+                                        button#saveEmail,#closeDialogEmail{
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        height: 40px;
+                                        border-radius: 10px;
+                                        justify-content: center;
+                                }
+                            </style>
                         </dialog>
                     </p>
         
@@ -260,10 +272,21 @@ if ($result->num_rows > 0) {
                             </p>
         </div>        
         </section>
+        <footer>
+        <div class="footerContainer">
+            <div class="socialIcons">
+                <a href=""><i class="fa-brands fa-facebook"></i></a>
+                <a href=""><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footerBottom">
+            <p>Copyright &copy;2024; Designed by <span class="designer">3Point</span></p>
+        </div>
+    </footer>
 <script>
 const dialogs = {
     senha: document.getElementById('dialog'),
-    email: document.getElementById('dialogEmail'),
+    email: document.getElementById('dialog-email'),
     nome: document.getElementById('dialogNome'),
     cpf: document.getElementById('dialogCPF'),
     nascimento: document.getElementById('dialogNascimento'),

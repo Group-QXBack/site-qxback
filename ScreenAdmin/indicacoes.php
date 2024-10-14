@@ -94,7 +94,7 @@
         <style> 
             body {
                 font-family: 'Red Hat Display', Arial, sans-serif;
-                background-color: #4a4a4a;
+                background-color: #161616;
                 color: whitesmoke;
                 margin: 0;
                 padding: 0;
@@ -102,7 +102,13 @@
             }
 
             header {
-                padding: 20px;
+                width: 100%;
+                height: 75px;
+                background-color: #1d1d1d;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-bottom: 2px solid #42FF00;
             }
 
             .logo {
