@@ -118,7 +118,6 @@ if (isset($_GET['success'])) {
             ?>
             <script>
         $(document).ready(function() {
-        // Ativar o Select2 para o campo de seleção com busca
         $('#servicos').select2({
             placeholder: "Selecione um Serviço",
             allowClear: true,
@@ -213,55 +212,85 @@ if (isset($_GET['success'])) {
                     alert('CNPJ inválido');
                 }
             }
-        
-    function addServico() {
-    var container = document.getElementById('servicos-container');
-    var uniqueId = 'servico_' + Date.now(); 
-    
-    var servicoGroup = document.createElement('div');
-    servicoGroup.className = 'servico-group';
-    servicoGroup.id = uniqueId;
+            var servicosSelecionados = [];  
 
-    // Criar o HTML do select e botão de remover
-    servicoGroup.innerHTML = `
-        <label for="servicos">Serviço: </label>
-        <select id="${uniqueId}_select" name="servicos[]" class="servicos-select" required>
-            <option value="">Selecione um Serviço</option>
-            <?php
-            include_once('../ScreenCadastro/config.php');
-            $query_servicos = "SELECT * FROM servicos";
-            $resultado_servicos = mysqli_query($conexao, $query_servicos);
-            if (mysqli_num_rows($resultado_servicos) > 0) {
-                while ($row = mysqli_fetch_assoc($resultado_servicos)) {
-                    echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+        function addServico() {
+            var container = document.getElementById('servicos-container');
+            var uniqueId = 'servico_' + Date.now(); 
+            
+            var servicoGroup = document.createElement('div');
+            servicoGroup.className = 'servico-group';
+            servicoGroup.id = uniqueId;
+
+            servicoGroup.innerHTML = `
+                <label for="servicos">Serviço: </label>
+                <select id="${uniqueId}_select" name="servicos[]" class="servicos-select" required>
+                    <option value="">Selecione um Serviço</option>
+                    <?php
+                    include_once('../ScreenCadastro/config.php');
+                    $query_servicos = "SELECT * FROM servicos";
+                    $resultado_servicos = mysqli_query($conexao, $query_servicos);
+                    if (mysqli_num_rows($resultado_servicos) > 0) {
+                        while ($row = mysqli_fetch_assoc($resultado_servicos)) {
+                            echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+                        }
+                    } else {
+                        echo '<option value="" disabled>Nenhum Serviço Cadastrado</option>';
+                    }
+                    ?>
+                </select>
+                <button type="button" class="remove-btn" onclick="removeServico('${uniqueId}')">Remover</button>
+            `;
+
+            container.appendChild(servicoGroup);
+
+            $('#' + uniqueId + '_select').select2({
+                placeholder: "Selecione um Serviço",
+                allowClear: true,
+                language: {
+                    noResults: function () {
+                        return "Nenhum resultado encontrado";
+                    }
                 }
-            } else {
-                echo '<option value="" disabled>Nenhum Serviço Cadastrado</option>';
-            }
-            ?>
-        </select>
-        <button type="button" class="remove-btn" onclick="removeServico('${uniqueId}')">Remover</button>
-    `;
+            });
 
-    // Adicionar o novo grupo de serviço ao container
-    container.appendChild(servicoGroup);
-
-    // Aplicar o Select2 ao novo select
-    $('#' + uniqueId + '_select').select2({
-        placeholder: "Selecione um Serviço",
-        allowClear: true,
-        language: {
-            noResults: function () {
-                return "Nenhum resultado encontrado";
-            }
+            atualizarServicosDesabilitados();
         }
-    });
-}
         
-            function removeServico(id) {
-                var servicoGroup = document.getElementById(id);
-                servicoGroup.remove();
+        function removeServico(id) {
+            var servicoGroup = document.getElementById(id);
+            var select = $('#' + id + '_select');
+
+            var valorSelecionado = select.val();
+            if (valorSelecionado) {
+                servicosSelecionados.splice(servicosSelecionados.indexOf(valorSelecionado), 1);
             }
+
+            servicoGroup.remove();
+
+            atualizarServicosDesabilitados();
+        }
+
+        function atualizarServicosDesabilitados() {
+            $(".servicos-select option").prop("disabled", false);
+
+            servicosSelecionados.forEach(function(servicoId) {
+                $(".servicos-select option[value='" + servicoId + "']").prop("disabled", true);
+            });
+
+            servicosSelecionados = [];
+            $(".servicos-select").each(function() {
+                var valor = $(this).val();
+                if (valor) {
+                    servicosSelecionados.push(valor);
+                }
+            });
+        }
+
+        $(document).on('change', '.servicos-select', function() {
+            atualizarServicosDesabilitados();
+        });
+
         
             function formatarNumeroContato(campo) {
                 var valor = campo.value.replace(/\D/g, '');

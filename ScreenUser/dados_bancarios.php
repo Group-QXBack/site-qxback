@@ -38,7 +38,8 @@ $result = $stmt->get_result();
 $chaves_pix = $result->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+    $nome_titular = $_POST['nome'] ?? '';
+    $cpf_titular = $_POST['cpf'] ?? '';
     $banco = $_POST['banco'] ?? '';
     $conta = $_POST['conta'] ?? '';
     $agencia = $_POST['agencia'] ?? '';
@@ -47,14 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         $stmt = $conexao->prepare("
-            INSERT INTO contas_bancarias (usuario_id, banco, conta, agencia)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO contas_bancarias (usuario_id, nome_titular, cpf_titular, banco, conta, agencia)
+            VALUES (?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
+                nome_titular = VALUES(nome_titular),
+                cpf_titular = VALUES(cpf_titular),
                 banco = VALUES(banco),
                 conta = VALUES(conta),
                 agencia = VALUES(agencia)
         ");
-        $stmt->bind_param('isssss', $usuario['id'], $banco, $conta, $agencia);
+        $stmt->bind_param('isssss', $usuario['id'], $nome_titular, $cpf_titular, $banco, $conta, $agencia);
 
         if ($stmt->execute()) {
             $stmt = $conexao->prepare("
@@ -82,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./../ScreenUser/styleBancario.php">
+    <link rel="stylesheet" href="./../ScreenUser/bancario.php">
     <link rel="shortcut icon" href="img/icon_uu.webp" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
@@ -109,6 +112,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </a>
             </li>
             <li class="item-menu">
+                <a href="dados_bancarios.php">
+                    <span class="icon"><i class="bi bi-credit-card"></i></span>
+                    <span class="txt-link">Dados Bancários</span>
+                </a>
+            </li>
+            <li class="item-menu">
                 <a href="../ScreenUser/minhas_indicacoes.php">
                     <span class="icon"><i class="bi bi-journal-plus"></i></span>
                     <span class="txt-link">Minhas Indicações</span>
@@ -122,8 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </li>
             <li class= "item-menu">
             <a href="solicitar_resgate.php">
-                <span class="icon"><i class="bi bi-coin"></i></i></span>
-                <span class="txt-link">Resgatar</span>
+            <span class="icon"><i class="bi bi-coin"></i></span>
+            <span class="txt-link">Resgatar</span>
         </a>
             </li>
             <li class="item-menu">
@@ -140,6 +149,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <fieldset>
                 <legend>Dados Bancários</legend>
                 <div class="row">
+                    <label for="nome">Nome do Titular</label>
+                    <input type="text" style="width: 97%;" id="nome" name="nome" value="<?php echo htmlspecialchars($usuario['nome'] . ' ' . ($usuario['Sobrenome'] ?? '')); ?>"  readonly>
+                </div>
+                <div class="row">
+                    <label for="cpf">CPF</label>
+                    <input type="text" style="width: 97%;" id="cpf" name="cpf" value="<?php echo htmlspecialchars($usuario['cpf']); ?>" readonly>
+                </div>
+                <div class="row">
                     <label for="banco">Banco</label>
                     <select id="banco" name="banco" class="select2">
                         <option value="">Selecione um banco</option>
@@ -153,16 +170,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="row">
                     <label for="agencia">Agência</label>
-                    <input type="number" id="agencia" name="agencia" value="<?php echo htmlspecialchars($contas_bancarias['agencia'] ?? ''); ?>">
+                    <input type="number" style="width: 97%;" id="agencia" name="agencia" value="<?php echo htmlspecialchars($contas_bancarias['agencia'] ?? ''); ?>">
                 </div>
                 <div class="row">
                     <label for="conta">Conta</label>
-                    <input type="number" id="conta" name="conta" value="<?php echo htmlspecialchars($contas_bancarias['conta'] ?? ''); ?>">
+                    <input type="number" style="width: 97%;" id="conta" name="conta" value="<?php echo htmlspecialchars($contas_bancarias['conta'] ?? ''); ?>">
                 </div>
-                <div class="row">
+                <div class="tipo_chave">
                     <label for="tipo_chave">Tipo de Chave Pix</label>
-                    <select id="tipo_chave" name="tipo_chave">
-                        <option value="">Selecione um tipo de chave</option>
+                    <select id="tipo_chave" name="tipo_chave" style="width: 620px;">
+                    <option value="">Selecione um tipo de chave</option>
                         <option value="cpf" <?php echo ($chaves_pix['tipo_chave'] === 'cpf') ? 'selected' : ''; ?>>CPF</option>
                         <option value="telefone" <?php echo ($chaves_pix['tipo_chave'] === 'telefone') ? 'selected' : ''; ?>>Celular</option>
                         <option value="email" <?php echo ($chaves_pix['tipo_chave'] === 'email') ? 'selected' : ''; ?>>Email</option>
@@ -171,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="row" id="campo_chave" style="display: <?php echo ($chaves_pix) ? 'block' : 'none'; ?>;">
                     <label for="chave_pix">Chave Pix</label>
-                    <input type="text" id="chave_pix" name="chave_pix" value="<?php echo htmlspecialchars($chaves_pix['chave'] ?? ''); ?>">
+                    <input type="text" style="width: 97%;" id="chave_pix" name="chave_pix" value="<?php echo htmlspecialchars($chaves_pix['chave'] ?? ''); ?>">
                 </div>
             </fieldset>
 
@@ -187,8 +204,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="buttons">
                 <button type="submit" class="btn-form">Enviar</button>
-                <button class="btn-form"><a href="index.php">Voltar</a></button></button> 
             </div>
+            <br>
+            <div class="buttons">
+            </div>
+            <button class="btn-form"><a href="index.php">Voltar</a></button></button> 
         </form>
     </div>
 

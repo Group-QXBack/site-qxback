@@ -1,11 +1,10 @@
 <?php
 session_start();
-
 $message = $_SESSION['message'] ?? null;
-unset($_SESSION['message']); 
+unset($_SESSION['message']);
 
 if (!isset($_SESSION['usuario'])) {
-    header("Location: ../ScreenUser/index.html");
+    header("Location: ../ScreenUser/index.php");
     exit();
 }
 include '../ScreenCadastro/config.php';
@@ -18,7 +17,6 @@ $stmt = $conexao->prepare($sql);
 $stmt->bind_param('i', $userId);
 $stmt->execute();
 $result = $stmt->get_result();
-
 if ($result->num_rows > 0) {
     $usuario = $result->fetch_assoc();
     $_SESSION['usuario'] = $usuario; 
@@ -32,86 +30,46 @@ if ($result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../ScreenUser/style.php ">
+    <link rel="stylesheet" href="../ScreenUser/style.php">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Perfil</title>
 </head>
 <body>
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="logo">
         <nav class="menu-lateral">
-        <div class="btn-expandir">
-            <i class="bi bi-list"></i>
-        </div>
-        <ul>
-            <li class="item-menu">
-                <a href="index.php">
-                    <span class="icon"><i class="bi bi-person-fill"></i></span>
-                    <span class="txt-link">Perfil</span>
-                </a>
-            </li>
-            <li class="item-menu">
-                <a href="../ScreenUser/minhas_indicacoes.php">
-                    <span class="icon"><i class="bi bi-journal-plus"></i></span>
-                    <span class="txt-link">Minhas Indicações</span>
-                </a>
-            </li>
-            <li class="item-menu">
-                <a href="../ScreenUser/indicarUsuario.php">
-                    <span class="icon"><i class="bi bi-plus-square"></i></span>
-                    <span class="txt-link">Indicar</span>
-                </a>
-            </li>
-            <li class="item-menu">
-            <a href="../ScreenUser/solicitar_resgate.php">
-                    <span class="icon"><i class="bi bi-coin"></i></span>
-                    <span class="txt-link">Solicitar Resgate</span>
-                </a>
-            </li>
-            <li class="item-menu">
-                <a href="logout.php">
-                    <span class="icon"><i class="bi bi-box-arrow-right"></i></span>
-                    <span class="txt-link">Sair</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+            <div class="btn-expandir">
+                <i class="bi bi-list"></i>
+            </div>
+            <ul>
+                <li class="item-menu"><a href="index.php"><span class="icon"><i class="bi bi-person-fill"></i></span><span class="txt-link">Perfil</span></a></li>
+                <li class="item-menu"><a href="dados_bancarios.php"><span class="icon"><i class="bi bi-credit-card"></i></span><span class="txt-link">Dados Bancários</span></a></li>
+                <li class="item-menu"><a href="../ScreenUser/minhas_indicacoes.php"><span class="icon"><i class="bi bi-journal-plus"></i></span><span class="txt-link">Minhas Indicações</span></a></li>
+                <li class="item-menu"><a href="../ScreenUser/indicarUsuario.php"><span class="icon"><i class="bi bi-plus-square"></i></span><span class="txt-link">Indicar</span></a></li>
+                <li class="item-menu"><a href="solicitar_resgate.php"><span class="icon"><i class="bi bi-coin"></i></span><span class="txt-link">Resgatar</span></a></li>
+                <li class="item-menu"><a href="logout.php"><span class="icon"><i class="bi bi-box-arrow-right"></i></span><span class="txt-link">Sair</span></a></li>
+            </ul>
+        </nav>
     </header>
     <section>
-        <div class="primeira_sessao">
-            <div class="profile-page">
-                <div class="dados-perfil">
-                    <h1 style="font-size: 30px; margin-bottom: 10px;">Detalhes de Login</h1>
-        
-                    <p class="grid">
-                        <strong class="block__item">Email</strong>
-                        <input type="text" class="input-text" style="width: 100%;" value="<?php echo htmlspecialchars($usuario['email'] ?? ''); ?>" readonly>
-                        <button id="openDialogEmail">
-                            <i class="bi bi-chevron-right"></i>
-                        </button>
-                        <dialog id="dialog-email">
-                            <div class="container">
-                                <h1>Alterar Email</h1>
-                                <p>O endereço que você recebe informações sobre sua conta, e-mails institucionais, promoções e campanhas</p>
-                                <input type="email" class="input-dialog" placeholder="Novo email" value="<?php echo htmlspecialchars($usuario['email'] ?? ''); ?>">
-                                <button id="saveEmail" style="background-color: chartreuse; font-weight: 500; margin-top: 20px;">Salvar</button>
-                                <button id="closeDialogEmail" style="color: #31b800; font-weight: 500;">Cancelar</button>
-                            </div>
-                            <style>
-                                        button#saveEmail,#closeDialogEmail{
-                                        display: flex;
-                                        flex-direction: column;
-                                        align-items: center;
-                                        height: 40px;
-                                        border-radius: 10px;
-                                        justify-content: center;
-                                }
-                            </style>
-                        </dialog>
-                    </p>
-        
-                    <p class="grid">
+    <div class="primeira_sessao">
+        <div class="profile-page">
+            <div class="dados-perfil">
+                <h1 style="font-size: 30px; margin-bottom: 2px;">Detalhes de Login</h1>
+                <p class="grid" style="margin-bottom: -10px;">
+                    <strong class="block__item">Email</strong>
+                    <input type="text" class="input-text" style="width: 100%;" value="<?php echo htmlspecialchars($usuario['email'] ?? ''); ?>" readonly>
+                    <button id="openDialogEmail"><i class="bi bi-chevron-right"></i></button>
+                    <dialog id="dialog-email">
+                        <div class="container">
+                            <h1>Alterar Email</h1>
+                            <input type="email" class="input-dialog" placeholder="Novo email">
+                            <button id="saveEmail">Salvar</button>
+                            <button id="closeDialogEmail">Cancelar</button>
+                        </div>
+                    </dialog>
+                </p>     
+                <p class="grid" style="margin-bottom: -10px;">
     <strong class="block__item">Senha</strong>
     <input type="password" class="input-text" style="width: 100%;" value="<?php echo htmlspecialchars($usuario['senha'] ?? ''); ?>">
     <button id="openDialog">
@@ -153,29 +111,63 @@ if ($result->num_rows > 0) {
                                     border-radius: 10px;
                                 }
                                 </style>
-  <button id="sendEmail" style="background-color: chartreuse; font-weight: 500;">Enviar E-mail</button>
+   <button id="sendEmail" style="background-color: chartreuse; font-weight: 500;">Enviar E-mail</button>
             <button id="closeDialog" style="color: #31b800; font-weight: 500;">Cancelar</button>
+            <div id="feedback" style="margin-top: 10px;"></div>
         </div>
     </dialog>
 </p>
-                    <h2 style="font-size: 30px; margin-bottom: 10px;">Informações pessoais</h2>
 
-                    <p class="grid">
+<script>
+document.getElementById('sendEmail').addEventListener('click', function() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'enviar_email.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            const response = JSON.parse(xhr.responseText);
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = response.message; // Mostra a mensagem de feedback
+            feedback.style.color = response.status === 'success' ? 'green' : 'red'; // Define a cor do feedback
+
+            if (response.status === 'success') {
+                document.getElementById('dialog').close(); // Fecha o dialogo em caso de sucesso
+            }
+        }
+    };
+
+    xhr.send(); // Envia a requisição
+});
+</script>
+
+                    <h2 style="font-size: 30px; margin-bottom: 2px;">Informações pessoais</h2>
+                    <p class="grid" style="margin-bottom: 5px;">
                         <strong class="block__section">Nome</strong>
-                        <input type="text" class="input-text" style="width: 100%;" value="<?php echo htmlspecialchars($usuario['nome'] ?? ''); ?>" readonly>
+                        <input type="text" class="input-text" style="width: 100%;" 
+       value="<?php echo htmlspecialchars(trim($usuario['nome'] . ' ' . ($usuario['Sobrenome'] ?? ''))); ?>" 
+       readonly>
                         <button id="openDialogNome">
-                            <i class="bi bi-chevron-right"></i>
-                        </button>
-                        <dialog id="dialogNome">
-                            <div class="container">
-                                <h1>Qual o seu nome?</h1>
-                                <strong>Nome</strong>
-                                <input class="input-dialog" type="text">
-                                <strong>Sobrenome</strong>
-                                <input class="input-dialog" type="text">
-                                <button id="saveNome" style="background-color: chartreuse; font-weight: 500; margin-top: 13px;">Salvar</button>
-                                <button id="closeDialogNome" style="color: #31b800; font-weight: 500;">Cancelar</button>
-                            </div>
+    <i class="bi bi-chevron-right"></i>
+</button>
+<dialog id="dialogNome">
+    <div class="container">
+        <form method="POST" action="processar_usuario.php"> 
+            <h1>Qual o seu nome?</h1>
+            <strong>Nome</strong>
+            <input class="input-dialog" type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($usuario['nome'] ?? ''); ?>" required>         
+            <strong>Sobrenome</strong>
+            <input class="input-dialog" type="text" id="sobrenome" name="sobrenome" value="<?php echo htmlspecialchars($usuario['Sobrenome'] ?? ''); ?>" required>
+            <button type="submit" id="saveNome" style="background-color: chartreuse; font-weight: 500; margin-top: 13px;">Salvar</button>
+            <button type="button" id="closeDialogNome" style="color: #31b800; font-weight: 500;" onclick="document.getElementById('dialogNome').close();">Cancelar</button>
+        </form>
+    </div>
+</dialog>
+<script>
+    document.getElementById('openDialogNome').addEventListener('click', function() {
+        document.getElementById('dialogNome').showModal();
+    });
+</script>
                             <style>
                                 button#saveNome,#closeDialogNome{
                                     display: flex;
@@ -187,8 +179,7 @@ if ($result->num_rows > 0) {
                                 }
                             </style>
                         </dialog>
-        
-                    <p class="grid">
+                        <p class="grid" style="margin-bottom: -10px;">
                         <strong class="block__section">CPF</strong>
                         <input type="text" class="input-text" style="width: 100%;" value="<?php echo htmlspecialchars($usuario['cpf'] ?? ''); ?>" readonly>
                         <button id="openDialogCPF">
@@ -215,10 +206,9 @@ if ($result->num_rows > 0) {
                             </style>
                         </dialog>
                     </p>
-        
-                    <p class="grid">
-                        <strong class="block__section">Data de Nascimento</strong>
-                        <input type="date" class="input-date" style="width: 100%;" value="<?php echo htmlspecialchars($usuario['data_nasc'] ?? ''); ?>" readonly>
+                    <p class="grid" style="margin-bottom: -10px;">
+                        <strong class="block__section">Nascimento</strong>
+                        <input type="date" class="input-date" style="width: 120%;" value="<?php echo htmlspecialchars($usuario['data_nasc'] ?? ''); ?>" readonly>
                         <button id="openDialogNascimento">
                             <i class="bi bi-chevron-right"></i>
                         </button>
@@ -243,8 +233,7 @@ if ($result->num_rows > 0) {
                             </style>
                         </dialog>
                     </p>
-        
-                    <p class="grid">
+                    <p class="grid" style="margin-bottom: -10px;">
                         <strong class="block__section">Telefone</strong>
                         <input type="text" class="input-text" style="width: 100%;" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" readonly>
                         <button id="openDialogTelefone">
@@ -254,7 +243,7 @@ if ($result->num_rows > 0) {
                             <div class="container">
                                 <h1>Qual é o seu telefone?</h1>
                                 <strong>Telefone</strong>
-                                <input type="text" class="input-dialog" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>">
+                                <input type="text" class="input-dialog" value="<?php echo htmlspecialchars($usuario['telefone'] ?? ''); ?>" readonly>
                                 <button id="saveTelefone" type="submit" style="background-color: chartreuse; font-weight: 500; margin-top: 13px;">Salvar</button>
                                 <button id="closeDialogTelefone" style="color: #31b800; font-weight: 500;">Cancelar</button>
                             </div>
@@ -272,21 +261,10 @@ if ($result->num_rows > 0) {
                             </p>
         </div>        
         </section>
-        <footer>
-        <div class="footerContainer">
-            <div class="socialIcons">
-                <a href=""><i class="fa-brands fa-facebook"></i></a>
-                <a href=""><i class="fa-brands fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footerBottom">
-            <p>Copyright &copy;2024; Designed by <span class="designer">3Point</span></p>
-        </div>
-    </footer>
 <script>
 const dialogs = {
     senha: document.getElementById('dialog'),
-    email: document.getElementById('dialog-email'),
+    email: document.getElementById('dialogEmail'),
     nome: document.getElementById('dialogNome'),
     cpf: document.getElementById('dialogCPF'),
     nascimento: document.getElementById('dialogNascimento'),
@@ -308,20 +286,16 @@ const closeDialogButtons = {
     nascimento: document.getElementById('closeDialogNascimento'),
     telefone: document.getElementById('closeDialogTelefone'),
 };
-
 Object.keys(openDialogButtons).forEach(key => {
     openDialogButtons[key].addEventListener('click', function() {
         dialogs[key].showModal(); 
     });
 });
-
 Object.keys(closeDialogButtons).forEach(key => {
     closeDialogButtons[key].addEventListener('click', function() {
         dialogs[key].close(); 
     });
 });
-
-
 const input = document.getElementById('input-dialog');
 input.addEventListener('input-dialog', function() {
 if (this.value !== "") {
@@ -337,36 +311,11 @@ document.getElementById('saveEmail').addEventListener('click', function() {
         alert('Por favor, insira um novo email.');
     }
 });
-
-document.getElementById('saveNome').addEventListener('click', function() {
-    const nome = document.querySelector('#dialogNome input[type="text"]').value;
-    if (nome) {
-        alert(`Nome atualizado para: ${nome}`);
-        dialogs['nome'].close();
-    } else {
-        alert('Por favor, insira um nome.');
-    }
-});
-
-document.getElementById('saveCPF').addEventListener('click', function() {
-    const cpf = document.querySelector('#dialogCPF input[type="text"]').value;
-    alert(`CPF: ${cpf} (não será alterado no servidor)`);
-    dialogs['cpf'].close();
-});
-
-document.getElementById('saveNascimento').addEventListener('click', function() {
-    const nascimento = document.querySelector('#dialogNascimento input[type="date"]').value;
-    alert(`Data de Nascimento: ${nascimento} (não será alterado no servidor)`);
-    dialogs['nascimento'].close();
-});
-
 document.getElementById('saveTelefone').addEventListener('click', function() {
     const telefone = document.querySelector('#dialogTelefone input[type="text"]').value;
     alert(`Telefone atualizado para: ${telefone}`);
     dialogs['telefone'].close();
 });
-
-
 </script>
 </body>
 </html>

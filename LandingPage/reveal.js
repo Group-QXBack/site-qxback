@@ -1,4 +1,4 @@
-window.revelar = ScrollReveal({reset:true})
+rewindow.revelar = ScrollReveal({reset:true})
 
 revelar.reveal('.efeito-txt-home',{
     duration: 2000,
