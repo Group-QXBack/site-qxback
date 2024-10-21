@@ -25,38 +25,35 @@ if ($result->num_rows > 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $valor = $_POST['valor'];
+    // Agora o valor do resgate será o saldo total do usuário
+    $valor = $saldo;
 
     if ($valor < 10) {
-        $_SESSION['message'] = ['type' => 'error', 'text' => 'Valor mínimo de resgate é R$ 10,00.'];
-    } elseif ($valor > $saldo) {
-        $_SESSION['message'] = [
-            'type' => 'error',
-            'text' => 'Você não tem saldo suficiente para solicitar R$ '
-        ];
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Você precisa ter pelo menos R$ 10,00 para solicitar resgate.'];
     } else {
         $sql = "INSERT INTO solicitações_resgate (usuario_id, valor) VALUES (?, ?)";
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param('id', $userId, $valor);
 
         if ($stmt->execute()) {
+            // Atualiza o saldo do usuário
             $novoSaldo = $saldo - $valor;
             $sql = "UPDATE usuarios SET saldo = ? WHERE id = ?";
             $stmt = $conexao->prepare($sql);
             $stmt->bind_param('di', $novoSaldo, $userId);
             $stmt->execute();
 
-            $_SESSION['message'] = ['type' => 'success', 'text' => 'Solicitação de resgate criada com sucesso.'];
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'Solicitação de resgate realizada com sucesso!'];
         } else {
-            $_SESSION['message'] = ['type' => 'error', 'text' => 'Erro ao criar solicitação de resgate.'];
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Erro ao processar sua solicitação.'];
         }
     }
-
     header("Location: solicitar_resgate.php");
     exit();
 }
 
-$temDinheiroParaResgatar = $saldo >= 50;
+
+$temDinheiroParaResgatar = $saldo >= 10;
 
 $sql = "SELECT * FROM solicitações_resgate WHERE usuario_id = ?";
 $stmt = $conexao->prepare($sql);
@@ -69,6 +66,7 @@ $result = $stmt->get_result();
 <html lang="pt-BR">
 <link rel="stylesheet" href="../ScreenUser/styleResgate.php">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <head>
     <title>Solicitar Resgate</title>
@@ -176,5 +174,16 @@ $result = $stmt->get_result();
 });
 
 </script>
+<footer>
+        <div class="footerContainer">
+            <div class="socialIcons">
+                <a href=""><i class="fa-brands fa-facebook"></i></a>
+                <a href=""><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footerBottom">
+            <p>Copyright &copy;2024; Designed by <span class="designer">3Point</span></p>
+        </div>
+    </footer>
 </body>
 </html>

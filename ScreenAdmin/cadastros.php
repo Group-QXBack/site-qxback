@@ -341,7 +341,7 @@ $result = $stmt->get_result();
         </ul>
 </header>
 
-    <h1>Lista de Cadastros</h1>
+    <h1 style="color: #42FF00">Lista de Cadastros</h1>
     <div class="search-container">
     <form action="cadastros.php" method="GET">
         <input type="text" id="pesquisar" name="search" placeholder="Pesquisar" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
@@ -364,7 +364,7 @@ $result = $stmt->get_result();
     <div id="dados-pessoais" class="section">
     <?php
         if ($tipo_cadastro == 'usuarios') {
-            echo '<h2>Lista de Usuários</h2>';
+            echo '<h2 style="color: #42FF00">Lista de Usuários</h2>';
             echo '<table>';
             echo '<thead><tr><th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Tipo de Conta</th><th>Data de Inativação</th><th class="actions-column">Ações</th></tr></thead><tbody>';
             while ($usuarios = $result->fetch_assoc()) {

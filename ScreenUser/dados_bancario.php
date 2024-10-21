@@ -137,8 +137,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </header>
     <div class="content">
         <form method="POST" action="">
+            <div class="getReed">
+                <h3>Editar Conta Bancaria</h3>
+                <div class="getReed-Regras">
+                    <span class="getReed-icons">
+                    <i class="bi bi-lock"></i>
+                    Fique tranquilo, não teremos acesso às suas transações bancárias, 
+                    pedimos só o necessário para efetuar a transferência.
+                    </span>
+                    <span class="getReed-icons">
+                    <i class="bi bi-info-circle"></i>
+                    Ao preencher os dados bancários, certifique-se de que o CPF do titular da conta seja: 
+                    </span>
+                    <span class="getReed-icons">
+                    <i class="bi bi-check-lg"></i>
+                    A conta bancária indicada deve ser apta a receber transferência via PIX.
+                    </span>
+                </div>
+            </div>
             <fieldset>
-                <legend>Dados Bancários</legend>
                 <div class="row">
                     <label for="banco">Banco</label>
                     <select id="banco" name="banco" class="select2">
@@ -187,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="buttons">
                 <button type="submit" class="btn-form">Enviar</button>
-                <button class="btn-form"><a href="index.php">Voltar</a></button></button> 
+                <button class="btn-form" style="background-color: #ededed;"><a href="index.php">Voltar</a></button></button> 
             </div>
         </form>
     </div>

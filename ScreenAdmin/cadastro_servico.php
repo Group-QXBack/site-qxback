@@ -123,7 +123,8 @@ if (!$empresas_result) {
                 margin-bottom: 10px;
             }
             input[type="submit"] {
-                padding: 10px 20px;
+                    border: none;
+                    padding: 10px 20px;
                     background-color: rgba(0, 0, 0, 0.3);
                     color: #fff;
                     border-radius: 5px;
@@ -134,21 +135,6 @@ if (!$empresas_result) {
             }
             input[type="submit"]:hover {
                 background-color: rgb(75, 198, 133);
-            }
-            .success-message, .error-message {
-                padding: 10px;
-                border-radius: 4px;
-                margin: 10px auto;
-                width: 80%;
-                max-width: 600px;
-            }
-            .success-message {
-                background-color: #d4edda;
-                color: #155724;
-            }
-            .error-message {
-                background-color: #f8d7da;
-                color: #721c24;
             }
             .bottom-buttons a {
                 padding: 10px 20px;
@@ -164,12 +150,17 @@ if (!$empresas_result) {
             .bottom-buttons a:hover {
                 background-color: rgb(75, 198, 133);
             }
+            label{
+                color: #000;
+            }
             
             fieldset{
                 border: 1px solid #42FF00;
                 border-radius: 4px;
                 }
             legend{
+                color: #000;
+                font-weight: 600;
                 border: 1px solid #42FF00;
                 padding: 5px;
                 width: 250px;
@@ -183,7 +174,7 @@ if (!$empresas_result) {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                background-color: rgba(0, 0, 0, 0.4);
+                background-color: #D9D9D9;
                 padding: 10px;
                 border-radius: 4px;
                 width: 555px;
@@ -196,7 +187,6 @@ if (!$empresas_result) {
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="Logo da página">
     </header>
-    <h1>Cadastro de Serviços</h1>
     <div class="box">
         <form method="POST" action="cadastro_servico.php">
             <fieldset>

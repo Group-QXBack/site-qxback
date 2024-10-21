@@ -22,6 +22,7 @@ if (isset($_GET['success'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indicar</title>
@@ -146,36 +147,17 @@ if (isset($_GET['success'])) {
 </div>
         </div>
     </section>
-        <footer class="primeiro-rodape">
-            <article>
-                <div class="container-texto">
-                    <div class="primeiro-txt">
-                        <h3>
-                            <strong style="cursor: default; color: #1bff1b;">QXBack</strong>
-                        </h3>
-                        <p>
-                            <a href="#">Programa</a>
-                            <a href="#">Como indicar?</a>
-                        </p>
-                    </div>
-                    <div class="segundo-txt">
-                        <h3>
-                            <strong style="cursor: default; color: #1bff1b;">Serviços</strong>
-                        </h3>
-                        <p>
-                            <a href="#">Atendimento Virtual</a>
-                            <a href="#">Feedback</a>
-                        </p>
-                    </div>
-                </div>
-            </article>
-        </footer>
-        <footer class="segundo-rodape">
-            <div class="copyright">
-                <p>Política de privacidade | Termo de uso | Cookies</p>
-                <p>&copy; 2024 | 3Point</p>
+    <footer>
+        <div class="footerContainer">
+            <div class="socialIcons">
+                <a href=""><i class="fa-brands fa-facebook"></i></a>
+                <a href=""><i class="fa-brands fa-instagram"></i></a>
             </div>
-        </footer>
+        </div>
+        <div class="footerBottom">
+            <p>Copyright &copy;2024; Designed by <span class="designer">3Point</span></p>
+        </div>
+    </footer>
         <script>
             function buscarDadosEmpresa() {
                 var cnpj = document.getElementById('cnpj').value;

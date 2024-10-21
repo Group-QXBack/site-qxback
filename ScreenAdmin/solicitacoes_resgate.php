@@ -88,7 +88,7 @@ $message = null; // Adicione esta linha se precisar usar a variável $message no
             h1 {
                 margin-bottom: 20px;
                 font-size: 2.5em;
-                color: #fff;
+                color: #44FF00;
             }
 
             hr {

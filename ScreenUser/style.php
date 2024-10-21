@@ -84,11 +84,17 @@ ul li.item-menu a .txt-link{
     margin-left: 40px;
     font-size: 20px;
     display: flex;
+    transition: .5s;
     align-items: center;
+}
+nav.menu-lateral.expandir .txt-link{
+    margin-left: 40px;
+    opacity: 1;
 }
 
 ul li.item-menu a .icon i{
     font-size: 30px;
+    margin-left: 10px;
 }
 
 /*seção*/
@@ -107,6 +113,10 @@ section .profile-page * {
     box-sizing: border-box;
 }
 
+section .profile-page{
+    width: 70%;
+}
+
 section .dados-perfil{
     display: grid;
     gap: 16px;
@@ -114,7 +124,7 @@ section .dados-perfil{
     padding: 16px;
     background-color: #ebebeb;
     border-radius: 8px;
-    width: 900px;
+    
 }
 section .dados-perfil p.grid {
     display: flex;
@@ -191,6 +201,7 @@ dialog#dialog, #dialogNome, #dialogCPF, #dialogNascimento, #dialogTelefone, #dia
 body::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
+/* Footer */
 footer{
     background-color: #111;
 }

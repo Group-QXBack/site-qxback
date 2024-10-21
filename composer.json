@@ -1,0 +1,16 @@
+{
+    "name": "twilio/sdk",
+    "autoload": {
+        "psr-4": {
+            "Twilio\\Sdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rodrigo"
+        }
+    ],
+    "require": {
+        "pear/http_request2": "^2.6"
+    }
+}

@@ -66,44 +66,6 @@ $result = $conexao->query($sql);
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="logo">
     </header>
-    
-    <nav class="menu-lateral">
-        <div class="btn-expandir">
-            <i class="bi bi-list"></i>
-        </div>
-        <ul>
-            <li class="item-menu">
-                <a href="index.php">
-                    <span class="icon"><i class="bi bi-person-fill"></i></span>
-                    <span class="txt-link">Perfil</span>
-                </a>
-            </li>
-            <li class="item-menu">
-                <a href="../ScreenUser/minhas_indicacoes.php">
-                    <span class="icon"><i class="bi bi-journal-plus"></i></span>
-                    <span class="txt-link">Minhas Indicações</span>
-                </a>
-            </li>
-            <li class="item-menu">
-                <a href="../ScreenUser/indicarUsuario.php">
-                    <span class="icon"><i class="bi bi-plus-square"></i></span>
-                    <span class="txt-link">Indicar</span>
-                </a>
-            </li>
-            <li class="item-menu">
-            <a href="../ScreenUser/solicitar_resgate.php">
-                    <span class="icon"><i class="bi bi-coin"></i></span>
-                    <span class="txt-link">Solicitar Resgate</span>
-                </a>
-            </li>
-            <li class="item-menu">
-                <a href="../ScreenUser/logout.php">
-                    <span class="icon"><i class="bi bi-box-arrow-right"></i></span>
-                    <span class="txt-link">Sair</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
     <section>
         <div class="primeira_sessao">
          <div class="titulo">

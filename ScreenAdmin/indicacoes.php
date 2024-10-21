@@ -117,15 +117,18 @@
             }
 
             .container {
+                display: flex;
+                align-items:center;
+                flex-direction: column;
                 margin: 20px auto;
-                max-width: 1200px;
+                width: 50%;
                 padding: 0 20px;
             }
 
             h1 {
                 margin-bottom: 20px;
                 font-size: 2.5em;
-                color: #fff;
+                color: #42FF00;
             }
 
             hr {
@@ -173,7 +176,7 @@
 
             table {
                 width: 100%;
-                margin: 20px 0;
+                margin: 10px 0;
                 border-collapse: collapse;
                 background-color: rgba(0, 0, 0, 0.3);
                 border-radius: 8px;
@@ -184,11 +187,15 @@
             th, td {
                 padding: 12px;
                 text-align: left;
-                border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid #44FF00;
+            }
+            td{
+                background-color: #D9D9D9;
+                color: #000;
             }
 
             th {
-                background-color: rgba(0, 0, 0, 0.5);
+                background-color: #000;
                 color: #fff;
             }
 

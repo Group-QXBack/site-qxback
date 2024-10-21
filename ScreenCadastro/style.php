@@ -155,7 +155,6 @@ body {
 .genero-group {
     display: flex;
     justify-content: space-between;
-    margin-top: 0.62rem;
     padding: 0 .5rem;
 }
 
@@ -177,6 +176,10 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.checkbox{
+    margin-top: 10px;
 }
 
 .continue-button button {
