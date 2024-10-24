@@ -1,5 +1,5 @@
 <?php
-$webhookUrl = 'https://targetcontabil.bitrix24.com.br/rest/309/9d86lu9uagrawpyj/profile.json?NEW_PARAM=crm.lead.add';
+$webhookUrl = 'https://targetcontabil.bitrix24.com.br/rest/311/3n7qs6dacv625qp3/';
 
 $ch = curl_init($webhookUrl);
 

@@ -430,3 +430,84 @@ footer{
 .efeito-txt-home, .efeito-bttn-home, .efeito-txt-instruction, .efeito-card1, .efeito-card2, .efeito-card3 {
     visibility: hidden;
 }
+
+@media screen and (max-width: 950px){
+    .home-content .flex {
+        display: flex;
+        flex-direction: column;
+    }
+    header .logo a img {
+        max-height: 35px;
+    }
+    .enter-button {
+        width: 100px;
+        height: 30px;
+        border-radius: 50px;
+        background-color: #44ff00;
+        font-weight: bold;
+        font-size: 15px;
+        cursor: pointer;
+        transition: .2s;
+        border: none;
+    }
+
+    .home .texto { 
+        padding: 10px;
+    }
+    
+    .home .texto h1 {
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+    .home .texto p {
+        font-size: 15px;
+    }
+    .home .img-home {
+        max-width: 300px;
+    }
+    .btn-cadastra button {
+        display: flex;
+        align-items: center;
+        border-radius: 20px; 
+        padding: 15px 25px; 
+        font-size: 15px;
+        margin-top: 10px;
+        height: 20px;
+    }
+
+    /* Título Instrução */
+    .instruction .texto-instruction h1 {
+        font-size: 50px;
+        margin-bottom: 40px;
+    }
+
+    /* Parágrafos instrução */
+    .instruction .texto-instruction p {
+        margin-bottom: 20px;
+        font-size: 18px; 
+    }
+
+    
+    .conta-content .flex{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+ 
+    .conta .texto-conta{
+        display: flex;
+        flex-direction: column;
+        padding: 20px; 
+    }
+    
+
+    .conta .texto-conta h1 {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+    
+    .conta .texto-conta p {
+        margin-bottom: 10px;
+        font-size: 17px;
+        line-height: 1.5;
+    }
+}

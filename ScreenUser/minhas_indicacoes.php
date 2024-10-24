@@ -112,12 +112,13 @@ $conexao->close();
                 <?php if (!empty($indicacoes)): ?>
                     <?php foreach ($indicacoes as $indicacao): ?>
                         <tr class="main-row" data-id="<?php echo htmlspecialchars($indicacao['id']); ?>">
-                            <td><?php echo htmlspecialchars($indicacao['nome_empresa']); ?></td>
-                            <td><?php echo htmlspecialchars($indicacao['cnpj']); ?></td>
-                            <td class="valor-pendente">R$ <?php echo number_format($indicacao['valor_pendente'], 2, ',', '.'); ?></td>
-                            <td><?php echo htmlspecialchars($indicacao['data_indicacao']); ?></td>
-                            <td><button class="expand-btn">+</button></td>
+                            <td data-label="Nome da Empresa"><?php echo htmlspecialchars($indicacao['nome_empresa']); ?></td>
+                            <td data-label="CNPJ"><?php echo htmlspecialchars($indicacao['cnpj']); ?></td>
+                            <td data-label="Valor Pendente" class="valor-pendente">R$ <?php echo number_format($indicacao['valor_pendente'], 2, ',', '.'); ?></td>
+                            <td data-label="Data da Indicação"><?php echo htmlspecialchars($indicacao['data_indicacao']); ?></td>
+                            <td data-label="Ações"><button class="expand-btn">+</button></td>
                         </tr>
+
                         <tr class="details-row" id="details-<?php echo htmlspecialchars($indicacao['id']); ?>">
                             <td colspan="7">
                                 <strong>Serviços Detalhados:</strong>
@@ -138,7 +139,7 @@ $conexao->close();
                         <td colspan="7" class="no-data-message">Nenhuma indicação encontrada.</td>
                     </tr>
                 <?php endif; ?>
-            </tbody>
+            </tbody> 
         </table>
         <div class="bottom-buttons">
             <a href="index.php">Voltar</a>

@@ -277,8 +277,25 @@ html, body {
     width: 100%;
   }
   
-  @media (min-width: 600px) {
+  @media (max-width: 900px) {
     .column {
       width: 50%;
+    }
+    html, body {
+        display: flex; 
+        justify-content: center;
+        align-items: center; 
+        text-align: center; 
+        background-color: #001100; 
+    }
+    .form-header h1::after{
+        display: none;
+    }
+    .container .form-header h1{
+        font-size: 30px;
+    }
+    .container{
+        height: 90%;
+        width: 90%;
     }
   }

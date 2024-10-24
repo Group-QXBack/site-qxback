@@ -1,6 +1,6 @@
 <?php
 header("Content-type: text/css");
-?>
+?> 
 
 *{
     margin: 0;
@@ -29,7 +29,7 @@ header img {
 }
 
 nav.menu-lateral{
-    width: 73px;
+    width: 72px;
     height: 100%;
     background-color: #1d1d1d;
     padding: 40px 0 40px 1%;
@@ -88,11 +88,6 @@ ul li.item-menu a .txt-link{
 ul li.item-menu a .icon i{
     font-size: 30px;
 }
-.container {
-    margin-left: 100px;
-    max-width: 1200px;
-    padding: 0 20px;
-}
 
 h1 {
     display: flex;
@@ -110,10 +105,16 @@ hr {
     margin: 20px auto;
     width: 80%;
 }
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
 table {
-    width: 100%;
-    margin: 20px 0;
+    width: 80%;
+    margin: 20px auto;
     border-collapse: collapse;
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
@@ -122,114 +123,115 @@ table {
 }
 
 th, td {
-    padding: 12px;
+    padding: 8px 12px;
     text-align: left;
     border-bottom: 1px solid #42FF00;
     background-color: #ebebeb;
+    font-size: 14px;
 }
 
-    th {
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
-    }
+th {
+   background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
 
-    tr:nth-child(even) {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
+tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
 
-    tr:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-    }
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
-    .status-em-andamento {
-        color: #ffcc00; 
-    }
+.status-em-andamento {
+    color: #ffcc00; 
+}
 
-    .status-confirmada {
-        color: #28a745; 
-    }
+.status-confirmada {
+    color: #28a745; 
+}
 
-    .status-rejeitada {
-        color: #dc3545;
-    }
+.status-rejeitada {
+    color: #dc3545;
+}
 
-    .valor-pendente {
-        color: #f39c12; 
-    }
+.valor-pendente {
+    color: #f39c12; 
+}
 
-    .actions-column a, .btn-acao {
-        text-decoration: none;
-        color: #fff;
-        padding: 10px;
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        display: inline-block;
-        margin: 0 5px;
-        font-size: 14px;
-        text-align: center;
-    }
+.actions-column a, .btn-acao {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 14px;
+    text-align: center;
+}
 
-    .btn-acao:hover {
-        background-color: rgb(75, 198, 133);
-    }
+.btn-acao:hover {
+    background-color: rgb(75, 198, 133);
+}
 
-    .no-data-message {
-        text-align: center;
-        color: #aaa;
-        padding: 20px;
-        font-size: 16px;
-    }
+.no-data-message {
+    text-align: center;
+    color: #aaa;
+    padding: 20px;
+    font-size: 16px;
+}
 
-    .bottom-buttons {
-        margin-top: 20px;
-        text-align: center;
-    }
+.bottom-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
 
-    .bottom-buttons a {
-        padding: 10px 20px;
-        background-color: rgba(0, 0, 0, 0.3);
-        color: #fff;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        font-size: 16px;
-        text-decoration: none;
-        display: inline-block;
-    }
+.bottom-buttons a {
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+}
 
-    .bottom-buttons a:hover {
-        background-color: rgb(75, 198, 133);
-    }
+.bottom-buttons a:hover {
+    background-color: rgb(75, 198, 133);
+}
 
-    footer {
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.3);
-    }
+footer {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
 
-    .expand-btn {
-        cursor: pointer;
-        font-size: 18px;
-        color: #007bff;
-        border: none;
-        background: none;
-    }
+.expand-btn {
+    cursor: pointer;
+    font-size: 18px;
+    color: #007bff;
+    border: none;
+    background: none;
+}
 
-    .details-row {
-        display: none;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
-    }
+.details-row {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
 
-    .details-row td {
-        padding: 10px;
-        border: none;
-    }
+.details-row td {
+    padding: 10px;
+    border: none;
+}
 
-    .details-row ul {
-        list-style-type: none;
-        padding: 0;
-    }
+.details-row ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-    .details-row li {
-        margin-bottom: 5px;
-    }
+.details-row li {
+    margin-bottom: 5px;
+}
