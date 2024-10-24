@@ -89,6 +89,16 @@ ul li.item-menu a .icon i{
     font-size: 30px;
 }
 
+.menu-icon {
+    display: none; /* Esconde o ícone no desktop */
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #fff;
+}
+
 h1 {
     display: flex;
     justify-content: center;
@@ -234,4 +244,23 @@ footer {
 
 .details-row li {
     margin-bottom: 5px;
+}
+@media (max-width: 950px) {
+    /* Esconde o menu lateral por padrão no mobile */
+    nav.menu-lateral {
+        width: 0;
+        box-shadow: none;
+        transition: 0.3s;
+    }
+
+    /* Exibe o ícone de hambúrguer no mobile */
+    .menu-icon {
+        display: block;
+    }
+
+    /* Menu lateral expandido ao clicar no ícone de hambúrguer */
+    nav.menu-lateral.expandir {
+        width: 250px;
+        box-shadow: 2px 0 0 #42FF00;
+    }
 }

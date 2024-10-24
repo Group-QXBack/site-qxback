@@ -39,10 +39,13 @@ if ($result->num_rows > 0) {
 <body>
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="logo">
-        <nav class="menu-lateral">
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        </header>
+        <nav class="menu-lateral" id="sidebar">
             <div class="btn-expandir">
                 <i class="bi bi-list"></i>
             </div>
+            <div class="btn-expandir" id="closeIcon" onclick="toggleMenu()">✕</div>
             <ul>
                 <li class="item-menu"><a href="index.php"><span class="icon"><i class="bi bi-person-fill"></i></span><span class="txt-link">Perfil</span></a></li>
                 <li class="item-menu"><a href="../ScreenUser/minhas_indicacoes.php"><span class="icon"><i class="bi bi-journal-plus"></i></span><span class="txt-link">Minhas Indicações</span></a></li>
@@ -51,7 +54,7 @@ if ($result->num_rows > 0) {
                 <li class="item-menu"><a href="logout.php"><span class="icon"><i class="bi bi-box-arrow-right"></i></span><span class="txt-link">Sair</span></a></li>
             </ul>
         </nav>
-    </header>
+    
     <section>
         <div class="primeira_sessao">
             <div class="profile-page">
@@ -399,6 +402,11 @@ if ($result->num_rows > 0) {
                 dialogs['telefone'].close();
             });
         });
+        function toggleMenu() {
+        var sidebar = document.querySelector("nav.menu-lateral");
+        sidebar.classList.toggle("expandir");
+    }
+
     </script>
 </body>
 

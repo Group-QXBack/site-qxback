@@ -58,6 +58,7 @@ $conexao->close();
 <body>
 <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="logo">
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
     </header>
     <nav class="menu-lateral">
         <div class="btn-expandir">
@@ -162,6 +163,10 @@ $conexao->close();
                 });
             });
         });
+        function toggleMenu() {
+        var sidebar = document.querySelector("nav.menu-lateral");
+        sidebar.classList.toggle("expandir");
+        }
     </script>
 </body>
 </html>

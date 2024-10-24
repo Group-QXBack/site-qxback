@@ -76,6 +76,7 @@ $result = $stmt->get_result();
 
 <header>
     <img src="../imagens/logobranca1.png" class="logo" alt="logo">
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
     <nav class="menu-lateral">
         <div class="btn-expandir">
             <i class="bi bi-list"></i>
@@ -172,6 +173,10 @@ $result = $stmt->get_result();
     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos para milhares
     e.target.value = 'R$ ' + value;                // Adiciona o prefixo R$
 });
+function toggleMenu() {
+        var sidebar = document.querySelector("nav.menu-lateral");
+        sidebar.classList.toggle("expandir");
+        }
 
 </script>
 <footer>

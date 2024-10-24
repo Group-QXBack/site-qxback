@@ -30,6 +30,7 @@ if (isset($_GET['success'])) {
 <body>
     <header>
         <img src="../imagens/logobranca1.png" class="logo" alt="logo">
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
     </header>
     <nav class="menu-lateral">
         <div class="btn-expandir">
@@ -259,6 +260,10 @@ if (isset($_GET['success'])) {
                 campo.value = campo.value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3/$4-$5");
             }
 
+            function toggleMenu() {
+                var sidebar = document.querySelector("nav.menu-lateral");
+                sidebar.classList.toggle("expandir");
+            }
             </script>
 </body>
 </html>

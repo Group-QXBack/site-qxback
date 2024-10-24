@@ -97,6 +97,26 @@ ul li.item-menu a .icon i{
     margin-left: 10px;
 }
 
+.menu-icon {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #fff;
+}
+
+#closeIcon {
+    display: none; /* Esconde o ícone "X" inicialmente */
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
 /*seção*/
 
 section .primeira_sessao{
@@ -244,4 +264,30 @@ footer{
 }
 .footerBottom p{
     color: white;
+}
+
+@media (max-width: 950px) {
+    /* Esconde o menu lateral por padrão no mobile */
+    nav.menu-lateral {
+        width: 0;
+        box-shadow: none;
+        transition: 0.3s;
+        overflow: hidden;
+    }
+    .menu-icon {
+        display: block;
+    }
+    nav.menu-lateral.expandir #closeIcon {
+        display: block;
+    }
+    nav.menu-lateral.expandir #menu-icon {
+        display: none;
+    }
+    nav.menu-lateral.expandir {
+        width: 250px;
+        box-shadow: 2px 0 0 #42FF00;
+    }
+    section .profile-page{
+        width: 90%;
+    }
 }
